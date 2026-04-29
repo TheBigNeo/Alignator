@@ -5,7 +5,7 @@
 // ReSharper disable UnusedType.Global
 // ReSharper disable UnusedParameter.Local
 
-namespace TBN.Alignator.Tests;
+namespace TBN.Alignator.Tests.Data;
 
 internal abstract class AbstractSetting
 {

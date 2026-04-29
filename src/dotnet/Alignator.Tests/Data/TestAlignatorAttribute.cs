@@ -5,7 +5,7 @@ using JetBrains.ReSharper.TestFramework;
 using JetBrains.TestFramework;
 using JetBrains.Util.Dotnet.TargetFrameworkIds;
 
-namespace TBN.Alignator.Tests;
+namespace TBN.Alignator.Tests.Data;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class TestAlignatorAttribute : TestAspectAttribute, ITestTargetFrameworkIdProvider, ITestFileExtensionProvider

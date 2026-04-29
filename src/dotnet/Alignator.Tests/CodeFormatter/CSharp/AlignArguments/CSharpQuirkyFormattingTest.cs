@@ -3,7 +3,6 @@ using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
 using JetBrains.ReSharper.TestFramework;
 using NUnit.Framework;
-using TBN.Alignator.Psi.CodeStyle.Formatting;
 
 namespace TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments;
 

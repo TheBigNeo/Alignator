@@ -23,4 +23,8 @@
     <None Include="test/**/*"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="test\data\NuGetLocks\" />
+  </ItemGroup>
+
 </Project>
