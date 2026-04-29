@@ -5,7 +5,7 @@ using JetBrains.ReSharper.Psi.CodeStyle;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
-[SettingsKey(typeof(CodeFormattingSettingsKey), "Quirky formatter settings")]
+[SettingsKey(typeof(CodeFormattingSettingsKey), "Settings for Alignator plugin.")]
 public class AlignatorSettingsKey
 {
     [SettingsEntry(AlignPosition.DoNotChange, "Align arguments in constructor")]

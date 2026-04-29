@@ -43,7 +43,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR),
-                ExternalKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
                 StatementType: typeof(IDeclarationStatement),
                 AlignKeyGroup: "Params",
@@ -54,7 +54,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR),
-                ExternalKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
                 StatementType: typeof(IDeclarationStatement),
                 AlignKeyGroup: "Params",
@@ -65,7 +65,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION),
-                ExternalKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
                 ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
                 StatementType: typeof(IExpressionStatement),
                 AlignKeyGroup: "Func",
@@ -76,7 +76,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION),
-                ExternalKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
                 ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
                 StatementType: typeof(IExpressionStatement),
                 AlignKeyGroup: "Func",
@@ -86,7 +86,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
     /// <summary>Describes what makes each alignment variant unique; everything else is shared logic.</summary>
     private record ArgumentAlignVariant(
         string                                                                        SettingName,
-        System.Linq.Expressions.Expression<System.Func<AlignatorSettingsKey, object>> ExternalKey,
+        System.Linq.Expressions.Expression<System.Func<AlignatorSettingsKey, object>> SettingsKey,
         System.Func<ITreeNode, bool>                                                  ParentPredicate,
         System.Type                                                                   StatementType,
         string                                                                        AlignKeyGroup,
@@ -115,7 +115,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Parent().Satisfies((node, _) => variant.ParentPredicate(node.NodeOrNull))
             )
            .SwitchOnExternalKey(
-                variant.ExternalKey,
+                variant.SettingsKey,
                 When(variant.Position).Calculate((formattingRangeContext, _) =>
                     {
                         if (formattingRangeContext is null)

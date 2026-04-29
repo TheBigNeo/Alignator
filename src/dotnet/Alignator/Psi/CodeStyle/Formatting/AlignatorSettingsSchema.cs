@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using JetBrains.Application.Components;
 using JetBrains.Application.Settings;
@@ -5,9 +6,32 @@ using JetBrains.Application.Settings.Calculated.Interface;
 using JetBrains.Lifetimes;
 using JetBrains.ReSharper.Feature.Services.OptionPages;
 using JetBrains.ReSharper.Feature.Services.OptionPages.CodeStyle;
+using JetBrains.ReSharper.Feature.Services.OptionPages.CodeStyle.ViewModels;
 using JetBrains.ReSharper.Features.Altering.CodeFormatter.CSharp;
+using JetBrains.ReSharper.Psi;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
+
+// public class Cake : CodeStylePageSchema
+// {
+//     public Cake(Lifetime lifetime, [NotNull] IContextBoundSettingsStoreLive smartContext, [NotNull] IValueEditorViewModelFactory itemViewModelFactory, [NotNull] IComponentContainer container, [NotNull] ISettingsToHide settingsToHide, [NotNull] ICalculatedSettingsSchema calculatedSettingsSchema)
+//         : base(lifetime, smartContext, itemViewModelFactory, container, settingsToHide, calculatedSettingsSchema)
+//     {
+//     }
+//
+//     public override CodePreviewPreparator GetCodePreviewPreparator()
+//     {
+//         throw new System.NotImplementedException();
+//     }
+//
+//     protected override IEnumerable<ICodeStyleEntry> Describe()
+//     {
+//         throw new System.NotImplementedException();
+//     }
+//
+//     public override string        PageName { get; }
+//     public override KnownLanguage Language { get; }
+// }
 
 [FormattingSettingsPresentationComponent]
 public class AlignatorSettingsSchema : OthersPageSchemaPart
@@ -23,7 +47,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
     {
     }
 
-    protected override string PagePartName => "Quirky code style KUCHEN";
+    protected override string PagePartName => "Alignator align arguments";
 
     protected override void DescribePart(SchemaBuilder builder)
     {
@@ -32,9 +56,52 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
 
         builder
            .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
-                    "public static void Main(){var ShortName = new A(\"x\"); var LongerName = new LongerType(\"x\");}")
+                    """
+                    static void DefinedType()
+                    {
+                      var SettingsSortIndex = 1;
+                    
+                      var coreName = new StringSetting("-1657-4d40-9c17-dcade0c6415d",       "Core Name",                   ++SettingsSortIndex, true, HtmlFieldType.Text, "Core 1");
+                      var apiAddress = new StringSetting("a111683e--443d-b8fc-4407a5fb14ba", "Core IP-Address or Hostname", ++SettingsSortIndex, true, HtmlFieldType.Url,  "127.0.0.1") {HtmlFieldWidth = 6};
+                      var apiPort = new UShortSetting("f831819e-61c4-4915--9b6adceb46fd", "Listen Port API", ++SettingsSortIndex, true, 8085) {HtmlFieldWidth                                           = 6};
+                      var pulseDuration = new IntSetting("bfdde1fe-311f-47d0-9ad3-", "Pulse Duration", ++SettingsSortIndex, true, 250) {Description                                                     = "In ms"};
+                      var useWebSocketsOverTls = new BoolSetting("-4c86-a54d-0b64a40fe8d5", "Use WebSockets over TLS", ++SettingsSortIndex, false) {Description                                         = "WebSocket Secure"};
+                      var webSocketPort = new UShortSetting("c89bc913-", "WebSocket Port", ++SettingsSortIndex, true, 4444);
+                      var shutdownActions = new StringSetting("9acd45ec-e8b9-45ad-b136-ecdeecd87074", "Shutdown Actions", ++SettingsSortIndex, false, HtmlFieldType.Text, null);
+                      var startupActions = new StringSetting("caf5ff1a5983",                          "Startup Actions",  ++SettingsSortIndex, false, HtmlFieldType.Text, null);
+                    }
+                    
+                    static void TargetType()
+                    {
+                      var settingsSortIndex = 1;
+                    
+                      StringSetting coreName = new("-1657-4d40-9c17-dcade0c6415d", "Core Name", ++settingsSortIndex, true, HtmlFieldType.Text, "Core 1");
+                      StringSetting apiAddress = new("a111683e--443d-b8fc-4407a5fb14ba", "Core IP-Address or Hostname", ++settingsSortIndex, true, HtmlFieldType.Url, "127.0.0.1") {HtmlFieldWidth = 6};
+                      UShortSetting apiPort = new("f831819e-61c4-4915--9b6adceb46fd", "Listen Port API", ++settingsSortIndex, true, 8085) {HtmlFieldWidth                                          = 6};
+                      IntSetting pulseDuration = new("bfdde1fe-311f-47d0-9ad3-", "Pulse Duration", ++settingsSortIndex, true, 250) {Description                                                    = "In ms"};
+                      BoolSetting useWebSocketsOverTls = new("-4c86-a54d-0b64a40fe8d5", "Use WebSockets over TLS", ++settingsSortIndex, false) {Description                                        = "WebSocket Secure"};
+                      UShortSetting webSocketPort = new("c89bc913-", "WebSocket Port", ++settingsSortIndex, true, 4444);
+                      StringSetting shutdownActions = new("9acd45ec-e8b9-45ad-b136-ecdeecd87074", "Shutdown Actions", ++settingsSortIndex, false, HtmlFieldType.Text, null);
+                      StringSetting startupActions = new("caf5ff1a5983", "Startup Actions", ++settingsSortIndex, false, HtmlFieldType.Text, null);
+                    }
+                    """)
+
+
            .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
-                    "public static void Main(){var ShortName = new A(\"x\"); var LongerName = new LongerType(\"x\");}")
+                    """
+                            static void CallFunctions()
+                            {
+                              Caller.F1("T-Rex",  "Raptor",        "Moros",         "Triceratops");
+                              Caller.F1("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
+                              Caller.F2("Gallimimus", "Indor", "Carno", "Spino");
+                              Caller.F1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+                              Caller.F3("T-Rex", "Raptor", "Moros", "Triceratops");
+                              Caller.F1("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
+                              Caller.F4("Gallimimus", "Indor", "Carno", "Spino");
+                              Caller.F1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+                            } 
+                    """)
+
             ;
 
         // Don't call Build() here, it will complain.
