@@ -17,6 +17,6 @@ pluginManagement {
     }
 }
 
-rootProject.name = "ReSharperPlugin.Alignator"
+rootProject.name = "Alignator"
 
 include(":protocol")

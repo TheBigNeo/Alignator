@@ -4,7 +4,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Resources.Shell;
 
-namespace ReSharperPlugin.Alignator;
+namespace TBN.Alignator;
 
 [ZoneDefinition]
 // [ZoneDefinitionConfigurableFeature("Title KUCHEN", "Description", IsInProductSection: false)]

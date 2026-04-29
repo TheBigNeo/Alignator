@@ -1,5 +1,5 @@
-$PluginId = "ReSharperPlugin.Alignator"
-$SolutionPath = "$PSScriptRoot\ReSharperPlugin.Alignator.sln"
+$PluginId = "Alignator"
+$SolutionPath = "$PSScriptRoot\Alignator.sln"
 $SourceBasePath = "$PSScriptRoot\src\dotnet"
 
 $VsWhereOutput = [xml] (& "$PSScriptRoot\tools\vswhere.exe" -format xml -products *)

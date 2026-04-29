@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperPlugin.Alignator", "src\dotnet\ReSharperPlugin.Alignator\ReSharperPlugin.Alignator.csproj", "{05608FE6-4FD1-4E9D-9BE2-B13A0E370BA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alignator", "src\dotnet\Alignator\Alignator.csproj", "{05608FE6-4FD1-4E9D-9BE2-B13A0E370BA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperPlugin.Alignator.Rider", "src\dotnet\ReSharperPlugin.Alignator\ReSharperPlugin.Alignator.Rider.csproj", "{084172D1-A9C6-46D0-96AD-05C5B09A5E5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alignator.Rider", "src\dotnet\Alignator\Alignator.Rider.csproj", "{084172D1-A9C6-46D0-96AD-05C5B09A5E5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReSharperPlugin.Alignator.Tests", "src\dotnet\ReSharperPlugin.Alignator.Tests\ReSharperPlugin.Alignator.Tests.csproj", "{01C3DEF5-50B2-47CB-9467-19BC6DDF9D3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alignator.Tests", "src\dotnet\Alignator.Tests\Alignator.Tests.csproj", "{01C3DEF5-50B2-47CB-9467-19BC6DDF9D3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{4A9ABB95-3762-448B-B5BF-099E46DB22DE}"
 ProjectSection(SolutionItems) = preProject

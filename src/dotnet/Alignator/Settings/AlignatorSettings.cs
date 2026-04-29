@@ -1,7 +1,7 @@
 using JetBrains.Application.Settings;
 using JetBrains.Application.Settings.WellKnownRootKeys;
 
-namespace ReSharperPlugin.Alignator.Settings;
+namespace TBN.Alignator.Settings;
 
 [SettingsKey(typeof(EnvironmentSettings), "Settings for Alignator")]
 public class AlignatorSettings

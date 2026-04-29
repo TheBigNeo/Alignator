@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <IsPackable>false</IsPackable>
+    <RootNamespace>TBN.Alignator.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ReSharperPlugin.Alignator\ReSharperPlugin.Alignator.csproj" />
+    <ProjectReference Include="..\Alignator\Alignator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <AssemblyName>ReSharperPlugin.Alignator</AssemblyName>
-    <RootNamespace>$(AssemblyName)</RootNamespace>
+    <RootNamespace>TBN.Alignator</RootNamespace>
     <IsPackable>false</IsPackable>
     <DefineConstants>$(DefineConstants);RIDER</DefineConstants>
+    <AssemblyName>Alignator</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
