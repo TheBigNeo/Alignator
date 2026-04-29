@@ -1,0 +1,16 @@
+// ReSharper disable InconsistentNaming
+
+using JetBrains.Application.Settings;
+using JetBrains.ReSharper.Psi.CodeStyle;
+
+namespace TBN.Alignator.Psi.CodeStyle.Formatting;
+
+[SettingsKey(typeof(CodeFormattingSettingsKey), "Quirky formatter settings")]
+public class AlignatorSettingsKey
+{
+    [SettingsEntry(AlignPosition.DoNotChange, "Align arguments in constructor")]
+    public AlignPosition INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR;
+
+    [SettingsEntry(AlignPosition.DoNotChange, "Align argument in function")]
+    public AlignPosition INT_ALIGN_ARGUMENTS_IN_FUNCTION;
+}

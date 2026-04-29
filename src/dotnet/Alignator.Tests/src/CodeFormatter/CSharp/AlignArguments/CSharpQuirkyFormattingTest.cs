@@ -1,0 +1,45 @@
+using JetBrains.ReSharper.FeaturesTestFramework.Formatter;
+using JetBrains.ReSharper.Psi.CSharp;
+using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
+using JetBrains.ReSharper.TestFramework;
+using NUnit.Framework;
+using TBN.Alignator.Psi.CodeStyle.Formatting;
+
+namespace TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments;
+
+[TestAlignator]
+[Category("Formatting"), Category("CSharp")]
+[TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.WRAP_LINES),            false)]
+[TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.INT_ALIGN_INVOCATIONS), true)]
+public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestBase<CSharpLanguage>
+{
+    protected override string RelativeTestDataPath => "CodeFormatter/CSharp/AlignArguments";
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceBeforeComma)]
+    public void TestAlignArgumentsInConstructor_SpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceAfterComma)]
+    public void TestAlignArgumentsInConstructor_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION), AlignPosition.SpaceBeforeComma)]
+    public void TestAlignArgumentsInFunction_SpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION), AlignPosition.SpaceAfterComma)]
+    public void TestAlignArgumentsInFunction_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+}

@@ -1,0 +1,14 @@
+[*.cs]
+# indent_size           = 4
+# int_align_invocations = true
+
+
+[test/data/CodeFormatter/CSharp/AlignArguments/**.cs]
+indent_size                                          = 2
+int_align_variables                                  = false
+
+resharper_inconsistent_naming_highlighting           = none
+resharper_arrange_type_member_modifiers_highlighting = none
+resharper_unused_type_global_highlighting            = none
+resharper_unused_member_local_highlighting           = none
+resharper_unused_variable_highlighting               = none

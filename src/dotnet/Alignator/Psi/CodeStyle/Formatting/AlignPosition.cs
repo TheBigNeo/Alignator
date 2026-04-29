@@ -1,6 +1,6 @@
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
-public enum AlignCommaPosition
+public enum AlignPosition
 {
     DoNotChange,
     SpaceBeforeComma,
