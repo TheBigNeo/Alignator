@@ -1,5 +1,7 @@
 using JetBrains.Application.BuildScript.Application.Zones;
 using JetBrains.Application.Environment;
+using JetBrains.ReSharper.Feature.Services;
+using JetBrains.ReSharper.Psi.CSharp;
 using TBN.Alignator;
 
 

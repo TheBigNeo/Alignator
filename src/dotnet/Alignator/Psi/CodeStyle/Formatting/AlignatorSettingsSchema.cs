@@ -1,5 +1,10 @@
+#nullable enable
+
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using JetBrains.Annotations;
+using JetBrains.Application;
 using JetBrains.Application.Components;
 using JetBrains.Application.Settings;
 using JetBrains.Application.Settings.Calculated.Interface;
@@ -8,46 +13,37 @@ using JetBrains.ReSharper.Feature.Services.OptionPages;
 using JetBrains.ReSharper.Feature.Services.OptionPages.CodeStyle;
 using JetBrains.ReSharper.Feature.Services.OptionPages.CodeStyle.ViewModels;
 using JetBrains.ReSharper.Features.Altering.CodeFormatter.CSharp;
+using JetBrains.ReSharper.Features.Altering.CodeStyle.CSharp;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.CodeStyle;
+using JetBrains.ReSharper.Psi.CSharp;
+using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
-// public class Cake : CodeStylePageSchema
+// public class Cake : CSharpIndentStylePageSchemaBase<AlignatorSettingsKey>
 // {
-//     public Cake(Lifetime lifetime, [NotNull] IContextBoundSettingsStoreLive smartContext, [NotNull] IValueEditorViewModelFactory itemViewModelFactory, [NotNull] IComponentContainer container, [NotNull] ISettingsToHide settingsToHide, [NotNull] ICalculatedSettingsSchema calculatedSettingsSchema)
+//     public Cake(Lifetime lifetime, IContextBoundSettingsStoreLive smartContext, IValueEditorViewModelFactory itemViewModelFactory, IComponentContainer container, ISettingsToHide settingsToHide, ICalculatedSettingsSchema calculatedSettingsSchema)
 //         : base(lifetime, smartContext, itemViewModelFactory, container, settingsToHide, calculatedSettingsSchema)
 //     {
 //     }
-//
-//     public override CodePreviewPreparator GetCodePreviewPreparator()
-//     {
-//         throw new System.NotImplementedException();
-//     }
-//
-//     protected override IEnumerable<ICodeStyleEntry> Describe()
-//     {
-//         throw new System.NotImplementedException();
-//     }
-//
-//     public override string        PageName { get; }
-//     public override KnownLanguage Language { get; }
 // }
 
 [FormattingSettingsPresentationComponent]
 public class AlignatorSettingsSchema : OthersPageSchemaPart
 {
-    public AlignatorSettingsSchema(Lifetime                                 lifetime,
-                                   [NotNull] IContextBoundSettingsStoreLive smartContext,
-                                   [NotNull] IValueEditorViewModelFactory   itemViewModelFactory,
-                                   [NotNull] IComponentContainer            container,
-                                   [NotNull] ISettingsToHide                settingsToHide,
-                                   [NotNull] ICalculatedSettingsSchema      calculatedSettingsSchema
+    public AlignatorSettingsSchema(Lifetime                       lifetime,
+                                   IContextBoundSettingsStoreLive smartContext,
+                                   IValueEditorViewModelFactory   itemViewModelFactory,
+                                   IComponentContainer            container,
+                                   ISettingsToHide                settingsToHide,
+                                   ICalculatedSettingsSchema      calculatedSettingsSchema
     )
         : base(lifetime, smartContext, itemViewModelFactory, container, settingsToHide, calculatedSettingsSchema)
     {
     }
 
-    protected override string PagePartName => "Alignator align arguments";
+    protected override string PagePartName => "Alignator align arguments KUCHEN";
 
     protected override void DescribePart(SchemaBuilder builder)
     {
@@ -60,7 +56,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     static void DefinedType()
                     {
                       var SettingsSortIndex = 1;
-                    
+
                       var coreName = new StringSetting("-1657-4d40-9c17-dcade0c6415d",       "Core Name",                   ++SettingsSortIndex, true, HtmlFieldType.Text, "Core 1");
                       var apiAddress = new StringSetting("a111683e--443d-b8fc-4407a5fb14ba", "Core IP-Address or Hostname", ++SettingsSortIndex, true, HtmlFieldType.Url,  "127.0.0.1") {HtmlFieldWidth = 6};
                       var apiPort = new UShortSetting("f831819e-61c4-4915--9b6adceb46fd", "Listen Port API", ++SettingsSortIndex, true, 8085) {HtmlFieldWidth                                           = 6};
@@ -70,11 +66,11 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                       var shutdownActions = new StringSetting("9acd45ec-e8b9-45ad-b136-ecdeecd87074", "Shutdown Actions", ++SettingsSortIndex, false, HtmlFieldType.Text, null);
                       var startupActions = new StringSetting("caf5ff1a5983",                          "Startup Actions",  ++SettingsSortIndex, false, HtmlFieldType.Text, null);
                     }
-                    
+
                     static void TargetType()
                     {
                       var settingsSortIndex = 1;
-                    
+
                       StringSetting coreName = new("-1657-4d40-9c17-dcade0c6415d", "Core Name", ++settingsSortIndex, true, HtmlFieldType.Text, "Core 1");
                       StringSetting apiAddress = new("a111683e--443d-b8fc-4407a5fb14ba", "Core IP-Address or Hostname", ++settingsSortIndex, true, HtmlFieldType.Url, "127.0.0.1") {HtmlFieldWidth = 6};
                       UShortSetting apiPort = new("f831819e-61c4-4915--9b6adceb46fd", "Listen Port API", ++settingsSortIndex, true, 8085) {HtmlFieldWidth                                          = 6};
@@ -84,9 +80,9 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                       StringSetting shutdownActions = new("9acd45ec-e8b9-45ad-b136-ecdeecd87074", "Shutdown Actions", ++settingsSortIndex, false, HtmlFieldType.Text, null);
                       StringSetting startupActions = new("caf5ff1a5983", "Startup Actions", ++settingsSortIndex, false, HtmlFieldType.Text, null);
                     }
-                    """)
-
-
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
            .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
                     """
                             static void CallFunctions()
@@ -99,12 +95,24 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                               Caller.F1("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
                               Caller.F4("Gallimimus", "Indor", "Carno", "Spino");
                               Caller.F1("Veloci", "Baryo", "Moso", "Dilophosaurus");
-                            } 
+                            }
                     """)
-
             ;
 
         // Don't call Build() here, it will complain.
         // Build() is called in the parent schema's Describe() method.
+    }
+
+    private void IntAlignFixup(IContextBoundSettingsStore boundSettingsStore)
+    {
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.KEEP_USER_LINEBREAKS),                         true);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.WRAP_LINES),                                   false);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE),           true);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE), true);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE_EX), PlaceOnSameLineAsOwner.ALWAYS);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE_EX),         PlaceOnSameLineAsOwner.IF_OWNER_IS_SINGLE_LINE);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE_EX),          PlaceOnSameLineAsOwner.ALWAYS);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_RECORD_FIELD_ATTRIBUTE_ON_SAME_LINE_EX),   PlaceOnSameLineAsOwner.ALWAYS);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, NestedTernaryExpressionStyle>((Expression<Func<CSharpFormatSettingsKey, NestedTernaryExpressionStyle>>)(key => key.NESTED_TERNARY_STYLE), NestedTernaryExpressionStyle.AUTODETECT);
     }
 }
