@@ -83,16 +83,6 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Position: AlignPosition.SpaceAfterComma
             ));
 
-    /// <summary>Describes what makes each alignment variant unique; everything else is shared logic.</summary>
-    private record ArgumentAlignVariant(
-        string                                                                        SettingName,
-        System.Linq.Expressions.Expression<System.Func<AlignatorSettingsKey, object>> SettingsKey,
-        System.Func<ITreeNode, bool>                                                  ParentPredicate,
-        System.Type                                                                   StatementType,
-        string                                                                        AlignKeyGroup,
-        AlignPosition                                                                 Position
-    );
-
     private void BuildIntAlignArgumentsRule(ArgumentAlignVariant variant)
     {
         var isSpaceBefore = variant.Position == AlignPosition.SpaceBeforeComma;
@@ -153,7 +143,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                         for (var n = ctx.Parent.NodeOrNull; n != null; n = n.Parent)
                         {
                             if (!variant.StatementType.IsInstanceOfType(n))
+                            {
                                 continue;
+                            }
 
                             var blockOffset = n.GetContainingBlockOffset();
 
@@ -174,4 +166,14 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
             )
            .Build();
     }
+
+    /// <summary>Describes what makes each alignment variant unique; everything else is shared logic.</summary>
+    private sealed record ArgumentAlignVariant(
+        string                                                                        SettingName,
+        System.Linq.Expressions.Expression<System.Func<AlignatorSettingsKey, object>> SettingsKey,
+        System.Func<ITreeNode, bool>                                                  ParentPredicate,
+        System.Type                                                                   StatementType,
+        string                                                                        AlignKeyGroup,
+        AlignPosition                                                                 Position
+    );
 }

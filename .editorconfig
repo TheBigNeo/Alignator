@@ -1,6 +1,10 @@
 [*.cs]
 indent_style = space
 indent_size  = 4
+
+resharper_class_can_be_sealed_global_highlighting = warning
+resharper_class_can_be_sealed_local_highlighting = warning
+
 # int_align_variables = true
 # int_align_invocations = true
 #

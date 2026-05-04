@@ -1,22 +1,15 @@
 #nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
-using JetBrains.Annotations;
-using JetBrains.Application;
 using JetBrains.Application.Components;
 using JetBrains.Application.Settings;
 using JetBrains.Application.Settings.Calculated.Interface;
 using JetBrains.Lifetimes;
 using JetBrains.ReSharper.Feature.Services.OptionPages;
 using JetBrains.ReSharper.Feature.Services.OptionPages.CodeStyle;
-using JetBrains.ReSharper.Feature.Services.OptionPages.CodeStyle.ViewModels;
 using JetBrains.ReSharper.Features.Altering.CodeFormatter.CSharp;
-using JetBrains.ReSharper.Features.Altering.CodeStyle.CSharp;
-using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CodeStyle;
-using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.CodeStyle.FormatSettings;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
@@ -43,7 +36,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
     {
     }
 
-    protected override string PagePartName => "Alignator align arguments KUCHEN";
+    protected override string PagePartName => "Alignator align arguments";
 
     protected override void DescribePart(SchemaBuilder builder)
     {
@@ -105,14 +98,17 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
 
     private void IntAlignFixup(IContextBoundSettingsStore boundSettingsStore)
     {
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.KEEP_USER_LINEBREAKS),                         true);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.WRAP_LINES),                                   false);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE),           true);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>((Expression<Func<CSharpFormatSettingsKey, bool>>)(key => key.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE), true);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE_EX), PlaceOnSameLineAsOwner.ALWAYS);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE_EX),         PlaceOnSameLineAsOwner.IF_OWNER_IS_SINGLE_LINE);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE_EX),          PlaceOnSameLineAsOwner.ALWAYS);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>((Expression<Func<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>>)(key => key.PLACE_RECORD_FIELD_ATTRIBUTE_ON_SAME_LINE_EX),   PlaceOnSameLineAsOwner.ALWAYS);
-        boundSettingsStore.SetValue<CSharpFormatSettingsKey, NestedTernaryExpressionStyle>((Expression<Func<CSharpFormatSettingsKey, NestedTernaryExpressionStyle>>)(key => key.NESTED_TERNARY_STYLE), NestedTernaryExpressionStyle.AUTODETECT);
+        boundSettingsStore.SetValue<AlignatorSettingsKey, AlignPosition>(key => key.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR, AlignPosition.SpaceAfterComma);
+        boundSettingsStore.SetValue<AlignatorSettingsKey, AlignPosition>(key => key.INT_ALIGN_ARGUMENTS_IN_FUNCTION,    AlignPosition.SpaceAfterComma);
+
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>(key => key.KEEP_USER_LINEBREAKS,                         true);
+        boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>(key => key.WRAP_LINES,                                   false);
+        // boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>(key => key.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE,           true);
+        // boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>(key => key.PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE, true);
+        // boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>(key => key.PLACE_ACCESSORHOLDER_ATTRIBUTE_ON_SAME_LINE_EX, PlaceOnSameLineAsOwner.ALWAYS);
+        // boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>(key => key.PLACE_METHOD_ATTRIBUTE_ON_SAME_LINE_EX,         PlaceOnSameLineAsOwner.IF_OWNER_IS_SINGLE_LINE);
+        // boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>(key => key.PLACE_FIELD_ATTRIBUTE_ON_SAME_LINE_EX,          PlaceOnSameLineAsOwner.ALWAYS);
+        // boundSettingsStore.SetValue<CSharpFormatSettingsKey, PlaceOnSameLineAsOwner>(key => key.PLACE_RECORD_FIELD_ATTRIBUTE_ON_SAME_LINE_EX,   PlaceOnSameLineAsOwner.ALWAYS);
+        // boundSettingsStore.SetValue<CSharpFormatSettingsKey, NestedTernaryExpressionStyle>(key => key.NESTED_TERNARY_STYLE, NestedTernaryExpressionStyle.AUTODETECT);
     }
 }
