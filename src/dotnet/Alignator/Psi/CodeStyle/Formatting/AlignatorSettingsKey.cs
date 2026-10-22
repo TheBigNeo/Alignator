@@ -7,16 +7,15 @@ using JetBrains.ReSharper.Psi.Format;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
-// [SettingsKey(typeof(CSharpCodeStyleSettingsKey), "Settings for Alignator plugin.")]
 [EditorConfigKey("csharp")]
-[SettingsKey(typeof(CodeFormattingSettingsKey),  "Settings for Alignator plugin.")]
+[SettingsKey(typeof(CodeFormattingSettingsKey), "Settings for Alignator plugin.")]
 public class AlignatorSettingsKey
 {
-    // [EditorConfigEntryAlias("int_align_arguments_in_constructor", EditorConfigAliasType.Standard)]
+    [EditorConfigEntryAlias("alignator_align_arguments_in_constructor", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(AlignPosition.DoNotChange, "Align arguments in constructor")]
     public AlignPosition INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR;
 
-    // [EditorConfigEntryAlias("int_align", EditorConfigAliasType.LanguageSpecific)]
+    [EditorConfigEntryAlias("alignator_align_arguments_in_function", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(AlignPosition.DoNotChange, "Align argument in function")]
     public AlignPosition INT_ALIGN_ARGUMENTS_IN_FUNCTION;
 }
