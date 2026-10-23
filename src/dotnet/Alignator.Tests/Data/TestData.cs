@@ -7,36 +7,36 @@
 
 namespace TBN.Alignator.Tests.Data;
 
-internal abstract class AbstractSetting
+internal abstract class AbstractDinosaur
 {
-    public int    HtmlFieldWidth { get; set; }
-    public string Description    { get; set; }
+    public int    Height      { get; set; }
+    public string Description { get; set; }
 }
 
-internal sealed class StringSetting : AbstractSetting
+internal sealed class Tyrannosaurus : AbstractDinosaur
 {
-    public StringSetting(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Tyrannosaurus(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
 }
 
-internal sealed class UShortSetting : AbstractSetting
+internal sealed class Velociraptor : AbstractDinosaur
 {
-    public UShortSetting(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Velociraptor(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
 }
 
-internal sealed class IntSetting : AbstractSetting
+internal sealed class Triceratops : AbstractDinosaur
 {
-    public IntSetting(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Triceratops(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
 }
 
-internal sealed class BoolSetting : AbstractSetting
+internal sealed class Brachiosaurus : AbstractDinosaur
 {
-    public BoolSetting(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Brachiosaurus(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
 }
 
-internal enum HtmlFieldType
+internal enum Diet
 {
-    Text = 6,
-    Url  = 8,
+    Carnivore = 1,
+    Herbivore = 2,
 }
 
 public static class Caller
