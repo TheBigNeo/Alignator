@@ -89,7 +89,9 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                               Caller.F4("Gallimimus", "Indor", "Carno", "Spino");
                               Caller.F1("Veloci", "Baryo", "Moso", "Dilophosaurus");
                             }
-                    """)
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
             ;
 
         // Don't call Build() here, it will complain.
@@ -98,9 +100,6 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
 
     private void IntAlignFixup(IContextBoundSettingsStore boundSettingsStore)
     {
-        boundSettingsStore.SetValue<AlignatorSettingsKey, AlignPosition>(key => key.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR, AlignPosition.SpaceAfterComma);
-        boundSettingsStore.SetValue<AlignatorSettingsKey, AlignPosition>(key => key.INT_ALIGN_ARGUMENTS_IN_FUNCTION,    AlignPosition.SpaceAfterComma);
-
         boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>(key => key.KEEP_USER_LINEBREAKS,                         true);
         boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>(key => key.WRAP_LINES,                                   false);
         // boundSettingsStore.SetValue<CSharpFormatSettingsKey, bool>(key => key.PLACE_SIMPLE_METHOD_ON_SINGLE_LINE,           true);
