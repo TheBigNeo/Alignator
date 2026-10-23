@@ -41,4 +41,18 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     {
         DoNamedTest2();
     }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceBeforeComma)]
+    public void TestAlignArgumentsInConstructorAssignment_SpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceAfterComma)]
+    public void TestAlignArgumentsInConstructorAssignment_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
 }

@@ -46,3 +46,19 @@ public static class Caller
     public static void F3(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
     public static void F4(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
 }
+
+internal sealed class DinosaurPark
+{
+    private Tyrannosaurus        _tRex;
+    private Velociraptor         _raptor;
+    public  Triceratops          Trice { get; private set; }
+    public  Brachiosaurus        Brachio { get; }
+
+    public DinosaurPark(int sortIndex)
+    {
+        _tRex   = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
+        _raptor = new Velociraptor("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
+        Trice   = new Triceratops("Trice", "Herbivore", 9000, false, Diet.Herbivore) { Height = 3 };
+        Brachio = new Brachiosaurus("Brachio", "Herbivore", 6000, false, 250) { Description = "Long neck" };
+    }
+}
