@@ -3,7 +3,6 @@
 using JetBrains.Application.Settings;
 using JetBrains.ReSharper.Psi.CodeStyle;
 using JetBrains.ReSharper.Psi.EditorConfig;
-using JetBrains.ReSharper.Psi.Format;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
