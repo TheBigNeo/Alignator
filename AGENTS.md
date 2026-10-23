@@ -30,7 +30,7 @@
 │   │   │   ├── Helpers/
 │   │   │   │   └── NodeHelpers.cs     # GetContainingBlockOffset extension
 │   │   │   └── Psi/CodeStyle/Formatting/
-│   │   │       ├── AlignArgumentsProvider.cs  # Core: registers 4 alignment rules
+│   │   │       ├── AlignArgumentsProvider.cs  # Core: registers 6 alignment rules
 │   │   │       ├── AlignPosition.cs           # Enum: DoNotChange, SpaceBeforeComma, SpaceAfterComma
 │   │   │       ├── AlignatorSettingsKey.cs    # Settings keys + .editorconfig aliases
 │   │   │       └── AlignatorSettingsSchema.cs # Settings UI page ("Alignator align arguments")
@@ -39,7 +39,7 @@
 │   │       ├── TestEnvironment.cs         # Test zone setup
 │   │       ├── GlobalUsings.cs
 │   │       ├── CodeFormatter/CSharp/AlignArguments/
-│   │       │   └── CSharpQuirkyFormattingTest.cs  # 4 formatter tests
+│   │       │   └── CSharpQuirkyFormattingTest.cs  # 6 formatter tests
 │   │       ├── Data/
 │   │       │   ├── TestAlignatorAttribute.cs      # Test aspect (net451 target)
 │   │       │   └── TestData.cs                    # Stub types for test data
@@ -53,17 +53,19 @@
 
 ## How it works
 
-The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvider`, which extends `CSharpFormatterInfoProviderPart`. It registers four alignment rules:
+The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvider`, which extends `CSharpFormatterInfoProviderPart`. It registers six alignment rules:
 
 | Rule | Setting | Parent node | Statement type |
 |------|---------|-------------|----------------|
 | Constructor + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | `IDeclarationStatement` |
 | Constructor + SpaceAfterComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | `IDeclarationStatement` |
+| Constructor assignment + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | assignment statement (field/property assignment) or field/property initializer |
+| Constructor assignment + SpaceAfterComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | assignment statement (field/property assignment) or field/property initializer |
 | Function + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_FUNCTION` | `IInvocationExpression` | `IExpressionStatement` |
 | Function + SpaceAfterComma | `INT_ALIGN_ARGUMENTS_IN_FUNCTION` | `IInvocationExpression` | `IExpressionStatement` |
 
 Each rule uses `IntAlignRule` with a computed alignment key that groups arguments by:
-- **AlignKeyGroup** (`"Params"` for constructors, `"Func"` for functions)
+- **AlignKeyGroup** (`"Params"` for constructors, `"Func"` for functions, `"ParamsAssign"` for assignments/initializers)
 - **Comma position** (`ArgComma` or `ArgAfterComma`)
 - **Argument index** within the argument list
 - **Block offset** — the document offset of the enclosing block, so alignment is scoped to consecutive statements within the same block
@@ -150,11 +152,11 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 
 | File | Purpose |
 |------|---------|
-| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs` | Core formatter logic — registers all 4 alignment rules |
+| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs` | Core formatter logic — registers all 6 alignment rules |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs` | Settings definitions with .editorconfig aliases |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs` | Settings UI page with live preview |
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs` | `GetContainingBlockOffset` — scopes alignment to a block |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs` | All 4 formatter tests |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs` | All 6 formatter tests |
 | `build.gradle.kts` | Gradle build: compiles .NET, runs tests, packages plugin |
 | `gradle.properties` | Version numbers, SDK version, plugin IDs |
 | `src/dotnet/Plugin.props` | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties` |

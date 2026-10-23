@@ -35,6 +35,8 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
 
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceAfterComma();
+        INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceBeforeComma();
+        INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterComma();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterComma();
     }
@@ -45,7 +47,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR),
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
-                StatementType: typeof(IDeclarationStatement),
+                StatementPredicate: node => node is IDeclarationStatement,
                 AlignKeyGroup: "Params",
                 Position: AlignPosition.SpaceBeforeComma
             ));
@@ -56,8 +58,30 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR),
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
-                StatementType: typeof(IDeclarationStatement),
+                StatementPredicate: node => node is IDeclarationStatement,
                 AlignKeyGroup: "Params",
+                Position: AlignPosition.SpaceAfterComma
+            ));
+
+    private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceBeforeComma()
+        => BuildIntAlignArgumentsRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR) + "_Assignment",
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
+                StatementPredicate: IsFieldOrPropertyAssignmentStatement,
+                AlignKeyGroup: "ParamsAssign",
+                Position: AlignPosition.SpaceBeforeComma
+            ));
+
+    private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterComma()
+        => BuildIntAlignArgumentsRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR) + "_Assignment",
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
+                StatementPredicate: IsFieldOrPropertyAssignmentStatement,
+                AlignKeyGroup: "ParamsAssign",
                 Position: AlignPosition.SpaceAfterComma
             ));
 
@@ -67,7 +91,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION),
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
                 ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
-                StatementType: typeof(IExpressionStatement),
+                StatementPredicate: node => node is IExpressionStatement,
                 AlignKeyGroup: "Func",
                 Position: AlignPosition.SpaceBeforeComma
             ));
@@ -78,7 +102,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION),
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
                 ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
-                StatementType: typeof(IExpressionStatement),
+                StatementPredicate: node => node is IExpressionStatement,
                 AlignKeyGroup: "Func",
                 Position: AlignPosition.SpaceAfterComma
             ));
@@ -142,7 +166,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                         // Walk up to find the enclosing statement and use its block offset as the alignment group
                         for (var n = ctx.Parent.NodeOrNull; n != null; n = n.Parent)
                         {
-                            if (!variant.StatementType.IsInstanceOfType(n))
+                            if (!variant.StatementPredicate(n))
                             {
                                 continue;
                             }
@@ -172,8 +196,13 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         string                                                                        SettingName,
         System.Linq.Expressions.Expression<System.Func<AlignatorSettingsKey, object>> SettingsKey,
         System.Func<ITreeNode, bool>                                                  ParentPredicate,
-        System.Type                                                                   StatementType,
+        System.Func<ITreeNode, bool>                                                  StatementPredicate,
         string                                                                        AlignKeyGroup,
         AlignPosition                                                                 Position
     );
+
+    private static bool IsFieldOrPropertyAssignmentStatement(ITreeNode node)
+        => node is IExpressionStatement {Expression: IAssignmentExpression}
+           or IFieldDeclaration
+           or IPropertyDeclaration;
 }

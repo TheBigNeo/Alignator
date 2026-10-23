@@ -15,6 +15,14 @@ public static class NodeHelpers
             n = n.Parent;
         }
 
+        n = node;
+        while (n != null)
+        {
+            if (n is ICSharpTypeDeclaration typeDeclaration)
+                return typeDeclaration.GetDocumentStartOffset().Offset;
+            n = n.Parent;
+        }
+
         return null;
     }
 }
