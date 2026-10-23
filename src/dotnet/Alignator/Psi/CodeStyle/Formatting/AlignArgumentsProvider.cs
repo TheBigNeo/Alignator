@@ -41,6 +41,16 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterComma();
     }
 
+    /// <summary>
+    ///     Aligns arguments of object creations in local variable declarations
+    ///     by padding before the comma, so the commas share one column per argument index.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     var tRex  = new Tyrannosaurus("T-Rex"    , "Carnivore");
+    ///     var trike = new Triceratops("Triceratops", "Herbivore");
+    ///     </code>
+    /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceBeforeComma()
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
@@ -52,6 +62,16 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Position: AlignPosition.SpaceBeforeComma
             ));
 
+    /// <summary>
+    ///     Aligns arguments of object creations in local variable declarations
+    ///     by padding after the comma, so the arguments following them share one column per argument index.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     var tRex  = new Tyrannosaurus("T-Rex",     "Carnivore");
+    ///     var trike = new Triceratops("Triceratops", "Herbivore");
+    ///     </code>
+    /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceAfterComma()
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
@@ -63,6 +83,23 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Position: AlignPosition.SpaceAfterComma
             ));
 
+    /// <summary>
+    ///     Aligns arguments of object creations assigned to fields or properties - in assignment
+    ///     statements inside a body and in class-level field/property initializers - by padding
+    ///     before the comma, so the commas share one column per argument index.
+    /// </summary>
+    /// <example>
+    ///     Assignment statements inside a body:
+    ///     <code>
+    ///     _tRex   = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true);
+    ///     _raptor = new Velociraptor("Raptor", "Carnivore", 150 , true);
+    ///     </code>
+    ///     Class-level field or property initializers:
+    ///     <code>
+    ///     private Tyrannosaurus _tRex   = new Tyrannosaurus("T-Rex", "Carnivore", 8000);
+    ///     private Velociraptor  _raptor = new Velociraptor("Rex"   , "Carnivore", 150);
+    ///     </code>
+    /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceBeforeComma()
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
@@ -74,6 +111,23 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Position: AlignPosition.SpaceBeforeComma
             ));
 
+    /// <summary>
+    ///     Aligns arguments of object creations assigned to fields or properties - in assignment
+    ///     statements inside a body and in class-level field/property initializers - by padding
+    ///     after the comma, so the arguments following them share one column per argument index.
+    /// </summary>
+    /// <example>
+    ///     Assignment statements inside a body:
+    ///     <code>
+    ///     _tRex   = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true);
+    ///     _raptor = new Velociraptor("Raptor", "Carnivore", 150,  true);
+    ///     </code>
+    ///     Class-level field or property initializers:
+    ///     <code>
+    ///     private Tyrannosaurus _tRex   = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true);
+    ///     private Velociraptor  _raptor = new Velociraptor("Rex",    "Carnivore", 150,  true);
+    ///     </code>
+    /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterComma()
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
@@ -85,6 +139,16 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Position: AlignPosition.SpaceAfterComma
             ));
 
+    /// <summary>
+    ///     Aligns arguments of invocation statements by padding before the comma,
+    ///     so the commas share one column per argument index.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     Caller.F1("T-Rex"      , "Carnivore");
+    ///     Caller.F1("Triceratops", "Herbivore");
+    ///     </code>
+    /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceBeforeComma()
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
@@ -96,6 +160,16 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Position: AlignPosition.SpaceBeforeComma
             ));
 
+    /// <summary>
+    ///     Aligns arguments of invocation statements by padding after the comma,
+    ///     so the arguments following them share one column per argument index.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     Caller.F1("T-Rex",       "Carnivore");
+    ///     Caller.F1("Triceratops", "Herbivore");
+    ///     </code>
+    /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterComma()
         => BuildIntAlignArgumentsRule(
             new ArgumentAlignVariant(
@@ -107,6 +181,11 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 Position: AlignPosition.SpaceAfterComma
             ));
 
+    /// <summary>
+    ///     Builds the shared <see cref="IntAlignRule"/> for one variant: it matches the whitespace
+    ///     gap between an argument and its comma, and aligns all gaps that share the variant's
+    ///     alignment key (key group, comma mode, argument index, enclosing block offset).
+    /// </summary>
     private void BuildIntAlignArgumentsRule(ArgumentAlignVariant variant)
     {
         var isSpaceBefore = variant.Position == AlignPosition.SpaceBeforeComma;
@@ -201,6 +280,11 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         AlignPosition                                                                 Position
     );
 
+    /// <summary>
+    ///     Returns <c>true</c> for the nodes that carry an object creation assigned to a field
+    ///     or property: assignment expression statements and class-level field or property
+    ///     declarations (initializers).
+    /// </summary>
     private static bool IsFieldOrPropertyAssignmentStatement(ITreeNode node)
         => node is IExpressionStatement {Expression: IAssignmentExpression}
            or IFieldDeclaration
