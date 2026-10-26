@@ -10,21 +10,27 @@ internal class AlignArgumentNames
       o2:         "Raptor",
       o3:         "Triceratops");
 
-    // Multi-line object creation with named arguments
-    var raptor = new Velociraptor(o1: "Blue",
-      o2:                             "Echo",
-      o3:                             "Delta");
+    // Multi-line object creation with named arguments, first argument on the same line
+    Tyrannosaurus tRex = new(name: "T-Rex",
+      diet:                        "Carnivore",
+      weight:                      8000,
+      isCarnivore:                 true,
+      dietType:                    Diet.Carnivore,
+      park:                        "Jurassic Park");
 
     // Mixed positional and named arguments
     Caller.F2(o1: "Blue",
       "T-Rex",
       o3: "Raptor");
 
-    // First argument on its own line after the paren, longest name in middle
-    Caller.F1(
-      o1:          "T-Rex",
-      o2222222222: "Raptor",
-      o33333:      "Triceratops");
+    // Multi-line object creation with named arguments, first argument on its own line
+    Velociraptor raptor = new(
+      name:        "Raptor",
+      diet:        "Carnivore",
+      weight:      150,
+      isCarnivore: true,
+      dietType:    Diet.Carnivore,
+      park:        "Jurassic Park 2") { Height = 2 };
 
     // Single-line call with named arguments stays untouched
     Caller.F3(o1: "T-Rex", o2: "Raptor", o3: "Triceratops");
