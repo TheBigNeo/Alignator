@@ -2,7 +2,7 @@
 
 ## Goal
 
-Add alignment support for attribute arguments (e.g., `[TestCase("a", "b")]`) with configurable alignment positions.
+Add alignment support for attribute arguments (e.g., `[TestCase("Tyrannosaurus", "Rex")]`) with configurable alignment positions.
 
 ## Approach
 
@@ -171,9 +171,10 @@ builder
    // NEW:
    .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
             """
-            [TestCase("Änderung", "Anderung")]
-            [TestCase("Café", "Cafe")]
-            [TestCase("Zürich", "Zurich")]
+            [TestCase("Tyrannosaurus", "Rex")]
+            [TestCase("Velociraptor", "Raptor")]
+            [TestCase("Moros", "Moros")]
+            [TestCase("Pachycephalosaurus", "Pachy")]
             [TestFixture]
             public void MyTest() { }
             """,
@@ -226,19 +227,19 @@ public void TestAlignArgumentsInAttribute_SpaceBeforeClosingParen()
 
 Input file:
 ```csharp
-[TestCase("Änderung", "Anderung")]
-[TestCase("Café", "Cafe")]
-[TestCase("Zürich", "Zurich")]
-[TestCase("La Première", "La Premiere")]
+[TestCase("Tyrannosaurus", "Rex")]
+[TestCase("Velociraptor", "Raptor")]
+[TestCase("Moros", "Moros")]
+[TestCase("Pachycephalosaurus", "Pachy")]
 public void MyTest() { }
 ```
 
 Gold file:
 ```csharp
-[TestCase("Änderung",     "Anderung")]
-[TestCase("Café",        "Cafe")]
-[TestCase("Zürich",      "Zurich")]
-[TestCase("La Première", "La Premiere")]
+[TestCase("Tyrannosaurus",      "Rex")]
+[TestCase("Velociraptor",       "Raptor")]
+[TestCase("Moros",              "Moros")]
+[TestCase("Pachycephalosaurus", "Pachy")]
 public void MyTest() { }
 ```
 
@@ -246,17 +247,19 @@ public void MyTest() { }
 
 Input file:
 ```csharp
-[TestCase("Änderung"    , "Anderung")]
-[TestCase("Café"        , "Cafe")]
-[TestCase("Zürich"      , "Zurich")]
+[TestCase("Tyrannosaurus", "Rex")]
+[TestCase("Velociraptor", "Raptor")]
+[TestCase("Moros", "Moros")]
+[TestCase("Pachycephalosaurus", "Pachy")]
 public void MyTest() { }
 ```
 
 Gold file:
 ```csharp
-[TestCase("Änderung"    , "Anderung"   )]
-[TestCase("Café"        , "Cafe"       )]
-[TestCase("Zürich"      , "Zurich"     )]
+[TestCase("Tyrannosaurus", "Rex"   )]
+[TestCase("Velociraptor", "Raptor")]
+[TestCase("Moros", "Moros" )]
+[TestCase("Pachycephalosaurus", "Pachy" )]
 public void MyTest() { }
 ```
 

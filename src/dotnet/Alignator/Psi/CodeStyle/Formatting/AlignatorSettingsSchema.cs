@@ -83,9 +83,10 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     previewFixup: IntAlignFixup)
            .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
                     """
-                    [TestCase("Änderung", "Anderung")]
-                    [TestCase("Café", "Cafe")]
-                    [TestCase("Zürich", "Zurich")]
+                    [TestCase("Tyrannosaurus", "Rex")]
+                    [TestCase("Velociraptor", "Raptor")]
+                    [TestCase("Moros", "Moros")]
+                    [TestCase("Pachycephalosaurus", "Pachy")]
                     [TestFixture]
                     public void MyTest() { }
                     """,
@@ -93,9 +94,10 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     previewFixup: IntAlignFixup)
            .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE,
                     """
-                    [TestCase("Änderung", "Anderung")]
-                    [TestCase("Café", "Cafe")]
-                    [TestCase("Zürich", "Zurich")]
+                    [TestCase("Tyrannosaurus", "Rex")]
+                    [TestCase("Velociraptor", "Raptor")]
+                    [TestCase("Moros", "Moros")]
+                    [TestCase("Pachycephalosaurus", "Pachy")]
                     [TestFixture]
                     public void MyTest() { }
                     """,

@@ -18,17 +18,17 @@ The user provided examples showing three formats:
 
 1. **Current (no alignment):**
 ```csharp
-[TestCase("Änderung", "Anderung")]
+[TestCase("Tyrannosaurus", "Rex")]
 ```
 
 2. **AfterComma alignment:**
 ```csharp
-[TestCase("Änderung"                    , "Anderung")]
+[TestCase("Tyrannosaurus",      "Rex")]
 ```
 
 3. **AfterComma + Closing Parenthesis alignment:**
 ```csharp
-[TestCase("Änderung"                    , "Anderung"                   )]
+[TestCase("Tyrannosaurus",      "Rex"   )]
 ```
 
 ## Relevant Files
@@ -136,7 +136,7 @@ Need to determine the appropriate statement predicate or use a different scoping
    - **Decision**: Scope to attributes within the same attribute list (e.g., multiple attributes on same method)
 3. What's the correct PSI node type for attribute argument lists?
    - **Likely**: `IAttributeArgumentList` which is a child of `IAttribute`
-4. Should we support alignment for attribute named arguments (`[TestCase(Name = "test")]`)?
+4. Should we support alignment for attribute named arguments (`[TestCase(Name = "Rex")]`)?
    - **Decision**: Initially focus on positional arguments; named arguments can be added later
 
 ## Research Needed

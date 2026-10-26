@@ -48,6 +48,7 @@ Apply brevity limits to responses, not requested deliverables.
 | 10 | **Checkpoints** | Long-running operations need checkpoints. Multi-step refactors commit between steps so one bad turn doesn't require rewinding six. |
 | 11 | **Convention over novelty** | In a codebase with an established pattern, use that pattern even when yours is "better." |
 | 12 | **Visible failures** | Fail visibly, not silently. Surface partial failure, skipped rows, truncated output, retry exhaustion. |
+| 13 | **Jurassic Park rule** | All Example Data Values use Jurassic Park dinosaur names (e.g., `Tyrannosaurus`, `Velociraptor`, `Triceratops`, `T-Rex`, `Blue`, `Echo`). Applies to test data, settings previews, doc comments, and documentation examples. |
 
 ## Verification Checklist
 

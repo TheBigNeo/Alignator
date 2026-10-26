@@ -197,8 +197,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
     /// </summary>
     /// <example>
     ///     <code>
-    ///     [TestCase("Änderung"                    , "Anderung")]
-    ///     [TestCase("Café"                        , "Cafe")]
+    ///     [TestCase("Tyrannosaurus"     , "Rex")]
+    ///     [TestCase("Moros"             , "Moros")]
+    ///     [TestCase("Pachycephalosaurus", "Pachy")]
     ///     </code>
     /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceBeforeComma()
@@ -220,8 +221,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
     /// </summary>
     /// <example>
     ///     <code>
-    ///     [TestCase("Änderung", "Anderung")]
-    ///     [TestCase("Café",     "Cafe")]
+    ///     [TestCase("Tyrannosaurus",      "Rex")]
+    ///     [TestCase("Moros",              "Moros")]
+    ///     [TestCase("Pachycephalosaurus", "Pachy")]
     ///     </code>
     /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterComma()
@@ -243,8 +245,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
     /// </summary>
     /// <example>
     ///     <code>
-    ///     [TestCase("Änderung"                    , "Anderung"                   )]
-    ///     [TestCase("Café"                        , "Cafe"                       )]
+    ///     [TestCase("Tyrannosaurus"     , "Rex"   )]
+    ///     [TestCase("Moros"             , "Moros" )]
+    ///     [TestCase("Pachycephalosaurus", "Pachy")]
     ///     </code>
     /// </example>
     private void INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE_SpaceBeforeClosingParen()
