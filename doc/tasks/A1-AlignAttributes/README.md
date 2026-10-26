@@ -83,10 +83,26 @@ To begin implementation, follow the steps in `plan.md` in order:
 
 ## Key Design Decisions
 
-1. **New Enum Value**: Add `SpaceBeforeClosingParen` to support closing parenthesis alignment
-2. **Separate Setting**: Create `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE` for independent configuration
+1. **Two Independent Settings (Option A)**: Comma alignment and closing parenthesis alignment are controlled by **separate settings**, so both can be active simultaneously
+   - `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`: Controls comma alignment (`DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`)
+   - `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`: Controls closing parenthesis alignment (`true`/`false` or its own `AlignPosition`)
+2. **New Enum Value**: Add `SpaceBeforeClosingParen` to `AlignPosition` to support closing parenthesis alignment
 3. **Reuse Infrastructure**: Leverage existing `BuildIntAlignArgumentsRule` with attribute-specific predicates
 4. **Scoping**: Align within the same attribute list (attributes on the same declaration)
+
+## Expected Behavior
+
+The user can independently enable/disable each alignment type via `.editorconfig`:
+
+```ini
+[*.cs]
+# Comma alignment: DoNotChange | SpaceBeforeComma | SpaceAfterComma
+csharp_alignator_align_arguments_in_attribute = space_after_comma
+# Closing parenthesis alignment: true | false
+csharp_alignator_align_closing_paren_in_attribute = true
+```
+
+With both enabled, the result is the "Option 2" format shown above: arguments aligned after commas AND closing parentheses aligned in the same column.
 
 ## Dependencies
 
@@ -112,3 +128,19 @@ To begin implementation, follow the steps in `plan.md` in order:
 2. Verify the approach with stakeholders
 3. Begin implementation with Step 1 (extend enum)
 4. Proceed sequentially through the plan, verifying each step
+
+## Current Implementation State
+
+**Completed:**
+- `SpaceBeforeClosingParen` added to `AlignPosition` enum
+- `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE` setting added to `AlignatorSettingsKey.cs` (comma alignment only)
+- Alignment rule method `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterComma()` registered in `AlignArgumentsProvider.cs`
+- Settings UI preview added in `AlignatorSettingsSchema.cs`
+- Test methods and test data files created
+
+**Outstanding (Option A):**
+- Add `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE` setting (independent of comma alignment setting)
+- Register the closing parenthesis alignment rule using the new setting
+- Fix PSI node matching: current predicates (`IArgumentList {Parent: IAttribute}` + `IClassLikeDeclaration` statement) do not match attribute argument lists — alignment rules fire for constructors/functions but not for attributes
+- Update tests to cover both settings independently and combined
+- Verify existing tests still pass (6 passing)
