@@ -84,4 +84,36 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     {
         DoNamedTest2();
     }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES), true)]
+    public void TestAlignArgumentsInConstructor_NamedArguments_SpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceAfterComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES), true)]
+    public void TestAlignArgumentsInConstructor_NamedArguments_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION), AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES), true)]
+    public void TestAlignArgumentsInFunction_NamedArguments_SpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE), AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES), true)]
+    public void TestAlignArgumentsInAttribute_NamedArguments_SpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
 }

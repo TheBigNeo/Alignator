@@ -124,3 +124,7 @@ and attribute named arguments in their only legal syntax, `Name = value`:
 
 Named arguments are only padded when they start their own line: single-line calls stay untouched,
 and positional arguments in the same call are never modified.
+
+When a call uses named arguments, the comma alignment rules above (constructor, function, attribute)
+stand back for that call — including for the positional arguments of a mixed list — so comma alignment
+and argument-name alignment never pad the same lines twice.

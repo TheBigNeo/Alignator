@@ -590,6 +590,19 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                             return null;
                         }
 
+                        // Named-argument lists belong to the argument-names rule, which pads
+                        // between the argument name and its value. Aligning commas on top of
+                        // that pads the same lines twice, so the comma alignment stands back
+                        // entirely - including for the positional arguments of a mixed list -
+                        // when the list uses named arguments.
+                        foreach (var argument in arguments)
+                        {
+                            if (argument.ArgumentName is not null)
+                            {
+                                return null;
+                            }
+                        }
+
                         // Find the index of the argument adjacent to a comma
                         var argIndex = 0;
                         for (var i = 0; i < arguments.Count; i++)

@@ -1,0 +1,21 @@
+﻿namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION"/>
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES"/>
+internal class AlignArgumentsInFunction_NamedArguments_SpaceBeforeComma
+{
+  public void Run()
+  {
+    // Comma alignment stands back for named arguments - only the names rule pads
+    Caller.F1(name: "T-Rex",
+      diet:         "Carnivore",
+      park:         "Jurassic Park");
+
+    // A mixed list with one named argument stands back completely
+    Caller.F2("Triceratops", "Herbivore", park: "Jurassic Park");
+
+    // Positional arguments still align across consecutive invocations
+    Caller.F2("Triceratops", "Herbivore");
+    Caller.F2("Moros"      , "Carnivore");
+  }
+}
