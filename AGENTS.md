@@ -34,21 +34,21 @@ Apply brevity limits to responses, not requested deliverables.
 
 ## Rules
 
-| # | Rule | Description |
-|---|------|-------------|
-| 1 | **Think before coding** | State assumptions out loud. Surface tradeoffs. Push back when a simpler approach exists. No silent guesses. |
-| 2 | **Simplicity first** | Minimum code that solves the stated problem. No speculative features. No abstractions for single-use code. |
-| 3 | **Surgical changes** | Touch only what the task requires. Don't "improve" adjacent code, comments, or formatting. Match existing style. |
-| 4 | **Goal-driven execution** | Define success criteria up front, then loop until verified. Prefer stating the goal over dictating steps. |
-| 5 | **Model limitations** | Don't make the model do non-language work. Retries, routing, rate-limiting, arithmetic, time — write deterministic code, not prompts. |
-| 6 | **Token efficiency** | Hard token budget. Every loop gets a ceiling. If the same 8KB input has been re-chewed for 90 minutes, stop and step back. |
-| 7 | **Conflict resolution** | Surface conflicts, don't average them. When two parts disagree, pick one visibly and explain why. |
-| 8 | **Read before writing** | Before adding code, read the nearby code. New functions that duplicate existing ones break silently through import order. |
-| 9 | **Test quality** | Tests are gated by correctness, not "pass." Tie assertions to behavior, not shape. |
-| 10 | **Checkpoints** | Long-running operations need checkpoints. Multi-step refactors commit between steps so one bad turn doesn't require rewinding six. |
-| 11 | **Convention over novelty** | In a codebase with an established pattern, use that pattern even when yours is "better." |
-| 12 | **Visible failures** | Fail visibly, not silently. Surface partial failure, skipped rows, truncated output, retry exhaustion. |
-| 13 | **Jurassic Park rule** | All Example Data Values use Jurassic Park dinosaur names (e.g., `Tyrannosaurus`, `Velociraptor`, `Triceratops`, `T-Rex`, `Blue`, `Echo`). Applies to test data, settings previews, doc comments, and documentation examples. |
+| #  | Rule                        | Description                                                                                                                                                                                                                  |
+|----|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1  | **Think before coding**     | State assumptions out loud. Surface tradeoffs. Push back when a simpler approach exists. No silent guesses.                                                                                                                  |
+| 2  | **Simplicity first**        | Minimum code that solves the stated problem. No speculative features. No abstractions for single-use code.                                                                                                                   |
+| 3  | **Surgical changes**        | Touch only what the task requires. Don't "improve" adjacent code, comments, or formatting. Match existing style.                                                                                                             |
+| 4  | **Goal-driven execution**   | Define success criteria up front, then loop until verified. Prefer stating the goal over dictating steps.                                                                                                                    |
+| 5  | **Model limitations**       | Don't make the model do non-language work. Retries, routing, rate-limiting, arithmetic, time — write deterministic code, not prompts.                                                                                        |
+| 6  | **Token efficiency**        | Hard token budget. Every loop gets a ceiling. If the same 8KB input has been re-chewed for 90 minutes, stop and step back.                                                                                                   |
+| 7  | **Conflict resolution**     | Surface conflicts, don't average them. When two parts disagree, pick one visibly and explain why.                                                                                                                            |
+| 8  | **Read before writing**     | Before adding code, read the nearby code. New functions that duplicate existing ones break silently through import order.                                                                                                    |
+| 9  | **Test quality**            | Tests are gated by correctness, not "pass." Tie assertions to behavior, not shape.                                                                                                                                           |
+| 10 | **Checkpoints**             | Long-running operations need checkpoints. Multi-step refactors commit between steps so one bad turn doesn't require rewinding six.                                                                                           |
+| 11 | **Convention over novelty** | In a codebase with an established pattern, use that pattern even when yours is "better."                                                                                                                                     |
+| 12 | **Visible failures**        | Fail visibly, not silently. Surface partial failure, skipped rows, truncated output, retry exhaustion.                                                                                                                       |
+| 13 | **Jurassic Park rule**      | All Example Data Values use Jurassic Park dinosaur names (e.g., `Tyrannosaurus`, `Velociraptor`, `Triceratops`, `T-Rex`, `Blue`, `Echo`). Applies to test data, settings previews, doc comments, and documentation examples. |
 
 ## Verification Checklist
 
@@ -64,18 +64,19 @@ Before returning a task as done:
 **Alignator** is a JetBrains plugin for Rider and ReSharper that vertically aligns arguments in C# code.
 
 ### Purpose
-Vertical alignment of arguments in constructor calls (`new Type(...)`) and function invocations (`Foo(...)`). 
+
+Vertical alignment of arguments in constructor calls (`new Type(...)`) and function invocations (`Foo(...)`).
 The plugin pads whitespace so arguments line up in columns, improving readability of dense argument lists.
 
 ### Technical Details
 
-| Aspect | Value |
-|--------|-------|
-| Plugin ID | `com.jetbrains.rider.plugins.alignator` |
-| Namespace | `TBN.Alignator` |
-| Target Framework | .NET Framework 4.7.2 (`net472`) |
-| ReSharper/Rider SDK | 2025.3.0.1 |
-| Rider Platform | 2025.3 |
+| Aspect              | Value                                   |
+|---------------------|-----------------------------------------|
+| Plugin ID           | `com.jetbrains.rider.plugins.alignator` |
+| Namespace           | `TBN.Alignator`                         |
+| Target Framework    | .NET Framework 4.7.2 (`net472`)         |
+| ReSharper/Rider SDK | 2025.3.0.1                              |
+| Rider Platform      | 2025.3                                  |
 
 ## Repository Structure
 
@@ -127,18 +128,19 @@ The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvide
 
 ### Alignment Rules
 
-| Rule | Setting | Parent Node | Statement Type |
-|------|---------|-------------|----------------|
-| Constructor + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | `IDeclarationStatement` |
-| Constructor + SpaceAfterComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | `IDeclarationStatement` |
+| Rule                                      | Setting                              | Parent Node                 | Statement Type                           |
+|-------------------------------------------|--------------------------------------|-----------------------------|------------------------------------------|
+| Constructor + SpaceBeforeComma            | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | `IDeclarationStatement`                  |
+| Constructor + SpaceAfterComma             | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | `IDeclarationStatement`                  |
 | Constructor assignment + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer |
-| Constructor assignment + SpaceAfterComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer |
-| Function + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_FUNCTION` | `IInvocationExpression` | `IExpressionStatement` |
-| Function + SpaceAfterComma | `INT_ALIGN_ARGUMENTS_IN_FUNCTION` | `IInvocationExpression` | `IExpressionStatement` |
+| Constructor assignment + SpaceAfterComma  | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer |
+| Function + SpaceBeforeComma               | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`    | `IInvocationExpression`     | `IExpressionStatement`                   |
+| Function + SpaceAfterComma                | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`    | `IInvocationExpression`     | `IExpressionStatement`                   |
 
 ### Alignment Key Calculation
 
 Each rule uses `IntAlignRule` with a computed alignment key that groups arguments by:
+
 - **AlignKeyGroup**: `"Params"` for constructors, `"Func"` for functions, `"ParamsAssign"` for assignments/initializers
 - **Comma position**: `ArgComma` or `ArgAfterComma`
 - **Argument index** within the argument list
@@ -148,10 +150,10 @@ Each rule uses `IntAlignRule` with a computed alignment key that groups argument
 
 Two settings, each with three values (`DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`):
 
-| Setting | Description |
-|---------|-------------|
+| Setting                              | Description                               |
+|--------------------------------------|-------------------------------------------|
 | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR` | Aligns arguments in `new Type(...)` calls |
-| `INT_ALIGN_ARGUMENTS_IN_FUNCTION` | Aligns arguments in `Foo(...)` calls |
+| `INT_ALIGN_ARGUMENTS_IN_FUNCTION`    | Aligns arguments in `Foo(...)` calls      |
 
 **.editorconfig** configuration:
 
@@ -214,6 +216,7 @@ Tests use the ReSharper test framework (`CodeFormatterWithExplicitSettingsTestBa
 ### Test Organization
 
 Each test:
+
 1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/`
 2. Uses `[TestSetting]` attributes to configure `AlignatorSettingsKey` values
 3. Calls `DoNamedTest2()` which formats the input and compares against the gold file

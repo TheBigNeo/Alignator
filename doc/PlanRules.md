@@ -26,21 +26,21 @@ phases below in order. Do not start writing code before Phase 3.
 * Create a task folder in the repo: `doc/tasks/<task-id>/`
   (e.g. `doc/tasks/SBS-4553-quartz-update/`).
 * Write `doc/tasks/<task-id>/reference.md` containing the distilled context:
-  * Goal and acceptance criteria (from Phase 1)
-  * Relevant files with paths and the key symbols in each
-  * Current behavior and why the change is needed
-  * Constraints, conventions and gotchas found in the code
-  * Open questions or risky assumptions
+    * Goal and acceptance criteria (from Phase 1)
+    * Relevant files with paths and the key symbols in each
+    * Current behavior and why the change is needed
+    * Constraints, conventions and gotchas found in the code
+    * Open questions or risky assumptions
 * Keep the reference small: only what a fresh context needs to work without
   re-searching the codebase (Rule 6).
 
 ## Phase 3 — Write the plan
 
 * Write `doc/tasks/<task-id>/plan.md` containing:
-  * The approach: how the issue will be fixed, step by step, in plain sentences
-  * Affected files per step
-  * Verification per step (test, build, manual check) — a step without a
-    verification is not a step (Rule 4)
+    * The approach: how the issue will be fixed, step by step, in plain sentences
+    * Affected files per step
+    * Verification per step (test, build, manual check) — a step without a
+      verification is not a step (Rule 4)
 * Derive from the plan a step plan with a status tracker:
 
 ```markdown
@@ -65,9 +65,9 @@ For each step:
 
 1. Mark the step `[~]` in `plan.md`.
 2. Spawn a **subagent with a fresh context** for this single step. Tell it:
-   * The path to `plan.md` and `reference.md` (it must read both first)
-   * The exact step number to implement and nothing else
-   * The verification it must run
+    * The path to `plan.md` and `reference.md` (it must read both first)
+    * The exact step number to implement and nothing else
+    * The verification it must run
 3. Verify the subagent's result yourself in the orchestrator context: run the
    tests/build/targeted check defined for the step and read the actual output.
    Do not trust the subagent's claim of success (Rule 4, Rule 12).
@@ -90,8 +90,7 @@ re-introduces that failure.
 4. **Goal-driven execution.** Every step ends with verifying the actual goal,
    not just completing the step's instructions. Closes: steps all done, feature
    still broken.
-5. **Don't make the model do non-language work.** Logic that belongs in code
-   (retry policies, parsing rules) must be written as code, not decided ad hoc
+5. **Don't make the model do non-language work.** Logic that belongs in code (retry policies, parsing rules) must be written as code, not decided ad hoc
    by the model. Closes: flaky, random behavior.
 6. **Hard token budget.** Keep context small: persist findings to the task
    folder, read only what the current step needs. Closes: debugging spirals

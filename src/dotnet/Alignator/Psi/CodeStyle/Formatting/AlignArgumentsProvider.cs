@@ -345,6 +345,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                             case IArgumentList argumentList:
                                 arguments = argumentList.Arguments;
                                 break;
+
                             case IAttribute attribute:
                                 arguments = attribute.Arguments;
                                 break;
@@ -421,6 +422,6 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
     /// </summary>
     private static bool IsFieldOrPropertyAssignmentStatement(ITreeNode node)
         => node is IExpressionStatement {Expression: IAssignmentExpression}
-           or IFieldDeclaration
-           or IPropertyDeclaration;
+                or IFieldDeclaration
+                or IPropertyDeclaration;
 }

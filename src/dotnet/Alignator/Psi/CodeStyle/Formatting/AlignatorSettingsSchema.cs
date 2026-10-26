@@ -33,10 +33,10 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
         // It is used to demo the setting's effect.
 
         builder
-           // The built-in column-alignment engine switch: no Alignator rule takes effect
-           // unless 'align variables in columns' is enabled. ItemFor binds to the original
-           // CSharpFormatSettingsKey entry, so this is the same value as on the
-           // ReSharper formatting page - one setting, shown in both places.
+            // The built-in column-alignment engine switch: no Alignator rule takes effect
+            // unless 'align variables in columns' is enabled. ItemFor binds to the original
+            // CSharpFormatSettingsKey entry, so this is the same value as on the
+            // ReSharper formatting page - one setting, shown in both places.
            .ItemFor((CSharpFormatSettingsKey x) => x.INT_ALIGN_VARIABLES,
                     """
                     static void DefinedType()

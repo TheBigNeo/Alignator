@@ -71,7 +71,7 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     }
 
     [Test]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE), AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE),     AlignPosition.SpaceBeforeComma)]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE), true)]
     public void TestAlignArgumentsInAttribute_SpaceBeforeCommaAndClosingParen()
     {
