@@ -1,0 +1,9 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+[TestCase("a", "b")]
+[TestCase("c", "d")]
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE"/>
+internal class AlignArgumentsInAttribute_SpaceAfterComma
+{
+  public void MyMethod() { }
+}

@@ -55,4 +55,18 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     {
         DoNamedTest2();
     }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE), AlignPosition.SpaceAfterComma)]
+    public void TestAlignArgumentsInAttribute_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE), AlignPosition.SpaceBeforeClosingParen)]
+    public void TestAlignArgumentsInAttribute_SpaceBeforeClosingParen()
+    {
+        DoNamedTest2();
+    }
 }

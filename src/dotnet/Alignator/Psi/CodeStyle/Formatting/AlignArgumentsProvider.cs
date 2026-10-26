@@ -39,6 +39,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterComma();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterComma();
+        INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterComma();
     }
 
     /// <summary>
@@ -178,6 +179,27 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
                 StatementPredicate: node => node is IExpressionStatement,
                 AlignKeyGroup: "Func",
+                Position: AlignPosition.SpaceAfterComma
+            ));
+
+    /// <summary>
+    ///     Aligns arguments of attributes by padding after the comma,
+    ///     so the arguments following them share one column per argument index.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     [TestCase("Änderung",     "Anderung")]
+    ///     [TestCase("Café",        "Cafe")]
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterComma()
+        => BuildIntAlignArgumentsRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
+                ParentPredicate: node => node is IArgumentList {Parent: IAttribute},
+                StatementPredicate: node => node is IClassLikeDeclaration,
+                AlignKeyGroup: "Attr",
                 Position: AlignPosition.SpaceAfterComma
             ));
 

@@ -10,17 +10,55 @@ The user wants to align TestCase attribute arguments (and attributes in general)
 
 ### Current Format
 ```csharp
-[TestCase("Änderung", "Anderung")]
+[TestCase("Änderung",                    "Anderung")]
+[TestCase("Café",                        "Cafe")]
+[TestCase("Naïve",                       "Naive")]
+[TestCase("Zürich",                      "Zurich")]
+[TestCase("La Première",                 "La Premiere")]
+[TestCase("Schnittplätze_2026",         "Schnittplatze_2026")]
+[TestCase("Schnittplätze_2026",          "Schnittplatze_2026")]
+[TestCase("àáâãäåèéêëìíîïòóôõöùúûüýÿñç", "aaaaaaeeeeiiiiooooouuuuyync")]
+[TestCase("ÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝÑÇ",  "AAAAAAEEEEIIIIOOOOOUUUUYNC")]
 ```
 
-### Option 1: AfterComma Alignment
+### SpaceAfterComma
 ```csharp
-[TestCase("Änderung"                    , "Anderung")]
+[TestCase("Änderung",                    "Anderung")]
+[TestCase("Café",                        "Cafe")]
+[TestCase("Naïve",                       "Naive")]
+[TestCase("Zürich",                      "Zurich")]
+[TestCase("La Première",                 "La Premiere")]
+[TestCase("Schnittplätze_2026",         "Schnittplatze_2026")]
+[TestCase("Schnittplätze_2026",          "Schnittplatze_2026")]
+[TestCase("àáâãäåèéêëìíîïòóôõöùúûüýÿñç", "aaaaaaeeeeiiiiooooouuuuyync")]
+[TestCase("ÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝÑÇ",  "AAAAAAEEEEIIIIOOOOOUUUUYNC")]
+```
+
+
+### SpaceBeforeComma
+```csharp
+[TestCase("Änderung"                    ,  "Anderung")]
+[TestCase("Café"                        ,  "Cafe")]
+[TestCase("Naïve"                       ,  "Naive")]
+[TestCase("Zürich"                      ,  "Zurich")]
+[TestCase("La Première"                 ,  "La Premiere")]
+[TestCase("Schnittplätze_2026"          , "Schnittplatze_2026")]
+[TestCase("Schnittplätze_2026"          ,  "Schnittplatze_2026")]
+[TestCase("àáâãäåèéêëìíîïòóôõöùúûüýÿñç" ,  "aaaaaaeeeeiiiiooooouuuuyync")]
+[TestCase("ÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝÑÇ"  ,  "AAAAAAEEEEIIIIOOOOOUUUUYNC")]
 ```
 
 ### Option 2: AfterComma + Closing Parenthesis Alignment
 ```csharp
 [TestCase("Änderung"                    , "Anderung"                   )]
+[TestCase("Café"                        , "Cafe"                       )]
+[TestCase("Naïve"                       , "Naive"                      )]
+[TestCase("Zürich"                      , "Zurich"                     )]
+[TestCase("La Première"                 , "La Premiere"                )]
+[TestCase("Schnittplätze_2026"          , "Schnittplatze_2026"         )]
+[TestCase("Schnittplätze_2026"          , "Schnittplatze_2026"         )]
+[TestCase("àáâãäåèéêëìíîïòóôõöùúûüýÿñç" , "aaaaaaeeeeiiiiooooouuuuyync")]
+[TestCase("ÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝÑÇ"  , "AAAAAAEEEEIIIIOOOOOUUUUYNC" )]
 ```
 
 ## Files Created

@@ -81,6 +81,16 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
+                    """
+                    [TestCase("Änderung", "Anderung")]
+                    [TestCase("Café", "Cafe")]
+                    [TestCase("Zürich", "Zurich")]
+                    [TestFixture]
+                    public void MyTest() { }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
             ;
 
         // Don't call Build() here, it will complain.

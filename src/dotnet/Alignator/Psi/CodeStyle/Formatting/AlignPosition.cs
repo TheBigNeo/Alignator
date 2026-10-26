@@ -5,4 +5,5 @@ public enum AlignPosition
     DoNotChange,
     SpaceBeforeComma,
     SpaceAfterComma,
+    SpaceBeforeClosingParen,
 }
