@@ -123,15 +123,20 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """
                     static void CallFunctions()
                     {
-                      Caller.F1(o1: "T-Rex",
-                          o2: "Raptor",
-                          o3: "Triceratops",
-                          o4: "Velociraptor");
+                      Tyrannosaurus tRex = new(name: "T-Rex",
+                          diet: "Carnivore",
+                          weight: 8000,
+                          isCarnivore: true,
+                          dietType: Diet.Carnivore,
+                          park: "Jurassic Park");
 
-                      Caller.F2(
-                          o1: "T-Rex",
-                          o2222222222: "Raptor",
-                          o33333: "Triceratops");
+                      Velociraptor raptor = new(
+                          name: "Raptor",
+                          diet: "Carnivore",
+                          weight: 150,
+                          isCarnivore: true,
+                          dietType: Diet.Carnivore,
+                          park: "Jurassic Park 2") { Height = 2 };
                     }
                     """,
                     parseType: PreviewParseType.Member,
