@@ -119,6 +119,28 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENT_NAMES,
+                    """
+                    static void CallFunctions()
+                    {
+                      Tyrannosaurus tRex = new(name: "T-Rex",
+                          diet: "Carnivore",
+                          weight: 8000,
+                          isCarnivore: true,
+                          dietType: Diet.Carnivore,
+                          park: "Jurassic Park");
+
+                      Velociraptor raptor = new(
+                          name: "Raptor",
+                          diet: "Carnivore",
+                          weight: 150,
+                          isCarnivore: true,
+                          dietType: Diet.Carnivore,
+                          park: "Jurassic Park 2") { Height = 2 };
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
             ;
 
         // Don't call Build() here, it will complain.

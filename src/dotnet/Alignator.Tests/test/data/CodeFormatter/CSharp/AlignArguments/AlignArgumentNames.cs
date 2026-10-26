@@ -1,0 +1,45 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES"/>
+internal class AlignArgumentNames
+{
+  public void Run()
+  {
+    // Multi-line invocation with named arguments, one argument per line
+    Caller.F1(o1: "T-Rex",
+        o2: "Raptor",
+        o3: "Triceratops");
+
+    // Multi-line object creation with named arguments, first argument on the same line
+    Tyrannosaurus tRex = new(name: "T-Rex",
+        diet: "Carnivore",
+        weight: 8000,
+        isCarnivore: true,
+        dietType: Diet.Carnivore,
+        park: "Jurassic Park");
+
+    // Mixed positional and named arguments
+    Caller.F2(o1: "Blue",
+        "T-Rex",
+        o3: "Raptor");
+
+    // Multi-line object creation with named arguments, first argument on its own line
+    Velociraptor raptor = new(
+        name: "Raptor",
+        diet: "Carnivore",
+        weight: 150,
+        isCarnivore: true,
+        dietType: Diet.Carnivore,
+        park: "Jurassic Park 2") { Height = 2 };
+
+    // Single-line call with named arguments stays untouched
+    Caller.F3(o1: "T-Rex", o2: "Raptor", o3: "Triceratops");
+  }
+
+  // Multi-line attribute with named arguments
+  [TestCase(o1 = "Tyrannosaurus",
+      o2 = "Rex")]
+  public void MyTest()
+  {
+  }
+}

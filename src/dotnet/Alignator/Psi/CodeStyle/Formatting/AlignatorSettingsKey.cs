@@ -25,4 +25,8 @@ public class AlignatorSettingsKey
     [EditorConfigEntryAlias("alignator_align_closing_paren_in_attribute", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align closing parenthesis in attribute")]
     public bool INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE;
+
+    [EditorConfigEntryAlias("alignator_align_argument_names", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(false, "Align argument names")]
+    public bool INT_ALIGN_ARGUMENT_NAMES;
 }

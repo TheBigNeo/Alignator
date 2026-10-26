@@ -1,0 +1,32 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR"/>
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES"/>
+internal class AlignArgumentsInConstructor_NamedArguments_SpaceBeforeComma
+{
+  public void Run()
+  {
+    // Comma alignment stands back for named arguments - only the names rule pads
+    Tyrannosaurus tRex = new(name: "T-Rex",
+        diet: "Carnivore",
+        weight: 8000,
+        isCarnivore: true,
+        dietType: Diet.Carnivore,
+        park: "Jurassic Park");
+
+    Velociraptor raptor = new(
+        name: "Raptor",
+        diet: "Carnivore",
+        weight: 150,
+        isCarnivore: true,
+        dietType: Diet.Carnivore,
+        park: "Jurassic Park 2") { Height = 2 };
+
+    // A mixed list with one named argument stands back completely
+    var spino = new Spinosaurus("Spino", "Carnivore", park: "Jurassic Park");
+
+    // Positional arguments still align across consecutive object creations
+    var trike = new Triceratops("Triceratops", "Herbivore");
+    var moros = new Moros("Moros", "Carnivore");
+  }
+}
