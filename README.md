@@ -11,6 +11,7 @@ making your code easier to read.
 - **Align arguments in constructor calls** (`new Type(...)`)
 - **Align arguments in function calls** (`Foo(...)`)
 - **Align arguments in attributes** (`[TestCase("Tyrannosaurus", "Rex")]`), with optional closing-parenthesis alignment
+- **Align argument names in multi-line calls** — pads after the `name:` colon (or the attribute `Name =` assignment) so named-argument values share one column
 - Two alignment modes:
     - `SpaceAfterComma` — pads space after each comma so arguments align in columns
     - `SpaceBeforeComma` — pads space before each comma so commas align vertically
@@ -32,6 +33,7 @@ Settings are available in **Settings → Code Editing → C# → Code Style → 
 | Align argument in function             | Alignment mode for `Foo(...)` calls                                                    | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `csharp_alignator_align_arguments_in_function`      |
 | Align arguments in attribute           | Alignment mode for attribute arguments                                                 | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `csharp_alignator_align_arguments_in_attribute`     |
 | Align closing parenthesis in attribute | Aligns `)` of attributes in one column                                                 | `true`, `false`                                      | `csharp_alignator_align_closing_paren_in_attribute` |
+| Align argument names                   | Aligns named-argument values of one multi-line call in one column                      | `true`, `false`                                      | `csharp_alignator_align_argument_names`             |
 
 ## .editorconfig
 
@@ -53,6 +55,9 @@ csharp_alignator_align_arguments_in_attribute = space_after_comma
 
 # Align closing parenthesis in attributes
 csharp_alignator_align_closing_paren_in_attribute = true
+
+# Align named-argument values in multi-line calls
+csharp_alignator_align_argument_names = true
 ```
 
 Valid values: `do_not_change`, `space_before_comma`, `space_after_comma`
@@ -92,3 +97,30 @@ Caller.F2("Gallimimus", "Indor",         "Carno",         "Spino");
 [TestCase("Moros"             , "Moros" )]
 [TestCase("Pachycephalosaurus", "Pachy" )]
 ```
+
+**Named arguments — before:**
+
+```csharp
+Caller.F1(o1: "T-Rex",
+    o2: "Raptor",
+    o3: "Triceratops");
+```
+
+**After (align argument names):**
+
+```csharp
+Caller.F1(o1: "T-Rex",
+    o2:       "Raptor",
+    o3:       "Triceratops");
+```
+
+The same setting aligns named arguments of object creations (`new Velociraptor(o1: ...)` on separate lines)
+and attribute named arguments in their only legal syntax, `Name = value`:
+
+```csharp
+[TestCase(o1 = "Tyrannosaurus",
+    o2 =     "Rex")]
+```
+
+Named arguments are only padded when they start their own line: single-line calls stay untouched,
+and positional arguments in the same call are never modified.

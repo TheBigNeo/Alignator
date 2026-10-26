@@ -119,6 +119,18 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENT_NAMES,
+                    """
+                    static void CallFunctions()
+                    {
+                      Caller.F1(o1: "T-Rex",
+                          o2: "Raptor",
+                          o3: "Triceratops",
+                          o4: "Velociraptor");
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
             ;
 
         // Don't call Build() here, it will complain.

@@ -77,4 +77,11 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     {
         DoNamedTest2();
     }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES), true)]
+    public void TestAlignArgumentNames()
+    {
+        DoNamedTest2();
+    }
 }
