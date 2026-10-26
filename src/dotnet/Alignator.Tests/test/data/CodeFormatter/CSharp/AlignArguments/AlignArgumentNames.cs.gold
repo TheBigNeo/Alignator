@@ -20,6 +20,12 @@ internal class AlignArgumentNames
       "T-Rex",
       o3: "Raptor");
 
+    // First argument on its own line after the paren, longest name in middle
+    Caller.F1(
+      o1:          "T-Rex",
+      o2222222222: "Raptor",
+      o33333:      "Triceratops");
+
     // Single-line call with named arguments stays untouched
     Caller.F3(o1: "T-Rex", o2: "Raptor", o3: "Triceratops");
   }

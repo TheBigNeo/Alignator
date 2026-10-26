@@ -127,6 +127,11 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                           o2: "Raptor",
                           o3: "Triceratops",
                           o4: "Velociraptor");
+
+                      Caller.F2(
+                          o1: "T-Rex",
+                          o2222222222: "Raptor",
+                          o33333: "Triceratops");
                     }
                     """,
                     parseType: PreviewParseType.Member,
