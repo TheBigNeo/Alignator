@@ -39,7 +39,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterComma();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterComma();
+        INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterComma();
+        INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE_SpaceBeforeClosingParen();
     }
 
     /// <summary>
@@ -59,6 +61,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
                 StatementPredicate: node => node is IDeclarationStatement,
+                OffsetProvider: null,
                 AlignKeyGroup: "Params",
                 Position: AlignPosition.SpaceBeforeComma
             ));
@@ -80,6 +83,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
                 StatementPredicate: node => node is IDeclarationStatement,
+                OffsetProvider: null,
                 AlignKeyGroup: "Params",
                 Position: AlignPosition.SpaceAfterComma
             ));
@@ -108,6 +112,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
                 StatementPredicate: IsFieldOrPropertyAssignmentStatement,
+                OffsetProvider: null,
                 AlignKeyGroup: "ParamsAssign",
                 Position: AlignPosition.SpaceBeforeComma
             ));
@@ -136,6 +141,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                 ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
                 StatementPredicate: IsFieldOrPropertyAssignmentStatement,
+                OffsetProvider: null,
                 AlignKeyGroup: "ParamsAssign",
                 Position: AlignPosition.SpaceAfterComma
             ));
@@ -157,6 +163,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
                 ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
                 StatementPredicate: node => node is IExpressionStatement,
+                OffsetProvider: null,
                 AlignKeyGroup: "Func",
                 Position: AlignPosition.SpaceBeforeComma
             ));
@@ -178,18 +185,43 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
                 ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
                 StatementPredicate: node => node is IExpressionStatement,
+                OffsetProvider: null,
                 AlignKeyGroup: "Func",
                 Position: AlignPosition.SpaceAfterComma
             ));
 
     /// <summary>
-    ///     Aligns arguments of attributes by padding after the comma,
-    ///     so the arguments following them share one column per argument index.
+    ///     Aligns arguments of attributes by padding before the comma,
+    ///     so the commas share one column per argument index. Attribute arguments
+    ///     are direct children of the <see cref="IAttribute"/> node - there is no argument list node.
     /// </summary>
     /// <example>
     ///     <code>
-    ///     [TestCase("Änderung",     "Anderung")]
-    ///     [TestCase("Café",        "Cafe")]
+    ///     [TestCase("Änderung"                    , "Anderung")]
+    ///     [TestCase("Café"                        , "Cafe")]
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceBeforeComma()
+        => BuildIntAlignArgumentsRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
+                ParentPredicate: node => node is IAttribute,
+                StatementPredicate: node => node is IAttributeSectionList,
+                OffsetProvider: AttributeSectionListOffset,
+                AlignKeyGroup: "Attr",
+                Position: AlignPosition.SpaceBeforeComma
+            ));
+
+    /// <summary>
+    ///     Aligns arguments of attributes by padding after the comma,
+    ///     so the arguments following them share one column per argument index. Attribute arguments
+    ///     are direct children of the <see cref="IAttribute"/> node - there is no argument list node.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     [TestCase("Änderung", "Anderung")]
+    ///     [TestCase("Café",     "Cafe")]
     ///     </code>
     /// </example>
     private void INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterComma()
@@ -197,11 +229,72 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
             new ArgumentAlignVariant(
                 SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE),
                 SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
-                ParentPredicate: node => node is IArgumentList {Parent: IAttribute},
-                StatementPredicate: node => node is IClassLikeDeclaration,
+                ParentPredicate: node => node is IAttribute,
+                StatementPredicate: node => node is IAttributeSectionList,
+                OffsetProvider: AttributeSectionListOffset,
                 AlignKeyGroup: "Attr",
                 Position: AlignPosition.SpaceAfterComma
             ));
+
+    /// <summary>
+    ///     Aligns closing parentheses of attributes by padding before them,
+    ///     so they share one column. Controlled by a separate setting, so comma alignment
+    ///     and closing parenthesis alignment can be enabled at the same time.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     [TestCase("Änderung"                    , "Anderung"                   )]
+    ///     [TestCase("Café"                        , "Cafe"                       )]
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE_SpaceBeforeClosingParen()
+    {
+        DescribeWithExternalKey<AlignatorSettingsKey, IntAlignRule>()
+           .Name(nameof(AlignatorSettingsKey.INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE) + "_SpaceBeforeClosingParen")
+           .Where(
+                Left().Satisfies((node, _) => node.NodeOrNull is ICSharpArgument),
+                Right().HasType(CSharpTokenType.RPARENTH),
+                Parent().Satisfies((node, _) => node.NodeOrNull is IAttribute)
+            )
+           .SwitchOnExternalKey(
+                (AlignatorSettingsKey x) => x.INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE,
+                When(true).Calculate((formattingRangeContext, _) =>
+                    {
+                        if (formattingRangeContext is null)
+                        {
+                            return null;
+                        }
+
+                        var ctx = (FormattingRangeContext)formattingRangeContext;
+
+                        // Walk up to the attribute section list (one per attributed declaration)
+                        // and use its start offset as the alignment group
+                        for (var n = ctx.Parent.NodeOrNull; n != null; n = n.Parent)
+                        {
+                            if (n is not IAttributeSectionList)
+                            {
+                                continue;
+                            }
+
+                            return new IntAlignOptionValue(
+                                $"AttrClose$ArgBeforeCloseParen$Block{AttributeSectionListOffset(n)}",
+                                AlignatorPriority
+                            );
+                        }
+
+                        return null;
+                    }
+                )
+            )
+           .Build();
+    }
+
+    /// <summary>
+    ///     Returns the document start offset of the attribute section list, scoping attribute
+    ///     alignment groups to the attributes of a single declaration.
+    /// </summary>
+    private static long AttributeSectionListOffset(ITreeNode node)
+        => node.GetDocumentStartOffset().Offset;
 
     /// <summary>
     ///     Builds the shared <see cref="IntAlignRule"/> for one variant: it matches the whitespace
@@ -240,14 +333,27 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
 
                         var ctx = (FormattingRangeContext)formattingRangeContext;
 
-                        if (ctx.Parent.NodeOrNull is not IArgumentList argList)
+                        // Arguments are direct children of the parent node: of an argument list
+                        // for invocations and object creations, and of the attribute itself for attributes
+                        System.Collections.Generic.IList<ICSharpArgument> arguments = null;
+
+                        switch (ctx.Parent.NodeOrNull)
+                        {
+                            case IArgumentList argumentList:
+                                arguments = argumentList.Arguments;
+                                break;
+                            case IAttribute attribute:
+                                arguments = attribute.Arguments;
+                                break;
+                        }
+
+                        if (arguments is null)
                         {
                             return null;
                         }
 
                         // Find the index of the argument adjacent to a comma
-                        var argIndex  = 0;
-                        var arguments = argList.Arguments;
+                        var argIndex = 0;
                         for (var i = 0; i < arguments.Count; i++)
                         {
                             var sibling = isSpaceBefore ? arguments[i].NextSibling : arguments[i].PrevSibling;
@@ -272,7 +378,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                                 continue;
                             }
 
-                            var blockOffset = n.GetContainingBlockOffset();
+                            var blockOffset = variant.OffsetProvider != null
+                                                  ? variant.OffsetProvider(n)
+                                                  : n.GetContainingBlockOffset();
 
                             if (blockOffset == null)
                             {
@@ -298,6 +406,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         System.Linq.Expressions.Expression<System.Func<AlignatorSettingsKey, object>> SettingsKey,
         System.Func<ITreeNode, bool>                                                  ParentPredicate,
         System.Func<ITreeNode, bool>                                                  StatementPredicate,
+        System.Func<ITreeNode, long>                                                  OffsetProvider,
         string                                                                        AlignKeyGroup,
         AlignPosition                                                                 Position
     );
