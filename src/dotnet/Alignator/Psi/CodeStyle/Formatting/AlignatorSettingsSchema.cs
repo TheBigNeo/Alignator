@@ -33,6 +33,22 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
         // It is used to demo the setting's effect.
 
         builder
+            // The built-in column-alignment engine switch: no Alignator rule takes effect
+            // unless 'align variables in columns' is enabled. ItemFor binds to the original
+            // CSharpFormatSettingsKey entry, so this is the same value as on the
+            // ReSharper formatting page - one setting, shown in both places.
+           .ItemFor((CSharpFormatSettingsKey x) => x.INT_ALIGN_VARIABLES,
+                    """
+                    static void DefinedType()
+                    {
+                      var tRex   = new Tyrannosaurus("Rex");
+                      var raptor = new Velociraptor("Raptor");
+                      var pachy  = new Pachycephalosaurus("Pachy");
+                      var moros  = new Moros("Moros");
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
            .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                     """
                     static void DefinedType()
@@ -78,6 +94,28 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                               Caller.F4("Gallimimus", "Indor", "Carno", "Spino");
                               Caller.F1("Veloci", "Baryo", "Moso", "Dilophosaurus");
                             }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
+                    """
+                    [TestCase("Tyrannosaurus", "Rex")]
+                    [TestCase("Velociraptor", "Raptor")]
+                    [TestCase("Moros", "Moros")]
+                    [TestCase("Pachycephalosaurus", "Pachy")]
+                    [TestFixture]
+                    public void MyTest(string name, string nickname) { }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE,
+                    """
+                    [TestCase("Tyrannosaurus", "Rex")]
+                    [TestCase("Velociraptor", "Raptor")]
+                    [TestCase("Moros", "Moros")]
+                    [TestCase("Pachycephalosaurus", "Pachy")]
+                    [TestFixture]
+                    public void MyTest(string name, string nickname) { }
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
