@@ -37,4 +37,8 @@ public class AlignatorSettingsKey
     [EditorConfigEntryAlias("alignator_align_closing_braces_in_collection_initializer", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align closing braces in collection initializer")]
     public bool INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER;
+
+    [EditorConfigEntryAlias("alignator_align_assignments_in_with_expression", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(false, "Align assignments in with expression")]
+    public bool INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION;
 }
