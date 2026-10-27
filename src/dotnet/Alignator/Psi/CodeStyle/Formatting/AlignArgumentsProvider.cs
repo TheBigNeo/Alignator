@@ -316,9 +316,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
            .Name(nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES) + "_AfterNameColon")
            .Where(
                 Left().Satisfies((node, _) => node.NodeOrNull is ITokenNode token
-                                              && (token.GetTokenType() == CSharpTokenType.COLON || token.GetText() == "=")),
+                                           && (token.GetTokenType() == CSharpTokenType.COLON || token.GetText() == "=")),
                 Right().Satisfies((node, _) => node.NodeOrNull is ICSharpExpression),
-                Parent().Satisfies((_, _) => true)
+                Parent().Satisfies((_,   _) => true)
             )
            .SwitchOnExternalKey(
                 (AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENT_NAMES,
@@ -548,7 +548,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
            .Where(
                 Left().Satisfies((node, _) => node.NodeOrNull is ICSharpIdentifier),
                 Right().Satisfies((node, _) => node.NodeOrNull is ITokenNode token
-                                               && token.GetTokenType() == CSharpTokenType.EQ),
+                                            && token.GetTokenType() == CSharpTokenType.EQ),
                 Parent().Satisfies((node, _) => node.NodeOrNull is IWithInitializerAssignment)
             )
            .SwitchOnExternalKey(

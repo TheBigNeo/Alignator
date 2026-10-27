@@ -22,7 +22,10 @@ public static class NodeHelpers
         while (n != null)
         {
             if (n is IBlock block)
+            {
                 return block.GetDocumentStartOffset().Offset;
+            }
+
             n = n.Parent;
         }
 
@@ -30,7 +33,10 @@ public static class NodeHelpers
         while (n != null)
         {
             if (n is ICSharpTypeDeclaration typeDeclaration)
+            {
                 return typeDeclaration.GetDocumentStartOffset().Offset;
+            }
+
             n = n.Parent;
         }
 
