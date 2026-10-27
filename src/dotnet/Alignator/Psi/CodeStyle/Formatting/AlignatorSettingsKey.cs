@@ -29,4 +29,12 @@ public class AlignatorSettingsKey
     [EditorConfigEntryAlias("alignator_align_argument_names", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align argument names")]
     public bool INT_ALIGN_ARGUMENT_NAMES;
+
+    [EditorConfigEntryAlias("alignator_align_key_values_in_collection_initializer", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(AlignPosition.DoNotChange, "Align key-values in collection initializer")]
+    public AlignPosition INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER;
+
+    [EditorConfigEntryAlias("alignator_align_closing_braces_in_collection_initializer", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(false, "Align closing braces in collection initializer")]
+    public bool INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER;
 }

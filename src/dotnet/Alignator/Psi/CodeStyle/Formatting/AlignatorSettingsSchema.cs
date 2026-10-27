@@ -141,6 +141,40 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER,
+                    """
+                    static void DinoFacts()
+                    {
+                      Dictionary<string, string> indominusRexFacts = new()
+                      {
+                        {"Name", "Indominus Rex"},
+                        {"Diet", "Carnivore"},
+                        {"Period", "Cretaceous"},
+                        {"Weight", "8,000 kg"},
+                        {"Enclosure", "Paddock 11"},
+                        {"Genome", "T-Rex, Velociraptor, Cuttlefish, Tree Frog"},
+                      };
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER,
+                    """
+                    static void DinoFacts()
+                    {
+                      Dictionary<string, string> indominusRexFacts = new()
+                      {
+                        {"Name", "Indominus Rex"},
+                        {"Diet", "Carnivore"},
+                        {"Period", "Cretaceous"},
+                        {"Weight", "8,000 kg"},
+                        {"Enclosure", "Paddock 11"},
+                        {"Genome", "T-Rex, Velociraptor, Cuttlefish, Tree Frog"},
+                      };
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
             ;
 
         // Don't call Build() here, it will complain.

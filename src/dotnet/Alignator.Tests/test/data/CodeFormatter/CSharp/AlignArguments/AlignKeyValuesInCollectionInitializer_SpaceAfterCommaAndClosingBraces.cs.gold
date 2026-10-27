@@ -1,0 +1,19 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER"/>
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER"/>
+internal class AlignKeyValuesInCollectionInitializer_SpaceAfterCommaAndClosingBraces
+{
+  static void IndominusRex()
+  {
+    Dictionary<string, string?> indominusRexFacts = new()
+    {
+      {"Name",      "Indominus Rex"                             },
+      {"Diet",      "Carnivore"                                 },
+      {"Period",    "Cretaceous"                                },
+      {"Weight",    "8,000 kg"                                  },
+      {"Enclosure", "Paddock 11"                                },
+      {"Genome",    "T-Rex, Velociraptor, Cuttlefish, Tree Frog"},
+    };
+  }
+}
