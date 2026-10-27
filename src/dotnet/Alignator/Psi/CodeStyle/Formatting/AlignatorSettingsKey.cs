@@ -22,6 +22,18 @@ public class AlignatorSettingsKey
     [SettingsEntry(AlignPosition.DoNotChange, "Align arguments in attribute")]
     public AlignPosition INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE;
 
+    [EditorConfigEntryAlias("alignator_align_first_argument_in_constructor", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in constructor")]
+    public FirstArgumentPosition INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR;
+
+    [EditorConfigEntryAlias("alignator_align_first_argument_in_function", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in function")]
+    public FirstArgumentPosition INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION;
+
+    [EditorConfigEntryAlias("alignator_align_first_argument_in_attribute", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in attribute")]
+    public FirstArgumentPosition INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE;
+
     [EditorConfigEntryAlias("alignator_align_closing_paren_in_attribute", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align closing parenthesis in attribute")]
     public bool INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE;
