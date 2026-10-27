@@ -1,0 +1,10 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION"/>
+internal class AlignAssignmentsInWithExpression_SingleLineUntouched
+{
+  static void IndominusRex()
+  {
+    DinosaurRecord echo = GetDinosaurRecord("Echo") with { Name = "Echo", Speed = 60 };
+  }
+}

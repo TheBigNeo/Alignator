@@ -1,0 +1,27 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION"/>
+internal class AlignAssignmentsInWithExpression_IndependentGroups
+{
+  static void IndominusRex()
+  {
+    DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)
+      with
+      {
+        Name = "Indominus Rex",
+        Diet = "Carnivore",
+        PaddockNumber = 11,
+        DangerLevel = DangerLevel.Extreme,
+        ThermalCamouflageEnabled = true,
+      };
+
+    FeedingSchedule feedingSchedule = GetFeedingSchedule(ParkSettings.Instance)
+      with
+      {
+        Time = "09:00",
+        Food = "Goat",
+        Quantity = 1,
+        Recipient = "T-Rex",
+      };
+  }
+}

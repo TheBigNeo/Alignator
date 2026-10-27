@@ -62,3 +62,27 @@ internal sealed class DinosaurPark
         Brachio = new Brachiosaurus("Brachio", "Herbivore", 6000, false, 250) { Description = "Long neck" };
     }
 }
+
+internal enum DangerLevel
+{
+    Low = 1,
+    Medium = 2,
+    High = 3,
+    Extreme = 4,
+}
+
+internal record DinosaurRecord(string Name, string Diet, int PaddockNumber, DangerLevel DangerLevel, bool ThermalCamouflageEnabled, int Speed = 0);
+
+internal record FeedingSchedule(string Time, string Food, int Quantity, string Recipient);
+
+internal sealed class ParkSettings
+{
+    public static ParkSettings Instance { get; } = new();
+    private ParkSettings() { }
+}
+
+internal static class RecordFactory
+{
+    public static DinosaurRecord GetDinosaurRecord(object source) => new("Echo", "Carnivore", 0, DangerLevel.Low, false);
+    public static FeedingSchedule GetFeedingSchedule(object source) => new("09:00", "Goat", 1, "T-Rex");
+}

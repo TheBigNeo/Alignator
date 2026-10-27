@@ -174,4 +174,31 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     {
         DoNamedTest2();
     }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION), true)]
+    public void TestAlignAssignmentsInWithExpression()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION), true)]
+    public void TestAlignAssignmentsInWithExpression_IndependentGroups()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION), true)]
+    public void TestAlignAssignmentsInWithExpression_SingleLineUntouched()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    public void TestAlignAssignmentsInWithExpression_DoNotChange()
+    {
+        DoNamedTest2();
+    }
 }
