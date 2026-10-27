@@ -46,6 +46,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER_SpaceBeforeComma();
         INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER_SpaceAfterComma();
         INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER_BeforeClosingBrace();
+        INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION_BeforeEq();
     }
 
     /// <summary>
@@ -514,6 +515,98 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                         // parenthesis rule: every closing brace aligns to one common column
                         return new IntAlignOptionValue(
                             $"CollInitClose$BeforeCloseBrace$Coll{collectionInitializer.GetDocumentStartOffset().Offset}",
+                            AlignatorPriority
+                        );
+                    }
+                )
+            )
+           .Build();
+    }
+
+    /// <summary>
+    ///     Aligns the property assignments of a <c>with</c> expression initializer by padding
+    ///     before the <c>=</c>, so the equals signs share one column when the assignments are
+    ///     written on separate lines.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)
+    ///       with
+    ///       {
+    ///         Name                     = "Indominus Rex",
+    ///         Diet                     = "Carnivore",
+    ///         PaddockNumber            = 11,
+    ///         DangerLevel              = DangerLevel.Extreme,
+    ///         ThermalCamouflageEnabled = true,
+    ///       };
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION_BeforeEq()
+    {
+        DescribeWithExternalKey<AlignatorSettingsKey, IntAlignRule>()
+           .Name(nameof(AlignatorSettingsKey.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION) + "_BeforeEq")
+           .Where(
+                Left().Satisfies((node, _) => node.NodeOrNull is ICSharpIdentifier),
+                Right().Satisfies((node, _) => node.NodeOrNull is ITokenNode token
+                                               && token.GetTokenType() == CSharpTokenType.EQ),
+                Parent().Satisfies((node, _) => node.NodeOrNull is IWithInitializerAssignment)
+            )
+           .SwitchOnExternalKey(
+                (AlignatorSettingsKey x) => x.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION,
+                When(true).Calculate((formattingRangeContext, _) =>
+                    {
+                        if (formattingRangeContext is null)
+                        {
+                            return null;
+                        }
+
+                        var ctx = (FormattingRangeContext)formattingRangeContext;
+
+                        // The gap's parent node is the with expression initializer assignment
+                        if (ctx.Parent.NodeOrNull is not IWithInitializerAssignment assignment)
+                        {
+                            return null;
+                        }
+
+                        // Walk up to the with expression - every other '=' gap is rejected -
+                        // and scope the alignment group to it: assignments of different
+                        // with expressions never align with each other
+                        IWithExpression withExpression = null;
+                        for (ITreeNode n = assignment; n != null; n = n.Parent)
+                        {
+                            if (n is not IWithExpression)
+                            {
+                                continue;
+                            }
+
+                            withExpression = (IWithExpression)n;
+                            break;
+                        }
+
+                        if (withExpression is null)
+                        {
+                            return null;
+                        }
+
+                        // Align only assignments that start their own line or open the
+                        // initializer: assignments in the middle of a line have nothing to
+                        // align with, and a fully single-line with expression - where every
+                        // gap is the only one of its key - stays untouched
+                        if (!EntryStartsOwnLine(assignment))
+                        {
+                            return null;
+                        }
+
+                        // An assignment wrapped over several lines cannot be aligned
+                        if (ContainsLineBreak(assignment))
+                        {
+                            return null;
+                        }
+
+                        // One shared key per with expression, without an element index:
+                        // every '=' aligns to one common column
+                        return new IntAlignOptionValue(
+                            $"WithExpr$BeforeEq$With{withExpression.GetDocumentStartOffset().Offset}",
                             AlignatorPriority
                         );
                     }
