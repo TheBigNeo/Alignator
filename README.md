@@ -10,17 +10,17 @@ For example, arguments of function calls:
 **Before**
 
 ```csharp
-Caller.F1("T-Rex", "Raptor", "Moros", "Triceratops");
-Caller.F1("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
-Caller.F2("Gallimimus", "Indor", "Carno", "Spino");
+Caller.Function1("T-Rex",  "Raptor",        "Moros",         "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
+Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
 ```
 
 **After**
 
 ```csharp
-Caller.F1("T-Rex",      "Raptor",        "Moros",         "Triceratops");
-Caller.F1("Ankylo",     "Tyrannosaurus", "Indominus rex", "Brachio");
-Caller.F2("Gallimimus", "Indor",         "Carno",         "Spino");
+Caller.Function1("T-Rex",                     "Raptor", "Moros", "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.Function1("Veloci",                    "Baryo",  "Moso",  "Dilophosaurus");
 ```
 
 …or arguments of test attributes:
