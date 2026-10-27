@@ -135,28 +135,28 @@ The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvide
 
 | Rule                                       | Setting                                              | Parent Node                          | Statement Type / Group                                       |
 |--------------------------------------------|------------------------------------------------------|--------------------------------------|--------------------------------------------------------------|
-| Constructor + SpaceBeforeComma             | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
-| Constructor + SpaceAfterComma              | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
-| Constructor first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`    | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
-| Constructor first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`    | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
-| Constructor assignment + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
-| Constructor assignment + SpaceAfterComma  | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
-| Constructor assignment first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer                     |
-| Constructor assignment first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer                     |
-| Function + SpaceBeforeComma               | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
-| Function + SpaceAfterComma                | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
-| Function first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION`        | `IInvocationExpression`              | `IExpressionStatement`                                       |
-| Function first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION`        | `IInvocationExpression`              | `IExpressionStatement`                                       |
-| Attribute + SpaceBeforeComma              | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
-| Attribute + SpaceAfterComma               | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
-| Attribute first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`      | `IAttribute`                         | `IAttributeSectionList`                                       |
-| Attribute first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`      | `IAttribute`                         | `IAttributeSectionList`                                       |
-| Attribute closing parentheses             | `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`              | `IAttribute`                         | `IAttributeSectionList`                                       |
-| Named argument values (after `name:`)     | `INT_ALIGN_ARGUMENT_NAMES`                           | `IArgumentList` / `IAttribute`       | Per call/attribute (list start offset)                        |
-| Dictionary entries + SpaceBeforeComma     | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
-| Dictionary entries + SpaceAfterComma       | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
-| Dictionary entry closing braces           | `INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
-| With-expression assignments               | `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`          | `IWithInitializerAssignment`         | Per with expression                                             |
+| Constructor + SpaceBeforeComma             | `ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor + SpaceAfterComma              | `ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor first argument + SpaceBeforeParenthese | `ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`    | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor first argument + SpaceAfterParenthese  | `ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`    | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor assignment + SpaceBeforeComma | `ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
+| Constructor assignment + SpaceAfterComma  | `ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
+| Constructor assignment first argument + SpaceBeforeParenthese | `ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer                     |
+| Constructor assignment first argument + SpaceAfterParenthese  | `ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer                     |
+| Function + SpaceBeforeComma               | `ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Function + SpaceAfterComma                | `ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Function first argument + SpaceBeforeParenthese | `ALIGN_FIRST_ARGUMENT_IN_FUNCTION`        | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Function first argument + SpaceAfterParenthese  | `ALIGN_FIRST_ARGUMENT_IN_FUNCTION`        | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Attribute + SpaceBeforeComma              | `ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute + SpaceAfterComma               | `ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute first argument + SpaceBeforeParenthese | `ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`      | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute first argument + SpaceAfterParenthese  | `ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`      | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute closing parentheses             | `ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`              | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Named argument values (after `name:`)     | `ALIGN_ARGUMENT_NAMES`                           | `IArgumentList` / `IAttribute`       | Per call/attribute (list start offset)                        |
+| Dictionary entries + SpaceBeforeComma     | `ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
+| Dictionary entries + SpaceAfterComma       | `ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
+| Dictionary entry closing braces           | `ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
+| With-expression assignments               | `ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`          | `IWithInitializerAssignment`         | Per with expression                                             |
 
 Dictionary-style entries are `ICollectionElementInitializer` nodes with at least two
 `ICSharpArgument` children inside an `ICollectionInitializer` of an `IObjectCreationExpression`;
@@ -191,17 +191,17 @@ these are independent of the `AlignPosition` settings and combine freely with th
 
 | Setting                                              | Type                  | Description                                                      |
 |------------------------------------------------------|-----------------------|------------------------------------------------------------------|
-| `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                 | `AlignPosition`       | Aligns arguments in `new Type(...)` calls                      |
-| `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `AlignPosition`       | Aligns arguments in `Foo(...)` calls                          |
-| `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                   | `AlignPosition`       | Aligns arguments in `[TestCase(...)]` attributes               |
-| `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`            | `FirstArgumentPosition` | Aligns the first argument of `new Type(...)` calls           |
-| `INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION`               | `FirstArgumentPosition` | Aligns the first argument of `Foo(...)` calls               |
-| `INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`              | `FirstArgumentPosition` | Aligns the first argument of `[TestCase(...)]` attributes   |
-| `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`               | `bool`                | Aligns closing parentheses of attributes                          |
-| `INT_ALIGN_ARGUMENT_NAMES`                            | `bool`        | Aligns values of named arguments                                  |
-| `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`     | `AlignPosition` | Aligns key-values of `{"Key", Value}` dictionary-style entries |
-| `INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` | `bool`        | Aligns closing braces of dictionary-style entries                 |
-| `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`           | `bool`        | Aligns assignments in `with` expression initializers             |
+| `ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                 | `AlignPosition`       | Aligns arguments in `new Type(...)` calls                      |
+| `ALIGN_ARGUMENTS_IN_FUNCTION`                    | `AlignPosition`       | Aligns arguments in `Foo(...)` calls                          |
+| `ALIGN_ARGUMENTS_IN_ATTRIBUTE`                   | `AlignPosition`       | Aligns arguments in `[TestCase(...)]` attributes               |
+| `ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`            | `FirstArgumentPosition` | Aligns the first argument of `new Type(...)` calls           |
+| `ALIGN_FIRST_ARGUMENT_IN_FUNCTION`               | `FirstArgumentPosition` | Aligns the first argument of `Foo(...)` calls               |
+| `ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`              | `FirstArgumentPosition` | Aligns the first argument of `[TestCase(...)]` attributes   |
+| `ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`               | `bool`                | Aligns closing parentheses of attributes                          |
+| `ALIGN_ARGUMENT_NAMES`                            | `bool`        | Aligns values of named arguments                                  |
+| `ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`     | `AlignPosition` | Aligns key-values of `{"Key", Value}` dictionary-style entries |
+| `ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` | `bool`        | Aligns closing braces of dictionary-style entries                 |
+| `ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`           | `bool`        | Aligns assignments in `with` expression initializers             |
 
 **.editorconfig** configuration:
 

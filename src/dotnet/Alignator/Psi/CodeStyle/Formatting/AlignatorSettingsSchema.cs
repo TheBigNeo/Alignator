@@ -49,7 +49,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
                     """
                     static void DefinedType()
                     {
@@ -83,7 +83,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR,
                     """
                     static void DefinedType()
                     {
@@ -96,7 +96,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_IN_FUNCTION,
                     """
                             static void CallFunctions()
                             {
@@ -112,7 +112,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FIRST_ARGUMENT_IN_FUNCTION,
                     """
                             static void CallFunctions()
                             {
@@ -123,7 +123,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_IN_ATTRIBUTE,
                     """
                     [TestCase("Tyrannosaurus", "Rex")]
                     [TestCase("Velociraptor", "Raptor")]
@@ -134,7 +134,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE,
                     """
                     [TyrannosaurusTestCase("Tyrannosaurus", "Rex")]
                     [RaptorTest("Velociraptor", "Raptor")]
@@ -145,7 +145,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_CLOSING_PAREN_IN_ATTRIBUTE,
                     """
                     [TestCase("Tyrannosaurus", "Rex")]
                     [TestCase("Velociraptor", "Raptor")]
@@ -156,7 +156,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ARGUMENT_NAMES,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENT_NAMES,
                     """
                     static void CallFunctions()
                     {
@@ -178,7 +178,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER,
                     """
                     static void DinoFacts()
                     {
@@ -195,7 +195,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER,
                     """
                     static void DinoFacts()
                     {
@@ -212,7 +212,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION,
                     """
                     static void IndominusRex()
                     {
