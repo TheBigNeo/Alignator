@@ -66,8 +66,9 @@ Before returning a task as done:
 ### Purpose
 
 Vertical alignment of arguments in constructor calls (`new Type(...)`), function invocations
-(`Foo(...)`), attributes (`[TestCase(...)]`), of named-argument values, and of `{"Key", Value}`
-dictionary-style entries in collection initializers. The plugin pads whitespace so aligned
+(`Foo(...)`), attributes (`[TestCase(...)]`), of named-argument values, of `{"Key", Value}`
+dictionary-style entries in collection initializers, and of property assignments in
+`with` expression initializers. The plugin pads whitespace so aligned
 parts line up in columns, improving readability of dense code.
 
 ### Technical Details
@@ -100,7 +101,7 @@ parts line up in columns, improving readability of dense code.
 │   │   │   ├── Helpers/
 │   │   │   │   └── NodeHelpers.cs     # GetContainingBlockOffset extension
 │   │   │   └── Psi/CodeStyle/Formatting/
-│   │   │       ├── AlignArgumentsProvider.cs  # Core: registers 13 alignment rules
+│   │   │       ├── AlignArgumentsProvider.cs  # Core: registers 14 alignment rules
 │   │   │       ├── AlignPosition.cs           # Enum: DoNotChange, SpaceBeforeComma, SpaceAfterComma
 │   │   │       ├── AlignatorSettingsKey.cs    # Settings keys + .editorconfig aliases
 │   │   │       └── AlignatorSettingsSchema.cs # Settings UI page
@@ -109,7 +110,7 @@ parts line up in columns, improving readability of dense code.
 │   │       ├── TestEnvironment.cs         # Test zone setup
 │   │       ├── GlobalUsings.cs
 │   │       ├── CodeFormatter/CSharp/AlignArguments/
-│   │       │   └── CSharpQuirkyFormattingTest.cs  # 21 formatter tests
+│   │       │   └── CSharpQuirkyFormattingTest.cs  # 25 formatter tests
 │   │       ├── Data/
 │   │       │   ├── TestAlignatorAttribute.cs
 │   │       │   └── TestData.cs
@@ -126,7 +127,7 @@ parts line up in columns, improving readability of dense code.
 ### Architecture
 
 The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvider`, which extends
-`CSharpFormatterInfoProviderPart`. It registers thirteen alignment rules with alignment priority `100_000` (high, runs after standard formatting).
+`CSharpFormatterInfoProviderPart`. It registers fourteen alignment rules with alignment priority `100_000` (high, runs after standard formatting).
 
 ### Alignment Rules
 
@@ -145,6 +146,7 @@ The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvide
 | Dictionary entries + SpaceBeforeComma     | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
 | Dictionary entries + SpaceAfterComma       | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
 | Dictionary entry closing braces           | `INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
+| With-expression assignments               | `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`          | `IWithInitializerAssignment`         | Per with expression                                             |
 
 Dictionary-style entries are `ICollectionElementInitializer` nodes with at least two
 `ICSharpArgument` children inside an `ICollectionInitializer` of an `IObjectCreationExpression`;
@@ -167,7 +169,7 @@ engine aligns the k-th same-key gap of each line as one column group.
 
 ### Configuration
 
-Seven settings. `AlignPosition` values: `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
+Eight settings. `AlignPosition` values: `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
 
 | Setting                                              | Type          | Description                                                      |
 |------------------------------------------------------|---------------|------------------------------------------------------------------|
@@ -178,6 +180,7 @@ Seven settings. `AlignPosition` values: `DoNotChange`, `SpaceBeforeComma`, `Spac
 | `INT_ALIGN_ARGUMENT_NAMES`                            | `bool`        | Aligns values of named arguments                                  |
 | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`     | `AlignPosition` | Aligns key-values of `{"Key", Value}` dictionary-style entries |
 | `INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` | `bool`        | Aligns closing braces of dictionary-style entries                 |
+| `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`           | `bool`        | Aligns assignments in `with` expression initializers             |
 
 **.editorconfig** configuration:
 
@@ -190,6 +193,7 @@ csharp_alignator_align_closing_paren_in_attribute = true
 csharp_alignator_align_argument_names = true
 csharp_alignator_align_key_values_in_collection_initializer = space_after_comma
 csharp_alignator_align_closing_braces_in_collection_initializer = true
+csharp_alignator_align_assignments_in_with_expression = true
 ```
 
 **UI Location:** Settings → Code Editing → C# → Code Style → Others → Alignator align arguments
@@ -268,11 +272,11 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 
 | File                                                                                           | Purpose                                                                             |
 |------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs`                      | Core formatter logic — registers all 13 alignment rules                             |
+| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs`                      | Core formatter logic — registers all 14 alignment rules                             |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`                        | Settings definitions with .editorconfig aliases                                     |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`                     | Settings UI page with live preview                                                  |
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                                  | `GetContainingBlockOffset` — scopes alignment to a block                            |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs` | All 21 formatter tests                                                              |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs` | All 25 formatter tests                                                              |
 | `build.gradle.kts`                                                                             | Gradle build: compiles .NET, runs tests, packages plugin                            |
 | `gradle.properties`                                                                            | Version numbers, SDK version, plugin IDs                                            |
 | `src/dotnet/Plugin.props`                                                                      | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties` |

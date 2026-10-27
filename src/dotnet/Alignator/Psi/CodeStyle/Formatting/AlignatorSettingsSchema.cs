@@ -175,6 +175,23 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION,
+                    """
+                    static void IndominusRex()
+                    {
+                      DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)
+                        with
+                        {
+                          Name = "Indominus Rex",
+                          Diet = "Carnivore",
+                          PaddockNumber = 11,
+                          DangerLevel = DangerLevel.Extreme,
+                          ThermalCamouflageEnabled = true,
+                        };
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
             ;
 
         // Don't call Build() here, it will complain.
