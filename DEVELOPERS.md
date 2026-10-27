@@ -28,6 +28,35 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 - [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 8 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
 - UI: [AlignatorSettingsSchema.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs) ("Alignator align arguments" page part, live previews).
 
+| Name (Setting UI)                                 | Type            | `.editorconfig` key                                               | Enum Value                                           |
+|---------------------------------------------------|-----------------|-------------------------------------------------------------------|------------------------------------------------------|
+| Align variables in columns *(built-in, required)* | `bool`          | `int_align_variables`                                             | `CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`        |
+| Align arguments in constructor                    | `AlignPosition` | `csharp_alignator_align_arguments_in_constructor`                 | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                 |
+| Align argument in function                        | `AlignPosition` | `csharp_alignator_align_arguments_in_function`                    | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    |
+| Align arguments in attribute                      | `AlignPosition` | `csharp_alignator_align_arguments_in_attribute`                   | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                   |
+| Align closing parenthesis in attribute            | `bool`          | `csharp_alignator_align_closing_paren_in_attribute`               | `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`               |
+| Align argument names                              | `bool`          | `csharp_alignator_align_argument_names`                           | `INT_ALIGN_ARGUMENT_NAMES`                           |
+| Align key-values in collection initializer        | `AlignPosition` | `csharp_alignator_align_key_values_in_collection_initializer`     | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`     |
+| Align closing braces in collection initializer    | `bool`          | `csharp_alignator_align_closing_braces_in_collection_initializer` | `INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` |
+| Align assignments in with expression              | `bool`          | `csharp_alignator_align_assignments_in_with_expression`           | `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`           |
+
+- **Enum Value** is the settings key used in code — `INT_*` fields on `AlignatorSettingsKey`, the built-in switch on `CSharpFormatSettingsKey`.
+
+##### `AlignPosition`
+
+| .DotSettings       | `.editorconfig`      |
+|--------------------|----------------------|
+| `DoNotChange`      | `do_not_change`      |
+| `SpaceBeforeComma` | `space_before_comma` |
+| `SpaceAfterComma`  | `space_after_comma`  |
+
+##### `bool`
+
+| .DotSettings | `.editorconfig` |
+|--------------|-----------------|
+| `True`       | `true`          |
+| `False`      | `false`         |
+
 ## Where to find what
 
 | Topic                                         | Where                                                                                                                         |

@@ -11,6 +11,11 @@ internal class AlignArgumentsInFunction_NamedArguments_SpaceBeforeComma
         diet: "Carnivore",
         park: "Jurassic Park");
 
+    Caller.Function1(
+      name: "T-Rex",
+      diet: "Carnivore",
+      park: "Jurassic Park");
+
     // A mixed list with one named argument stands back completely
     Caller.ThatIsADifferentFunction("Triceratops", "Herbivore", park: "Jurassic Park");
 
