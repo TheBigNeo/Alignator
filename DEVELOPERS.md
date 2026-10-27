@@ -13,14 +13,15 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 #### Alignment rules
 
 - All alignment logic lives in [AlignArgumentsProvider.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs):
-  extends `CSharpFormatterInfoProviderPart`, registers 14 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
+  extends `CSharpFormatterInfoProviderPart`, registers 22 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
 - Rules require the built-in `int_align_variables` switch (`CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`) — no Alignator alignment without it.
   The settings page shows this switch at the top of the Alignator group.
-- Named-argument alignment takes precedence: comma rules stand back for calls that use named arguments, so no line is padded twice.
+- Named-argument alignment takes precedence: comma and paren rules stand back for calls that use named arguments, so no line is padded twice.
 
 #### Alignment keys
 
-- Alignment key = align-key group (`"Params"`, `"Func"`, `"ParamsAssign"`, `"Attr"`) + comma position + argument index + block offset ([NodeHelpers.cs](src/dotnet/Alignator/Helpers/NodeHelpers.cs) `GetContainingBlockOffset`) — alignment never crosses block boundaries.
+- Alignment key = align-key group (`"Params"`, `"Func"`, `"ParamsAssign"`, `"Attr"`) + comma/paren position + argument index + block offset ([NodeHelpers.cs](src/dotnet/Alignator/Helpers/NodeHelpers.cs) `GetContainingBlockOffset`) — alignment never crosses block boundaries.
+- The paren modes (`SpaceBeforeParenthese`, `SpaceAfterParenthese`) align the gap before/after the opening parenthesis with one shared key per block and reuse the after-comma rule for the remaining arguments.
 - Per-call rules (named arguments) and per-initializer rules (dictionary entries, with expressions) group by call/initializer offset instead.
 
 #### Settings
@@ -44,11 +45,15 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 
 ##### `AlignPosition`
 
-| .DotSettings       | `.editorconfig`      |
-|--------------------|----------------------|
-| `DoNotChange`      | `do_not_change`      |
-| `SpaceBeforeComma` | `space_before_comma` |
-| `SpaceAfterComma`  | `space_after_comma`  |
+| .DotSettings        | `.editorconfig`             |
+|---------------------|-----------------------------|
+| `DoNotChange`       | `do_not_change`             |
+| `SpaceBeforeComma`  | `space_before_comma`        |
+| `SpaceAfterComma`   | `space_after_comma`          |
+| `SpaceBeforeParenthese` | `space_before_parenthese` |
+| `SpaceAfterParenthese`  | `space_after_parenthese`  |
+
+The paren values apply to the constructor, function and attribute settings only — `csharp_alignator_align_key_values_in_collection_initializer` ignores them.
 
 ##### `bool`
 

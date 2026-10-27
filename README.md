@@ -39,25 +39,32 @@ Caller.Function1("Veloci",                    "Baryo",  "Moso",  "Dilophosaurus"
 [TestCase("Pachycephalosaurus", "Pachy" )]
 ```
 
-### Two alignment modes
+### Four alignment modes
 
-Every "align arguments" setting offers two modes:
+The argument settings (constructor, function, attribute) offer four modes:
 
 - **SpaceAfterComma** — pads after each comma, so arguments start in the same column
 - **SpaceBeforeComma** — pads before each comma, so the commas line up vertically
+- **SpaceBeforeParenthese** — pads before the opening parenthesis, so the parentheses (and with them the first arguments) line up vertically
+- **SpaceAfterParenthese** — pads after the opening parenthesis, so the first arguments line up vertically
 
-int_align_invocations
+In both paren modes the arguments after the first are padded like in `SpaceAfterComma`.
 
 ```csharp
-// SpaceAfterComma
-Caller.AFunction("T-Rex",      "Raptor",        "Moros",         "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor",         "Carno",         "Spino");
-Caller.AFunction("Ankylo",     "Tyrannosaurus", "Indominus rex", "Brachio");
-
 // SpaceBeforeComma
 Caller.F1("T-Rex"     , "Raptor"       , "Moros"        , "Triceratops");
 Caller.F2("Gallimimus", "Indor"        , "Carno"        , "Spino");
 Caller.F1("Ankylo"    , "Tyrannosaurus", "Indominus rex", "Brachio");
+
+// SpaceBeforeParenthese
+Caller.Function1(               "T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.Function1(               "Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
+
+// SpaceAfterParenthese
+Caller.Function1(               "T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.Function1(               "Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
 ```
 
 > **Note on SpaceBeforeComma:** it is rarely used as the final code style in production.
@@ -79,9 +86,9 @@ In Visual Studio with ReSharper: **ReSharper | Options | Code Editing | C# | Cod
 | Setting (UI)                                      | Values                                               |
 |---------------------------------------------------|------------------------------------------------------|
 | Align variables in columns *(built-in, required)* | `true`, `false`                                      |
-| Align arguments in constructor                    | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
-| Align argument in function                        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
-| Align arguments in attribute                      | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
+| Align arguments in constructor                    | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
+| Align argument in function                        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
+| Align arguments in attribute                      | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
 | Align closing parenthesis in attribute            | `true`, `false`                                      |
 | Align argument names                              | `true`, `false`                                      |
 | Align key-values in collection initializer        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
@@ -129,7 +136,8 @@ csharp_alignator_align_assignments_in_with_expression = true
 
 </details>
 
-Valid values for the `AlignPosition` settings: `do_not_change`, `space_before_comma`, `space_after_comma`. Bool settings take `true` / `false`.
+Valid values for the `AlignPosition` settings: `do_not_change`, `space_before_comma`, `space_after_comma`, `space_before_parenthese`, `space_after_parenthese`. Bool settings take `true` / `false`.
+The two paren values apply to the constructor, function and attribute settings only - for `csharp_alignator_align_key_values_in_collection_initializer` they have no effect (dictionary-style entries have no parentheses).
 
 ## Examples
 
@@ -169,6 +177,26 @@ var trike  = new Triceratops("Triceratops"    , "Herbivore", 9000, false, Diet.H
 var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500 , true , Diet.Carnivore, null);
 ```
 
+The first argument can be aligned too. In `space_after_parenthese` mode the parentheses stay where they are and the first arguments share one column:
+
+```csharp
+var tRex   = new Tyrannosaurus(  "T-Rex",         "Carnivore", 8000, true,  Diet.Carnivore, "Jurassic Park");
+var raptor = new Velociraptor( "Raptor",        "Carnivore", 150,  true,  Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
+var trike  = new Triceratops(   "Triceratops",   "Herbivore", 9000, false, Diet.Herbivore, null) { Height = 3 };
+var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500,  true,  Diet.Carnivore, null);
+```
+
+In `space_before_parenthese` mode the opening parentheses line up instead, which puts the first arguments in one column as well:
+
+```csharp
+var tRex   = new Tyrannosaurus("T-Rex",         "Carnivore", 8000, true,  Diet.Carnivore, "Jurassic Park");
+var raptor = new Velociraptor ("Raptor",        "Carnivore", 150,  true,  Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
+var trike  = new Triceratops  ("Triceratops",   "Herbivore", 9000, false, Diet.Herbivore, null) { Height = 3 };
+var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500,  true,  Diet.Carnivore, null);
+```
+
+Both paren modes align the arguments after the first like `space_after_comma`.
+
 ### Align argument in function
 
 > `csharp_alignator_align_arguments_in_function`
@@ -187,6 +215,32 @@ After (`space_after_comma`)
 Caller.F1("T-Rex",      "Raptor",        "Moros",         "Triceratops");
 Caller.F1("Ankylo",     "Tyrannosaurus", "Indominus rex", "Brachio");
 Caller.F2("Gallimimus", "Indor",         "Carno",         "Spino");
+```
+
+The paren modes align the first argument instead of the commas - `space_before_parenthese` pads before the opening parenthesis, `space_after_parenthese` pads after it. The remaining arguments are aligned like `space_after_comma`:
+
+Before
+
+```csharp
+Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
+Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+```
+
+After (`space_before_parenthese`)
+
+```csharp
+Caller.Function1(               "T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.Function1(               "Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
+```
+
+After (`space_after_parenthese`)
+
+```csharp
+Caller.Function1(               "T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.Function1(               "Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
 ```
 
 ### Align arguments in attribute
@@ -240,25 +294,25 @@ After (`true`)
 Before
 
 ```csharp
-Caller.F1(o1: "T-Rex",
-    o2: "Raptor",
-    o3: "Triceratops");
+Caller.F2(aShortName: "T-Rex",
+    aVeryVeryLoooooooongName: "Raptor",
+    aNormalName: "Triceratops");
 ```
 
 After (`true`)
 
 ```csharp
-Caller.F1(o1: "T-Rex",
-    o2:       "Raptor",
-    o3:       "Triceratops");
+Caller.F2(aShortName:       "T-Rex",
+    aVeryVeryLoooooooongName: "Raptor",
+    aNormalName:              "Triceratops");
 ```
 
-The same setting aligns named arguments of object creations (`new Velociraptor(o1: ...)` on separate lines)
+The same setting aligns named arguments of object creations (`new Velociraptor(aShortName: ...)` on separate lines)
 and attribute named arguments in their only legal syntax, `Name = value`:
 
 ```csharp
-[TestCase(o1 = "Tyrannosaurus",
-    o2 =       "Rex")]
+[TestCase(aShortName =         "Tyrannosaurus",
+    aVeryVeryLoooooooongName = "Rex")]
 ```
 
 Named arguments are only padded when they start their own line: single-line calls stay untouched, and positional arguments in the same call are never modified.

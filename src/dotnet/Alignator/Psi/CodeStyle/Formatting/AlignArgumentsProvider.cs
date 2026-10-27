@@ -35,12 +35,20 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
 
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceAfterComma();
+        INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceBeforeParenthese();
+        INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceAfterParenthese();
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterComma();
+        INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceBeforeParenthese();
+        INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterParenthese();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterComma();
+        INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceBeforeParenthese();
+        INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterParenthese();
         INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceBeforeComma();
         INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterComma();
+        INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceBeforeParenthese();
+        INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterParenthese();
         INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE_SpaceBeforeClosingParen();
         INT_ALIGN_ARGUMENT_NAMES_AfterNameColon();
         INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER_SpaceBeforeComma();
@@ -92,6 +100,57 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 AlignKeyGroup: "Params",
                 Position: AlignPosition.SpaceAfterComma
             ));
+
+    /// <summary>
+    ///     Aligns arguments of object creations in local variable declarations by padding
+    ///     before the opening parenthesis, so the parentheses - and with them the first
+    ///     arguments - share one column. The remaining arguments are aligned like
+    ///     <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     var tRex   = new Tyrannosaurus("T-Rex",     "Carnivore");
+    ///     var trike  = new Triceratops  ("Triceratops", "Herbivore");
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceBeforeParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
+                StatementPredicate: node => node is IDeclarationStatement,
+                OffsetProvider: null,
+                AlignKeyGroup: "Params",
+                Position: AlignPosition.SpaceBeforeParenthese
+            ),
+            spaceBeforeParen: true
+        );
+
+    /// <summary>
+    ///     Aligns arguments of object creations in local variable declarations by padding
+    ///     after the opening parenthesis, so the first arguments share one column. The
+    ///     remaining arguments are aligned like <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     var tRex   = new Tyrannosaurus(  "T-Rex",       "Carnivore");
+    ///     var trike  = new Triceratops(   "Triceratops", "Herbivore");
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_SpaceAfterParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
+                StatementPredicate: node => node is IDeclarationStatement,
+                OffsetProvider: null,
+                AlignKeyGroup: "Params",
+                Position: AlignPosition.SpaceAfterParenthese
+            ),
+            spaceBeforeParen: false
+        );
 
     /// <summary>
     ///     Aligns arguments of object creations assigned to fields or properties - in assignment
@@ -152,6 +211,47 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
             ));
 
     /// <summary>
+    ///     Aligns arguments of object creations assigned to fields or properties - in assignment
+    ///     statements inside a body and in class-level field/property initializers - by padding
+    ///     before the opening parenthesis, so the parentheses - and with them the first
+    ///     arguments - share one column. The remaining arguments are aligned like
+    ///     <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceBeforeParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR) + "_Assignment",
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
+                StatementPredicate: IsFieldOrPropertyAssignmentStatement,
+                OffsetProvider: null,
+                AlignKeyGroup: "ParamsAssign",
+                Position: AlignPosition.SpaceBeforeParenthese
+            ),
+            spaceBeforeParen: true
+        );
+
+    /// <summary>
+    ///     Aligns arguments of object creations assigned to fields or properties - in assignment
+    ///     statements inside a body and in class-level field/property initializers - by padding
+    ///     after the opening parenthesis, so the first arguments share one column. The remaining
+    ///     arguments are aligned like <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    private void INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR_Assignment_SpaceAfterParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR) + "_Assignment",
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+                ParentPredicate: node => node is IArgumentList {Parent: IObjectCreationExpression},
+                StatementPredicate: IsFieldOrPropertyAssignmentStatement,
+                OffsetProvider: null,
+                AlignKeyGroup: "ParamsAssign",
+                Position: AlignPosition.SpaceAfterParenthese
+            ),
+            spaceBeforeParen: false
+        );
+
+    /// <summary>
     ///     Aligns arguments of invocation statements by padding before the comma,
     ///     so the commas share one column per argument index.
     /// </summary>
@@ -194,6 +294,56 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 AlignKeyGroup: "Func",
                 Position: AlignPosition.SpaceAfterComma
             ));
+
+    /// <summary>
+    ///     Aligns arguments of invocation statements by padding before the opening parenthesis,
+    ///     so the parentheses - and with them the first arguments - share one column. The
+    ///     remaining arguments are aligned like <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     Caller.Function1(               "T-Rex",      "Raptor");
+    ///     Caller.ThatIsADifferentFunction("Gallimimus", "Indor");
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceBeforeParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
+                ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
+                StatementPredicate: node => node is IExpressionStatement,
+                OffsetProvider: null,
+                AlignKeyGroup: "Func",
+                Position: AlignPosition.SpaceBeforeParenthese
+            ),
+            spaceBeforeParen: true
+        );
+
+    /// <summary>
+    ///     Aligns arguments of invocation statements by padding after the opening parenthesis,
+    ///     so the first arguments share one column. The remaining arguments are aligned like
+    ///     <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     Caller.Function1(               "T-Rex",      "Raptor");
+    ///     Caller.ThatIsADifferentFunction("Gallimimus", "Indor");
+    ///     </code>
+    /// </example>
+    private void INT_ALIGN_ARGUMENTS_IN_FUNCTION_SpaceAfterParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_FUNCTION,
+                ParentPredicate: node => node is IArgumentList {Parent: IInvocationExpression},
+                StatementPredicate: node => node is IExpressionStatement,
+                OffsetProvider: null,
+                AlignKeyGroup: "Func",
+                Position: AlignPosition.SpaceAfterParenthese
+            ),
+            spaceBeforeParen: false
+        );
 
     /// <summary>
     ///     Aligns arguments of attributes by padding before the comma,
@@ -242,6 +392,44 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
                 AlignKeyGroup: "Attr",
                 Position: AlignPosition.SpaceAfterComma
             ));
+
+    /// <summary>
+    ///     Aligns arguments of attributes by padding before the opening parenthesis, so the
+    ///     parentheses - and with them the first arguments - share one column. The remaining
+    ///     arguments are aligned like <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    private void INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceBeforeParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
+                ParentPredicate: node => node is IAttribute,
+                StatementPredicate: node => node is IAttributeSectionList,
+                OffsetProvider: AttributeSectionListOffset,
+                AlignKeyGroup: "Attr",
+                Position: AlignPosition.SpaceBeforeParenthese
+            ),
+            spaceBeforeParen: true
+        );
+
+    /// <summary>
+    ///     Aligns arguments of attributes by padding after the opening parenthesis, so the
+    ///     first arguments share one column. The remaining arguments are aligned like
+    ///     <see cref="AlignPosition.SpaceAfterComma"/>.
+    /// </summary>
+    private void INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE_SpaceAfterParenthese()
+        => BuildIntAlignFirstArgumentRule(
+            new ArgumentAlignVariant(
+                SettingName: nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE),
+                SettingsKey: x => x.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE,
+                ParentPredicate: node => node is IAttribute,
+                StatementPredicate: node => node is IAttributeSectionList,
+                OffsetProvider: AttributeSectionListOffset,
+                AlignKeyGroup: "Attr",
+                Position: AlignPosition.SpaceAfterParenthese
+            ),
+            spaceBeforeParen: false
+        );
 
     /// <summary>
     ///     Aligns closing parentheses of attributes by padding before them,
@@ -305,9 +493,9 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
     /// </summary>
     /// <example>
     ///     <code>
-    ///     Caller.F1(o1:   "T-Rex",
-    ///               o2:   "Raptor",
-    ///               o999: "Triceratops");
+    ///     Caller.F2(aShortName:              "T-Rex",
+    ///               aVeryVeryLoooooooongName: "Raptor",
+    ///               aNormalName:              "Triceratops");
     ///     </code>
     /// </example>
     private void INT_ALIGN_ARGUMENT_NAMES_AfterNameColon()
@@ -814,6 +1002,12 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
         var nameSuffix    = isSpaceBefore ? "_SpaceBefore" : "_SpaceAfter";
         var commaKeyPart  = isSpaceBefore ? "ArgComma" : "ArgAfterComma";
 
+        // The paren modes align the remaining arguments exactly like SpaceAfterComma,
+        // so the after-comma rule fires for all three positions.
+        var positions = variant.Position is AlignPosition.SpaceAfterComma
+            ? new[] {AlignPosition.SpaceAfterComma, AlignPosition.SpaceBeforeParenthese, AlignPosition.SpaceAfterParenthese}
+            : new[] {variant.Position};
+
         var leftCondition = isSpaceBefore
                                 ? Left().Satisfies((node, _) => node.NodeOrNull is ICSharpArgument)
                                 : Left().HasType(CSharpTokenType.COMMA);
@@ -831,7 +1025,7 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
             )
            .SwitchOnExternalKey(
                 variant.SettingsKey,
-                When(variant.Position).Calculate((formattingRangeContext, _) =>
+                When(positions).Calculate((formattingRangeContext, _) =>
                     {
                         if (formattingRangeContext is null)
                         {
@@ -910,6 +1104,138 @@ public class AlignArgumentsProvider : CSharpFormatterInfoProviderPart
 
                             return new IntAlignOptionValue(
                                 $"{variant.AlignKeyGroup}${commaKeyPart}{argIndex}$Block{blockOffset}",
+                                AlignatorPriority
+                            );
+                        }
+
+                        return null;
+                    }
+                )
+            )
+           .Build();
+    }
+
+    /// <summary>
+    ///     Builds the shared <see cref="IntAlignRule"/> for one first-argument variant: it matches
+    ///     the whitespace gap before the opening parenthesis (<c>SpaceBeforeParenthese</c> - the
+    ///     parentheses share one column, so the first arguments start in one column) or the gap
+    ///     after the opening parenthesis (<c>SpaceAfterParenthese</c> - the first arguments share
+    ///     one column behind the untouched parentheses), and aligns all gaps that share the
+    ///     variant's alignment key (key group, paren mode, enclosing block offset).
+    /// </summary>
+    private void BuildIntAlignFirstArgumentRule(ArgumentAlignVariant variant, bool spaceBeforeParen)
+    {
+        var nameSuffix   = spaceBeforeParen ? "_SpaceBeforeParen" : "_SpaceAfterParen";
+        var parenKeyPart = spaceBeforeParen ? "ArgBeforeOpenParen" : "ArgAfterOpenParen";
+
+        // Before the parenthesis the gap starts at the callee: the invoked reference of an
+        // invocation, the type usage or the 'new' keyword of an object creation, the name of
+        // an attribute. After the parenthesis it starts at the '('. The gap's parent node is
+        // the invocation, the object creation or the attribute itself - the parenthesis is a
+        // sibling of the argument list node, not a child of it.
+        var leftCondition = spaceBeforeParen
+                                ? Left().Satisfies((_, _) => true)
+                                : Left().HasType(CSharpTokenType.LPARENTH);
+
+        var rightCondition = spaceBeforeParen
+                                 ? Right().HasType(CSharpTokenType.LPARENTH)
+                                 : Right().Satisfies((node, _) => node.NodeOrNull is IArgumentList or ICSharpArgument);
+
+        DescribeWithExternalKey<AlignatorSettingsKey, IntAlignRule>()
+           .Name(variant.SettingName + nameSuffix)
+           .Where(
+                leftCondition,
+                rightCondition,
+                Parent().Satisfies((node, _) => node.NodeOrNull is IInvocationExpression or IObjectCreationExpression or IAttribute)
+            )
+           .SwitchOnExternalKey(
+                variant.SettingsKey,
+                When(variant.Position).Calculate((formattingRangeContext, _) =>
+                    {
+                        if (formattingRangeContext is null)
+                        {
+                            return null;
+                        }
+
+                        var ctx = (FormattingRangeContext)formattingRangeContext;
+
+                        // The gap's parent node is the call, the object creation or the attribute
+                        var parent = ctx.Parent.NodeOrNull;
+                        if (parent is null)
+                        {
+                            return null;
+                        }
+
+                        // Locate the node that carries the arguments: the argument list of an
+                        // invocation or object creation, the attribute itself for attributes
+                        ITreeNode argumentListNode = parent switch
+                        {
+                            IInvocationExpression invocation => invocation.ArgumentList,
+                            IObjectCreationExpression creation => creation.ArgumentList,
+                            IAttribute attribute => attribute,
+                            _ => null
+                        };
+
+                        if (argumentListNode is null)
+                        {
+                            return null;
+                        }
+
+                        // The variant's parent predicate scopes the rule to its construct, the
+                        // same check the comma rules apply to the gap's argument list parent
+                        if (!variant.ParentPredicate(argumentListNode))
+                        {
+                            return null;
+                        }
+
+                        System.Collections.Generic.IList<ICSharpArgument> arguments = argumentListNode switch
+                        {
+                            IArgumentList argumentList => argumentList.Arguments,
+                            IAttribute attribute => attribute.Arguments,
+                            _ => null
+                        };
+
+                        if (arguments is null)
+                        {
+                            return null;
+                        }
+
+                        // Named-argument lists belong to the argument-names rule - the paren
+                        // alignment stands back entirely, like the comma alignment rules
+                        foreach (var argument in arguments)
+                        {
+                            if (argument.ArgumentName is not null)
+                            {
+                                return null;
+                            }
+                        }
+
+                        // An empty argument list has no first argument to align after the
+                        // parenthesis - and the engine drops zero-length right nodes anyway
+                        if (!spaceBeforeParen && arguments.Count == 0)
+                        {
+                            return null;
+                        }
+
+                        // Walk up to find the enclosing statement and use its block offset as the alignment group
+                        for (var n = parent; n != null; n = n.Parent)
+                        {
+                            if (!variant.StatementPredicate(n))
+                            {
+                                continue;
+                            }
+
+                            var blockOffset = variant.OffsetProvider != null
+                                                  ? variant.OffsetProvider(n)
+                                                  : n.GetContainingBlockOffset();
+
+                            if (blockOffset == null)
+                            {
+                                return null;
+                            }
+
+                            return new IntAlignOptionValue(
+                                $"{variant.AlignKeyGroup}${parenKeyPart}$Block{blockOffset}",
                                 AlignatorPriority
                             );
                         }

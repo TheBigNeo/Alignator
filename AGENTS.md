@@ -101,8 +101,8 @@ parts line up in columns, improving readability of dense code.
 │   │   │   ├── Helpers/
 │   │   │   │   └── NodeHelpers.cs     # GetContainingBlockOffset extension
 │   │   │   └── Psi/CodeStyle/Formatting/
-│   │   │       ├── AlignArgumentsProvider.cs  # Core: registers 14 alignment rules
-│   │   │       ├── AlignPosition.cs           # Enum: DoNotChange, SpaceBeforeComma, SpaceAfterComma
+│   │   │       ├── AlignArgumentsProvider.cs  # Core: registers 22 alignment rules
+│   │   │       ├── AlignPosition.cs           # Enum: DoNotChange, SpaceBeforeComma, SpaceAfterComma, SpaceBeforeParenthese, SpaceAfterParenthese
 │   │   │       ├── AlignatorSettingsKey.cs    # Settings keys + .editorconfig aliases
 │   │   │       └── AlignatorSettingsSchema.cs # Settings UI page
 │   │   └── Alignator.Tests/       # NUnit test project
@@ -110,7 +110,7 @@ parts line up in columns, improving readability of dense code.
 │   │       ├── TestEnvironment.cs         # Test zone setup
 │   │       ├── GlobalUsings.cs
 │   │       ├── CodeFormatter/CSharp/AlignArguments/
-│   │       │   └── CSharpQuirkyFormattingTest.cs  # 25 formatter tests
+│   │       │   └── CSharpQuirkyFormattingTest.cs  # 31 formatter tests
 │   │       ├── Data/
 │   │       │   ├── TestAlignatorAttribute.cs
 │   │       │   └── TestData.cs
@@ -127,7 +127,7 @@ parts line up in columns, improving readability of dense code.
 ### Architecture
 
 The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvider`, which extends
-`CSharpFormatterInfoProviderPart`. It registers fourteen alignment rules with alignment priority `100_000` (high, runs after standard formatting).
+`CSharpFormatterInfoProviderPart`. It registers twenty-two alignment rules with alignment priority `100_000` (high, runs after standard formatting).
 
 ### Alignment Rules
 
@@ -135,12 +135,20 @@ The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvide
 |--------------------------------------------|------------------------------------------------------|--------------------------------------|--------------------------------------------------------------|
 | Constructor + SpaceBeforeComma             | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
 | Constructor + SpaceAfterComma              | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor + SpaceBeforeParenthese        | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor + SpaceAfterParenthese         | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
 | Constructor assignment + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
 | Constructor assignment + SpaceAfterComma  | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
+| Constructor assignment + SpaceBeforeParenthese | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`           | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
+| Constructor assignment + SpaceAfterParenthese  | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`           | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
 | Function + SpaceBeforeComma               | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
 | Function + SpaceAfterComma                | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Function + SpaceBeforeParenthese          | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Function + SpaceAfterParenthese           | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
 | Attribute + SpaceBeforeComma              | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
 | Attribute + SpaceAfterComma               | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute + SpaceBeforeParenthese         | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute + SpaceAfterParenthese          | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
 | Attribute closing parentheses             | `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`              | `IAttribute`                         | `IAttributeSectionList`                                       |
 | Named argument values (after `name:`)     | `INT_ALIGN_ARGUMENT_NAMES`                           | `IArgumentList` / `IAttribute`       | Per call/attribute (list start offset)                        |
 | Dictionary entries + SpaceBeforeComma     | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
@@ -162,6 +170,10 @@ Each rule uses `IntAlignRule` with a computed alignment key. Argument rules grou
 - **Argument index** within the argument list
 - **Block offset** — document offset of the enclosing block, scoping alignment to consecutive statements within the same block
 
+The paren modes (`SpaceBeforeParenthese`, `SpaceAfterParenthese`) align the gap before/after the
+opening parenthesis with one shared key per block (no argument index) and reuse the after-comma
+rule for the remaining arguments, so each argument index still gets its own column.
+
 Per-call rules (argument names) and per-initializer rules (dictionary entries) use the argument
 list / collection initializer start offset as the alignment group instead of the block offset,
 and the dictionary entry rules use one shared key per initializer without an element index: the
@@ -169,7 +181,7 @@ engine aligns the k-th same-key gap of each line as one column group.
 
 ### Configuration
 
-Eight settings. `AlignPosition` values: `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
+Eight settings. `AlignPosition` values: `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`, `SpaceBeforeParenthese`, `SpaceAfterParenthese`. The paren values apply to the constructor, function and attribute settings only.
 
 | Setting                                              | Type          | Description                                                      |
 |------------------------------------------------------|---------------|------------------------------------------------------------------|

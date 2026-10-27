@@ -45,6 +45,7 @@ public static class Caller
     public static void ThatIsADifferentFunction(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
     public static void ThisIsFunction3(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
     public static void F4(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public static void F2(object aShortName, object aVeryVeryLoooooooongName = null, object aNormalName = null) { }
 }
 
 internal sealed class DinosaurPark

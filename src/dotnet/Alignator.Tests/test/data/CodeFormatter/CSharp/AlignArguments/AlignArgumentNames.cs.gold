@@ -10,6 +10,11 @@ internal class AlignArgumentNames
       o2:                "Raptor",
       o3:                "Triceratops");
 
+    // Multi-line invocation with named arguments of very different name lengths
+    Caller.F2(aShortName:       "T-Rex",
+      aVeryVeryLoooooooongName: "Raptor",
+      aNormalName:              "Triceratops");
+
     // Multi-line object creation with named arguments, first argument on the same line
     Tyrannosaurus tRex = new(name: "T-Rex",
       diet:                        "Carnivore",

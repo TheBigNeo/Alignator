@@ -29,6 +29,20 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     }
 
     [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceBeforeParenthese)]
+    public void TestAlignArgumentsInConstructor_SpaceBeforeParenthese()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR), AlignPosition.SpaceAfterParenthese)]
+    public void TestAlignArgumentsInConstructor_SpaceAfterParenthese()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION), AlignPosition.SpaceBeforeComma)]
     public void TestAlignArgumentsInFunction_SpaceBeforeComma()
     {
@@ -38,6 +52,20 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     [Test]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION), AlignPosition.SpaceAfterComma)]
     public void TestAlignArgumentsInFunction_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION), AlignPosition.SpaceBeforeParenthese)]
+    public void TestAlignArgumentsInFunction_SpaceBeforeParenthese()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION), AlignPosition.SpaceAfterParenthese)]
+    public void TestAlignArgumentsInFunction_SpaceAfterParenthese()
     {
         DoNamedTest2();
     }
@@ -59,6 +87,20 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     [Test]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE), AlignPosition.SpaceAfterComma)]
     public void TestAlignArgumentsInAttribute_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE), AlignPosition.SpaceBeforeParenthese)]
+    public void TestAlignArgumentsInAttribute_SpaceBeforeParenthese()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE), AlignPosition.SpaceAfterParenthese)]
+    public void TestAlignArgumentsInAttribute_SpaceAfterParenthese()
     {
         DoNamedTest2();
     }
