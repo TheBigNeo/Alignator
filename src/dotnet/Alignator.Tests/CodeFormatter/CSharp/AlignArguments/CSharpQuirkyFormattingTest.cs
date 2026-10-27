@@ -116,4 +116,62 @@ public class CSharpQuirkyFormattingTest : CodeFormatterWithExplicitSettingsTestB
     {
         DoNamedTest2();
     }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER), AlignPosition.SpaceAfterComma)]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES), false)]
+    public void TestAlignKeyValuesInCollectionInitializer_SpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER), AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES), false)]
+    public void TestAlignKeyValuesInCollectionInitializer_SpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER), true)]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES), false)]
+    public void TestAlignClosingBracesInCollectionInitializer()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER), AlignPosition.SpaceAfterComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER), true)]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES), false)]
+    public void TestAlignKeyValuesInCollectionInitializer_SpaceAfterCommaAndClosingBraces()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER), AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER), true)]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES), false)]
+    public void TestAlignKeyValuesInCollectionInitializer_SpaceBeforeCommaAndClosingBraces()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES), false)]
+    public void TestAlignKeyValuesInCollectionInitializer_DoNotChange()
+    {
+        DoNamedTest2();
+    }
+
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER), AlignPosition.SpaceAfterComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER), true)]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES), false)]
+    public void TestAlignKeyValuesInCollectionInitializer_InlineNoChange()
+    {
+        DoNamedTest2();
+    }
 }
