@@ -74,11 +74,11 @@ Test stubs (tests reference them, so they land with the RED tests):
 
 | Status | Step | Verification |
 |--------|------|--------------|
-| [ ] | 1. Setting: add `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION` (`bool`, default `false`, alias `alignator_align_assignments_in_with_expression`) to `AlignatorSettingsKey.cs` | Test project compiles: `dotnet build src/dotnet/Alignator.Tests/Alignator.Tests.csproj` |
-| [ ] | 2. Tests first: stubs in `TestData.cs`, 4 test cases (data files `.cs` + spec-derived `.gold`, test methods in `CSharpQuirkyFormattingTest.cs`) | `dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj --filter "FullyQualifiedName~CSharpQuirkyFormattingTest"`: tests 1–2 RED (no alignment yet), tests 3–4 pass trivially |
-| [ ] | 3. Rule: `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION_BeforeEq()` in `AlignArgumentsProvider.cs`, registered in `Initialize()`; reuse `EntryStartsOwnLine` / `ContainsLineBreak` unchanged | Tests 1–2 GREEN, tests 3–4 and all 21 existing tests still GREEN |
-| [ ] | 4. Settings UI: one `ItemFor` entry in `AlignatorSettingsSchema.DescribePart` (Jurassic Park `with`-expression preview) | `./gradlew buildPlugin` succeeds; visual check in `runIde` optional |
-| [ ] | 5. Docs + full gate: update AGENTS.md (settings 7→8, rules 13→14, editorconfig block, key files); run full suite and lint | `./gradlew testDotNet` green, `skirnir-lint` clean, AGENTS.md current |
+| [x] | 1. Setting: add `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION` (`bool`, default `false`, alias `alignator_align_assignments_in_with_expression`) to `AlignatorSettingsKey.cs` | Test project compiles: `dotnet build src/dotnet/Alignator.Tests/Alignator.Tests.csproj` |
+| [x] | 2. Tests first: stubs in `TestData.cs`, 4 test cases (data files `.cs` + spec-derived `.gold`, test methods in `CSharpQuirkyFormattingTest.cs`) | `dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj --filter "FullyQualifiedName~CSharpQuirkyFormattingTest"`: tests 1–2 RED (no alignment yet), tests 3–4 pass trivially |
+| [x] | 3. Rule: `INT_ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION_BeforeEq()` in `AlignArgumentsProvider.cs`, registered in `Initialize()`; reuse `EntryStartsOwnLine` / `ContainsLineBreak` unchanged | Tests 1–2 GREEN, tests 3–4 and all 21 existing tests still GREEN |
+| [x] | 4. Settings UI: one `ItemFor` entry in `AlignatorSettingsSchema.DescribePart` (Jurassic Park `with`-expression preview) | `./gradlew buildPlugin` succeeds; visual check in `runIde` optional |
+| [x] | 5. Docs + full gate: update AGENTS.md (settings 7→8, rules 13→14, editorconfig block, key files); run full suite and lint | `./gradlew testDotNet` green, `skirnir-lint` clean, AGENTS.md current |
 
 ## Step details
 
