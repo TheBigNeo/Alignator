@@ -1,0 +1,70 @@
+# PSI facts for C# `with` expressions — R# SDK 2025.3.0.1 (VERIFIED)
+
+Extracted from `JetBrains.ReSharper.Psi.CSharp.dll` metadata
+(riderRD-2025.3 distribution, `lib/ReSharperHost/`) via System.Reflection.Metadata.
+Verified 2026-10-27, before planning Alignator-4.
+
+## IWithExpression (JetBrains.ReSharper.Psi.CSharp.Tree)
+
+```
+TYPE IWithExpression
+  get_Comma()
+  get_CommaEnumerable()
+  get_Initializers()
+  get_InitializersEnumerable()
+  get_LBrace()
+  get_Operand()
+  get_RBrace()
+  get_WithKeyword()
+  SetOperand(ICSharpExpression)
+  AddWithInitializerAssignmentAfter(IWithInitializerAssignment, IWithInitializerAssignment)
+  AddWithInitializerAssignmentBefore(IWithInitializerAssignment, IWithInitializerAssignment)
+  RemoveWithInitializerAssignment(IWithInitializerAssignment)
+```
+
+- `Operand` — the expression before `with`.
+- `Initializers` — the list of `IWithInitializerAssignment` children (property assignments).
+- Comma separators between assignments are children of `IWithExpression`
+  (`CommaEnumerable`), like collection-initializer entries.
+
+## IWithInitializerAssignment (JetBrains.ReSharper.Psi.CSharp.Tree)
+
+```
+TYPE IWithInitializerAssignment
+  get_Eq()
+  get_Expression()
+  get_NameIdentifier()
+  SetExpression(ICSharpExpression)
+  SetNameIdentifier(ICSharpIdentifier)
+  get_MemberReference()
+  get_MemberName()
+  SetMemberName(String)
+```
+
+- `NameIdentifier` — `ICSharpIdentifier` (the property name).
+- `Eq` — the `=` token (`CSharpTokenType.EQ`, verified field of `CSharpTokenType`).
+- `Expression` — the assigned value.
+- The padded gap sits between `NameIdentifier` and `Eq`; the node granularity the
+  formatter engine passes to `Where(Left(), ...)` (identifier wrapper vs. its name
+  token) is NOT verified here — dump the runtime tree if the rule stays RED.
+
+## Token type
+
+`CSharpTokenType.EQ` exists (`EQ`, `EQ_NODE_TYPE_INDEX` fields confirmed). Fallback
+pattern used by the argument-names rule: `token.GetText() == "="`.
+
+## For contrast: IMemberInitializer (object initializers, NOT used)
+
+```
+TYPE IMemberInitializer
+  get_Expression()
+  get_Initializer()
+  get_Operator()
+  SetExpression(ICSharpExpression)
+  SetInitializer(ICreationExpressionInitializer)
+  get_Reference()
+```
+
+Object-initializer assignments (`new() { Height = 2 }`) are `IMemberInitializer`, a
+different node type — the `Parent()` predicate `is IWithInitializerAssignment` excludes
+them, so object initializers are unaffected by the new rule.
