@@ -1,7 +1,7 @@
 # Alignator
 
-Alignator is a plugin for **JetBrains Rider and ReSharper** that vertically aligns arguments in C# code,
-padding whitespace so they line up in clean columns — making dense code easier to read.
+Alignator is a plugin for **JetBrains Rider and ReSharper** that pads whitespace in C# code so that related elements line up in clean columns:
+arguments of constructor, function, and attribute calls, values of named arguments, dictionary-style entries in collection initializers, and assignments in `with` expressions.
 
 ## What can be aligned
 
@@ -39,32 +39,61 @@ Caller.F2("Gallimimus", "Indor",         "Carno",         "Spino");
 [TestCase("Pachycephalosaurus", "Pachy" )]
 ```
 
+### Two alignment modes
+
+Every "align arguments" setting offers two modes:
+
+- **SpaceAfterComma** — pads after each comma, so arguments start in the same column
+- **SpaceBeforeComma** — pads before each comma, so the commas line up vertically
+
+int_align_invocations
+
+```csharp
+// SpaceAfterComma
+Caller.AFunction("T-Rex",      "Raptor",        "Moros",         "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor",         "Carno",         "Spino");
+Caller.AFunction("Ankylo",     "Tyrannosaurus", "Indominus rex", "Brachio");
+
+// SpaceBeforeComma
+Caller.F1("T-Rex"     , "Raptor"       , "Moros"        , "Triceratops");
+Caller.F2("Gallimimus", "Indor"        , "Carno"        , "Spino");
+Caller.F1("Ankylo"    , "Tyrannosaurus", "Indominus rex", "Brachio");
+```
+
+> **Note on SpaceBeforeComma:** it is rarely used as the final code style in production.
+> But it is handy as a temporary working style — quickly switch to it, make bulk edits where the visible comma columns help, then switch back to your usual style.
+
+> Whether closing brackets are aligned too is decided by separate settings:
+> `csharp_alignator_align_closing_paren_in_attribute` for the `)` of attributes, and `csharp_alignator_align_closing_braces_in_collection_initializer` for the `}` of dictionary-style entries.
+
 ## Settings
 
-All settings are found in the UI under
-**Settings/Options → Code Editing → C# → Code Style → Others → Alignator align arguments**.
+Open **[File | Settings | Editor | Code Style | C#](jetbrains://Rider/settings?name=Editor--Code+Style--C%23)**, tab **Others**, section **Alignator align arguments**.
+In Visual Studio with ReSharper: **ReSharper | Options | Code Editing | C# | Code Style | Others**.
 
 > **Important:** All Alignator alignments are driven by ReSharper's built-in column-alignment engine.
 > They only take effect when the built-in `int_align_variables` switch is enabled (`true`).
-> For convenience, the switch is also shown at the top of the Alignator settings group — it is the
-> same value as in ReSharper's own formatting settings, so changing it in either place updates the
-> single stored value.
+> For convenience, the switch is also shown at the top of the Alignator settings group —
+> it is the same value as in ReSharper's own formatting settings, so changing it in either place updates the single stored value.
 
-| Setting (UI)                                        | Values                                               | Default        | .editorconfig key                                            |
-|----------------------------------------------------|------------------------------------------------------|----------------|--------------------------------------------------------------|
-| Align variables in columns *(built-in, required)*   | `true`, `false`                                      | —              | `int_align_variables`                                         |
-| Align arguments in constructor                     | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `DoNotChange`  | `csharp_alignator_align_arguments_in_constructor`             |
-| Align argument in function                         | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `DoNotChange`  | `csharp_alignator_align_arguments_in_function`                |
-| Align arguments in attribute                       | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `DoNotChange`  | `csharp_alignator_align_arguments_in_attribute`               |
-| Align closing parenthesis in attribute             | `true`, `false`                                      | `false`        | `csharp_alignator_align_closing_paren_in_attribute`           |
-| Align argument names                               | `true`, `false`                                      | `false`        | `csharp_alignator_align_argument_names`                       |
-| Align key-values in collection initializer         | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `DoNotChange`  | `csharp_alignator_align_key_values_in_collection_initializer` |
-| Align closing braces in collection initializer     | `true`, `false`                                      | `false`        | `csharp_alignator_align_closing_braces_in_collection_initializer` |
-| Align assignments in with expression               | `true`, `false`                                      | `false`        | `csharp_alignator_align_assignments_in_with_expression`      |
+| Setting (UI)                                    | Values                                               | .editorconfig key                                               |
+|-------------------------------------------------|------------------------------------------------------|-----------------------------------------------------------------|
+| Align variables in columns *(built-in, required)* | `true`, `false`                                     | `int_align_variables`                                            |
+| Align arguments in constructor                   | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `csharp_alignator_align_arguments_in_constructor`                |
+| Align argument in function                       | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `csharp_alignator_align_arguments_in_function`                   |
+| Align arguments in attribute                     | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `csharp_alignator_align_arguments_in_attribute`                  |
+| Align closing parenthesis in attribute           | `true`, `false`                                      | `csharp_alignator_align_closing_paren_in_attribute`              |
+| Align argument names                             | `true`, `false`                                      | `csharp_alignator_align_argument_names`                          |
+| Align key-values in collection initializer         | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` | `csharp_alignator_align_key_values_in_collection_initializer`    |
+| Align closing braces in collection initializer     | `true`, `false`                                      | `csharp_alignator_align_closing_braces_in_collection_initializer` |
+| Align assignments in with expression             | `true`, `false`                                      | `csharp_alignator_align_assignments_in_with_expression`         |
 
 ## Configuration via .editorconfig
 
 The same settings can be configured in `.editorconfig`:
+
+<details>
+<summary>.editorconfig example (click to expand)</summary>
 
 ```ini
 [*.cs]
@@ -96,44 +125,51 @@ csharp_alignator_align_closing_braces_in_collection_initializer = true
 csharp_alignator_align_assignments_in_with_expression = true
 ```
 
-Valid values for the `AlignPosition` settings: `do_not_change`, `space_before_comma`, `space_after_comma`.
-Bool settings take `true` / `false`.
+</details>
+
+Valid values for the `AlignPosition` settings: `do_not_change`, `space_before_comma`, `space_after_comma`. Bool settings take `true` / `false`.
 
 ## Examples
 
-Each setting below shows a before/after pair. The "after" state assumes code cleanup/formatting
-with the respective setting enabled and `int_align_variables = true`.
+> All examples assume `int_align_variables = true`.
+> This built-in switch is required for every Alignator alignment — it also aligns the `=` of consecutive variable declarations, as visible in the constructor example.
+
+Each setting below shows a before/after pair for a formatting run with the respective setting enabled.
 
 ### Align arguments in constructor
+
+> `csharp_alignator_align_arguments_in_constructor`
 
 Before
 
 ```csharp
 var tRex = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
 var raptor = new Velociraptor("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
-var trike = new Triceratops("Triceratops", "Herbivore", 9000, false, Diet.Herbivore) { Height = 3 };
+var trike = new Triceratops("Triceratops", "Herbivore", 9000, false, Diet.Herbivore, null) { Height = 3 };
 var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500, true, Diet.Carnivore, null);
 ```
 
 After (`space_after_comma`)
 
 ```csharp
-var tRex = new Tyrannosaurus("T-Rex",           "Carnivore", 8000,  true,  Diet.Carnivore, "Jurassic Park");
-var raptor = new Velociraptor("Raptor",         "Carnivore", 150,   true,  Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
-var trike = new Triceratops("Triceratops",      "Herbivore", 9000,  false, Diet.Herbivore) { Height = 3 };
-var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500,   true, Diet.Carnivore, null);
+var tRex   = new Tyrannosaurus("T-Rex",         "Carnivore", 8000, true,  Diet.Carnivore, "Jurassic Park");
+var raptor = new Velociraptor("Raptor",         "Carnivore", 150,  true,  Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
+var trike  = new Triceratops("Triceratops",     "Herbivore", 9000, false, Diet.Herbivore, null) { Height = 3 };
+var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500,  true,  Diet.Carnivore, null);
 ```
 
 The same constructor calls in `space_before_comma` mode align the commas:
 
 ```csharp
-var tRex = new Tyrannosaurus("T-Rex"          , "Carnivore", 8000 , true , Diet.Carnivore, "Jurassic Park");
-var raptor = new Velociraptor("Raptor"        , "Carnivore", 150  , true , Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
-var trike = new Triceratops("Triceratops"     , "Herbivore", 9000 , false, Diet.Herbivore) { Height = 3 };
-var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500  , true, Diet.Carnivore, null);
+var tRex   = new Tyrannosaurus("T-Rex"        , "Carnivore", 8000, true , Diet.Carnivore, "Jurassic Park");
+var raptor = new Velociraptor("Raptor"        , "Carnivore", 150 , true , Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
+var trike  = new Triceratops("Triceratops"    , "Herbivore", 9000, false, Diet.Herbivore, null) { Height = 3 };
+var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500 , true , Diet.Carnivore, null);
 ```
 
 ### Align argument in function
+
+> `csharp_alignator_align_arguments_in_function`
 
 Before
 
@@ -152,6 +188,8 @@ Caller.F2("Gallimimus", "Indor",         "Carno",         "Spino");
 ```
 
 ### Align arguments in attribute
+
+> `csharp_alignator_align_arguments_in_attribute`
 
 Before
 
@@ -173,6 +211,8 @@ After (`space_after_comma`)
 
 ### Align closing parenthesis in attribute
 
+> `csharp_alignator_align_closing_paren_in_attribute`
+
 Before
 
 ```csharp
@@ -192,6 +232,8 @@ After (`true`)
 ```
 
 ### Align argument names
+
+> `csharp_alignator_align_argument_names`
 
 Before
 
@@ -217,13 +259,13 @@ and attribute named arguments in their only legal syntax, `Name = value`:
     o2 =       "Rex")]
 ```
 
-Named arguments are only padded when they start their own line: single-line calls stay untouched,
-and positional arguments in the same call are never modified. When a call uses named arguments,
-the comma alignment rules above (constructor, function, attribute) stand back for that call —
-including for the positional arguments of a mixed list — so comma alignment and argument-name
-alignment never pad the same lines twice.
+Named arguments are only padded when they start their own line: single-line calls stay untouched, and positional arguments in the same call are never modified.
+When a call uses named arguments, the comma alignment rules above (constructor, function, attribute) stand back for that call — including for the positional arguments of a mixed list —
+so comma alignment and argument-name alignment never pad the same lines twice.
 
 ### Align key-values in collection initializer
+
+> `csharp_alignator_align_key_values_in_collection_initializer`
 
 Before
 
@@ -249,10 +291,12 @@ Dictionary<string, string?> indominusRexFacts = new()
 };
 ```
 
-Only dictionary-style entries with two or more values (e.g. `{"Key", Value}`) are aligned;
-simple `{expr}` entries are never touched. Entries are only aligned when they start their own line.
+Only dictionary-style entries with two or more values (e.g. `{"Key", Value}`) are aligned; simple `{expr}` entries are never touched.
+Entries are only aligned when they start their own line.
 
 ### Align closing braces in collection initializer
+
+> `csharp_alignator_align_closing_braces_in_collection_initializer`
 
 Before
 
@@ -279,6 +323,8 @@ Dictionary<string, string?> indominusRexFacts = new()
 ```
 
 ### Align assignments in with expression
+
+> `csharp_alignator_align_assignments_in_with_expression`
 
 Before
 
@@ -310,5 +356,5 @@ DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)
 
 ---
 
-> **For developers and AI agents:** everything about how this project works — architecture, build,
-> versioning, publishing, and installation — is documented in [DEVELOPERS.md](DEVELOPERS.md).
+> **For developers and AI agents:** everything about how this project works — architecture, build, versioning, publishing, and installation —
+> is documented in [DEVELOPERS.md](DEVELOPERS.md).

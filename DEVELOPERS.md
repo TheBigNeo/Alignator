@@ -1,193 +1,103 @@
-# Alignator - Developer Information
+# DEVELOPERS.md — Alignator Internals
 
-This document is for developers and AI agents working **on** Alignator. If you only want to
-*use* the plugin, see [README.md](README.md).
+For developers and AI agents working **on** Alignator. User-facing docs: [README.md](README.md).
 
-## How the project works
+## How it works
 
-Alignator is a Rider/ReSharper plugin built from the official
-[rider-plugin-template](https://github.com/JetBrains/rider-plugin-template) and consists of two
-artifacts that are always published together with the same version:
+#### Architecture
 
-1. **ReSharper backend (.NET, `src/dotnet/`)** — the entire feature set. It hooks into the
-   ReSharper C# code formatter via `AlignArgumentsProvider`
-   (extends `CSharpFormatterInfoProviderPart`) and registers 14 `IntAlignRule` alignment rules
-   with alignment priority `100_000` (high, runs after standard formatting).
-2. **Rider frontend (`src/rider/` + Gradle)** — a thin wrapper. `plugin.xml` declares the plugin
-   identity; Gradle packages the .NET assembly into the Rider plugin zip.
+- Two artifacts, always published together with the same version:
+    - The Rider plugin zip (frontend wrapper, `src/rider/` + Gradle)
+    - The ReSharper NuGet package (all logic, `net472`, `src/dotnet/`).
 
-### Core mechanics
+#### Alignment rules
 
-- All alignments are driven by ReSharper's built-in column-alignment engine: **no Alignator rule
-  takes effect unless the built-in `int_align_variables` switch (`CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`)
-  is enabled.** The settings page surfaces this switch at the top of the Alignator group.
-- Each rule computes an alignment key consisting of an align-key group (`"Params"`, `"Func"`,
-  `"ParamsAssign"`, `"Attr"`), the comma position (`ArgComma`/`ArgAfterComma`), the argument index,
-  and the document offset of the enclosing block (`Helpers/NodeHelpers.cs → GetContainingBlockOffset`),
-  which scopes alignment to consecutive statements of the same block. Per-call rules (argument names)
-  and per-initializer rules (dictionary entries, with expressions) use the call/initializer start
-  offset instead, so alignment never leaks across independent calls.
-- Settings are stored in `AlignatorSettingsKey` (8 entries) with
-  `[EditorConfigEntryAlias]` attributes that provide the `csharp_alignator_*` `.editorconfig` keys.
-  `AlignatorSettingsSchema` builds the settings UI page with live previews.
-- When a call uses named arguments, the comma alignment rules stand back for that call so comma
-  alignment and argument-name alignment never pad the same lines twice.
+- All alignment logic lives in [AlignArgumentsProvider.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs):
+  extends `CSharpFormatterInfoProviderPart`, registers 14 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
+- Rules require the built-in `int_align_variables` switch (`CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`) — no Alignator alignment without it.
+  The settings page shows this switch at the top of the Alignator group.
+- Named-argument alignment takes precedence: comma rules stand back for calls that use named arguments, so no line is padded twice.
+
+#### Alignment keys
+
+- Alignment key = align-key group (`"Params"`, `"Func"`, `"ParamsAssign"`, `"Attr"`) + comma position + argument index + block offset ([NodeHelpers.cs](src/dotnet/Alignator/Helpers/NodeHelpers.cs) `GetContainingBlockOffset`) — alignment never crosses block boundaries.
+- Per-call rules (named arguments) and per-initializer rules (dictionary entries, with expressions) group by call/initializer offset instead.
+
+#### Settings
+
+- [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 8 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
+- UI: [AlignatorSettingsSchema.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs) ("Alignator align arguments" page part, live previews).
 
 ## Where to find what
 
-```
-├── Alignator.sln                        # .NET solution (plugin + tests)
-├── build.gradle.kts                     # Gradle build (IntelliJ Platform Gradle Plugin 2.x):
-│                                        #   buildPlugin → zip, publishPlugin → Marketplace
-├── gradle.properties                    # ⚠ plugin version (PluginVersion), SDK version (ProductVersion)
-├── settings.gradle.kts                  # includes :protocol subproject (rd-gen)
-├── publishPlugin.ps1                    # alternative .NET-only publish (MSBuild Pack + nuget push)
-├── buildPlugin.ps1                      # .NET-only package build (MSBuild Pack)
-├── settings.ps1                         # shared PowerShell helpers (MSBuild/vswhere discovery)
-├── CHANGELOG.md                         # release notes source (Keep a Changelog format)
-├── README.md                            # user-facing documentation
-├── docs/PlanRules.md                    # workflow rules for implementation tasks
-├── AGENTS.md                            # rules for AI agents working in this repo
-├── output/                              # build artifacts (zip + nupkg), not committed
-└── src/
-    ├── dotnet/
-    │   ├── Directory.Build.props        # shared MSBuild props, WaveVersion derivation
-    │   ├── Plugin.props                 # ⚠ SdkVersion — keep in sync with gradle.properties
-    │   ├── Alignator/
-    │   │   ├── Alignator.csproj         # ReSharper build (RESHARPER define, IsPackable → nupkg)
-    │   │   ├── Alignator.Rider.csproj   # Rider build (RIDER define, packs no nupkg)
-    │   │   ├── IAlignatorZone.cs        # zone definition, ZoneMarker.cs — zone activator
-    │   │   ├── Helpers/NodeHelpers.cs   # GetContainingBlockOffset
-    │   │   └── Psi/CodeStyle/Formatting/
-    │   │       ├── AlignArgumentsProvider.cs   # core: registers all 14 alignment rules
-    │   │       ├── AlignPosition.cs            # DoNotChange | SpaceBeforeComma | SpaceAfterComma
-    │   │       ├── AlignatorSettingsKey.cs     # settings + .editorconfig aliases
-    │   │       └── AlignatorSettingsSchema.cs  # settings UI page with live preview
-    │   └── Alignator.Tests/             # NUnit formatter tests
-    │       ├── CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs
-    │       └── test/data/.../*.cs(.gold)        # input + expected output per test
-    └── rider/main/resources/META-INF/plugin.xml  # Rider plugin descriptor
-```
+| Topic                                         | Where                                                                                                                         |
+|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| .NET solution (plugin + tests)                | [Alignator.sln](Alignator.sln)                                                                                                |
+| Gradle build (`buildPlugin`, `publishPlugin`) | [build.gradle.kts](build.gradle.kts)                                                                                          |
+| Plugin version, SDK version                   | [gradle.properties](gradle.properties)                                                                                        |
+| `SdkVersion` (sync with `ProductVersion`)     | [src/dotnet/Plugin.props](src/dotnet/Plugin.props)                                                                            |
+| Rider plugin descriptor                       | [src/rider/main/resources/META-INF/plugin.xml](src/rider/main/resources/META-INF/plugin.xml)                                  |
+| Release notes source                          | [CHANGELOG.md](CHANGELOG.md)                                                                                                  |
+| .NET-only pack/publish via MSBuild            | [publishPlugin.ps1](publishPlugin.ps1), [buildPlugin.ps1](buildPlugin.ps1)                                                    |
+| Workflow rules for implementation tasks       | [docs/PlanRules.md](docs/PlanRules.md)                                                                                        |
+| AI agent rules (incl. dinosaur names)         | [AGENTS.md](AGENTS.md)                                                                                                        |
+| Formatter tests                               | [CSharpQuirkyFormattingTest.cs](src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs) |
+| Test data (`.cs` / `.cs.gold` pairs)          | [test/data](src/dotnet/Alignator.Tests/test/data/CodeFormatter/CSharp/AlignArguments/)                                        |
 
-## Build, run, test
-
-Prerequisites: .NET SDK, .NET Framework 4.7.2 targeting pack, JDK 17+, Visual Studio MSBuild
-(discovered via `tools/vswhere.exe` on Windows).
+## Build and test
 
 ```bash
-./gradlew build          # full build: .NET compile + tests + zip + nupkg → output/
-./gradlew buildPlugin    # Rider plugin zip only
-./gradlew compileDotNet  # .NET compile only
-./gradlew testDotNet     # run all formatter tests
-./gradlew runIde         # run Rider sandbox with the plugin
-```
-
-Tests can also be run directly:
-
-```bash
+./gradlew build          # compile + test + zip + nupkg → output/
+./gradlew buildPlugin    # zip only
+./gradlew compileDotNet  # .NET only
+./gradlew testDotNet     # formatter tests
+./gradlew runIde         # Rider sandbox with the plugin
 dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj
-dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj --filter "FullyQualifiedName~CSharpQuirkyFormattingTest"
 ```
 
-Every formatter test needs a `.cs` input and a `.cs.gold` expected-output file under
-`test/data/CodeFormatter/CSharp/AlignArguments/`. Example values must use Jurassic Park dinosaur
-names (see AGENTS.md, "Jurassic Park rule").
+- Prerequisites: .NET SDK, net472 targeting pack, JDK 17+, Visual Studio MSBuild (found via `tools/vswhere.exe`).
+- New test = `.cs` input + `.cs.gold` expected output under `test/data/...` + a `DoNamedTest2()` method.
 
-## Versioning — where and how to increase the version
+## Versioning
 
-The version lives in **`gradle.properties` → `PluginVersion`**. It flows into the Rider zip
-(`Alignator-<version>.zip`) and the ReSharper nupkg (`Alignator.<version>.nupkg`) via the Gradle
-build. `buildPlugin.ps1`/`publishPlugin.ps1` take a `-Version` parameter instead.
+Steps to prepare a new version:
 
-When preparing a release:
+1. Bump `PluginVersion` in [gradle.properties](gradle.properties) — it flows into the zip and the nupkg (the PowerShell scripts take `-Version` instead).
+2. Add a section for the release in [CHANGELOG.md](CHANGELOG.md) — the build extracts the topmost section as release notes.
 
-1. Set `PluginVersion` in `gradle.properties` to the new SemVer version (`MAJOR.MINOR.PATCH`).
-2. Add a new section in `CHANGELOG.md` (move "Unreleased" content under the new version heading).
-   The Gradle build extracts the topmost changelog section into the plugin release notes.
+Rules to know:
 
-**JetBrains Marketplace rules for versions** (see
-[Semantic versioning](https://plugins.jetbrains.com/docs/marketplace/semver.html)):
+- Marketplace checks SemVer (`MAJOR.MINOR.PATCH`, on by default for new plugins): <https://plugins.jetbrains.com/docs/marketplace/semver.html>
+- `9999.0.x` is the template dev placeholder — never publish it.
+- IDE compatibility comes from the `Wave` NuGet dependency (`253.0.0` ⇔ Rider/ReSharper 2025.3), derived from `SdkVersion` in [Plugin.props](src/dotnet/Plugin.props).
 
-- Versions must follow **SemVer** (`MAJOR.MINOR.PATCH`); SemVer checking is enabled by default for
-  new plugins and can be enforced with the *SemVer Only* option on the plugin page.
-- The current `9999.0.x` values are **development placeholders** from the template and must never
-  be published; the first release should be something like `1.0.0`.
-- Compatibility with Rider/ReSharper versions is *not* derived from the plugin version but from
-  the `Wave` NuGet dependency (`253.0.0` ⇔ Rider/ReSharper 2025.3), which is generated from
-  `SdkVersion` in `src/dotnet/Plugin.props`. Keep `SdkVersion` in sync with
-  `ProductVersion` in `gradle.properties`.
+## Publish
 
-## Publishing
+1. Set `PublishToken` in [gradle.properties](gradle.properties) — a permanent token from your JetBrains Marketplace profile.
+2. First release only: upload the plugin manually on <https://plugins.jetbrains.com> (`publishPlugin` only works for updates) and replace the template placeholders (checklist below).
+3. Run `./gradlew publishPlugin` — runs tests, builds both artifacts, pushes both:
+   zip via the Marketplace upload API, nupkg via `dotnet nuget push` ([.NET upload docs](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html)).
+4. Alternative, .NET only: `.\publishPlugin.ps1 -Version 1.0.0 -ApiKey <token>`.
+5. Plugins must be signed before upload: <https://plugins.jetbrains.com/docs/marketplace/plugin-signing.html>
 
-Two channels, both hosted on JetBrains Marketplace:
+Placeholder checklist for the first release:
 
-- **Rider zip** — uploaded via the Marketplace upload API (Gradle `publishPlugin` task).
-- **ReSharper nupkg** — uploaded with `dotnet nuget push` (or `nuget push`) to
-  `https://plugins.jetbrains.com`, per the
-  [.NET plugin upload docs](https://plugins.jetbrains.com/docs/marketplace/plugin-upload.html).
+- [plugin.xml](src/rider/main/resources/META-INF/plugin.xml): `<version>`, `since-build`/`until-build`, real `<description>` (Marketplace approval checks this).
+- [Plugin.props](src/dotnet/Plugin.props): `Description`, `Authors`, `PackageProjectUrl`, `PackageLicenseUrl`, `PackageIconUrl`.
+- README badge IDs (`RIDER_PLUGIN_ID`, `RESHARPER_PLUGIN_ID`).
+- Consider a `Company.Package` package ID (e.g. `ReSharperPlugin.Alignator`) — the ReSharper DevGuide requires a `.` in extension package IDs.
 
-```bash
-# All-in-one: runs tests, builds zip + nupkg, pushes both to Marketplace
-./gradlew publishPlugin
-# PublishToken must be set in gradle.properties (permanent token from your JetBrains Marketplace profile)
-```
+## Install
 
-Alternatively, .NET only (uses MSBuild Pack + nuget push, changelog as release notes):
+1. Rider (released): **File | Settings | Plugins** → Marketplace → search "Alignator".
+2. ReSharper (released): **ReSharper | Extension Manager** → search "Alignator".
+3. Rider (local build): **File | Settings | Plugins** → ⚙ → *Install Plugin from Disk…* → `output/Alignator-<version>.zip`.
+4. ReSharper (local build): add the `output` folder as a package source in **ReSharper | Options | Environment | Extension Manager**, then install via Extension Manager.
+5. Dev sandbox: `./gradlew runIde`.
 
-```powershell
-.\publishPlugin.ps1 -Version 1.0.0 -ApiKey "<permanent token>"
-```
+## Requiring the plugin in a repository
 
-### Checklist before the first release
-
-The repo still contains template placeholders that JetBrains Marketplace
-[approval guidelines](https://plugins.jetbrains.com/docs/marketplace/jetbrains-marketplace-approval-guidelines.html)
-would reject. Before the first publish:
-
-- [ ] Replace `PluginVersion=9999.0.0` in `gradle.properties` with a real SemVer version.
-- [ ] Fill `plugin.xml`: `<version>`, `since-build`/`until-build` placeholders, and a real
-      `<description>` (the placeholder "Sample description" will fail approval; the description
-      becomes the Marketplace plugin page and may use basic HTML).
-- [ ] Fill `src/dotnet/Plugin.props`: `Description`, `Authors`, `PackageProjectUrl`,
-      `PackageLicenseUrl`/`PackageIconUrl`.
-- [ ] First upload of a **new** plugin must be done **manually** on
-      <https://plugins.jetbrains.com> (an upload via API/publishPlugin cannot create the plugin
-      entry); subsequent versions can be pushed with `publishPlugin`.
-- [ ] Configure **plugin signing** for the Rider zip — Marketplace requires plugins to be signed
-      before upload (see [Plugin Signing](https://plugins.jetbrains.com/docs/marketplace/plugin-signing.html),
-      and [Publishing a Plugin](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html)).
-- [ ] Replace the badge/URL placeholders (`RIDER_PLUGIN_ID`, `RESHARPER_PLUGIN_ID`) in this README
-      with the actual Marketplace plugin IDs after the entries exist.
-- [ ] Consider renaming the NuGet package ID from `Alignator` to the `Company.Package`
-      convention (e.g. `TBN.Alignator` or `ReSharperPlugin.Alignator`) — the ReSharper DevGuide
-      requires a `.` in extension package IDs so the Extension Manager accepts them.
-
-## Installing
-
-### Released plugin (end users)
-
-- **Rider:** Settings → Plugins → Marketplace tab → search "Alignator" → Install.
-- **ReSharper (Visual Studio):** ReSharper → Extension Manager → search "Alignator" → Install.
-
-### Local build, without Marketplace
-
-- **Rider:** Settings → Plugins → ⚙ → *Install Plugin from Disk…* → select
-  `output/Alignator-<version>.zip` (or use `./gradlew runIde` for the sandbox).
-- **ReSharper:** copy the built `Alignator.<version>.nupkg` into a folder, add that folder as a
-  package source in ReSharper → Options → Environment → Extension Manager, then install it via
-  Extension Manager.
-
-## Making the plugin required in a repository
-
-JetBrains does not provide a hard "this repo requires plugin X" enforcement for Rider/ReSharper.
-The recommended approach is to pin the *configuration* in the repository so every developer with
-Alignator gets identical alignment, and to document the plugin as a prerequisite:
-
-1. Commit the Alignator keys to the repo's `.editorconfig` (see
-   [README.md](README.md#configuration-via-editorconfig)). Machines without the plugin simply
-   ignore the `csharp_alignator_*` keys — no tooling breaks, but no alignment happens either.
-2. Optionally ship the nupkg through a private company NuGet feed listed in
-   ReSharper → Options → Environment → Extension Manager, so ReSharper users can install it
-   without Marketplace access.
-3. Optionally add a CI check (e.g. `dotnet build` + compare formatted output) that fails when
-   code committed by machines without the plugin is not aligned.
+- Rider/ReSharper have no hard "this repo requires plugin X" enforcement.
+- Commit the Alignator keys to the repo's `.editorconfig` (see [README.md](README.md#configuration-via-editorconfig)) — machines without the plugin simply ignore them.
+- Optionally host the nupkg on a private NuGet feed listed in **ReSharper | Options | Environment | Extension Manager**.
+- Optionally verify alignment in CI (e.g. compare formatted output).

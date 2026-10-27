@@ -7,15 +7,15 @@ internal class AlignArgumentsInFunction_NamedArguments_SpaceBeforeComma
   public void Run()
   {
     // Comma alignment stands back for named arguments - only the names rule pads
-    Caller.F1(name: "T-Rex",
+    Caller.Function1(name: "T-Rex",
         diet: "Carnivore",
         park: "Jurassic Park");
 
     // A mixed list with one named argument stands back completely
-    Caller.F2("Triceratops", "Herbivore", park: "Jurassic Park");
+    Caller.ThatIsADifferentFunction("Triceratops", "Herbivore", park: "Jurassic Park");
 
     // Positional arguments still align across consecutive invocations
-    Caller.F2("Triceratops", "Herbivore");
-    Caller.F2("Moros", "Carnivore");
+    Caller.ThatIsADifferentFunction("Triceratops", "Herbivore");
+    Caller.ThatIsADifferentFunction("Moros", "Carnivore");
   }
 }

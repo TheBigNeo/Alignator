@@ -6,7 +6,7 @@ internal class AlignArgumentNames
   public void Run()
   {
     // Multi-line invocation with named arguments, one argument per line
-    Caller.F1(o1: "T-Rex",
+    Caller.Function1(o1: "T-Rex",
         o2: "Raptor",
         o3: "Triceratops");
 
@@ -19,7 +19,7 @@ internal class AlignArgumentNames
         park: "Jurassic Park");
 
     // Mixed positional and named arguments
-    Caller.F2(o1: "Blue",
+    Caller.ThatIsADifferentFunction(o1: "Blue",
         "T-Rex",
         o3: "Raptor");
 
@@ -33,7 +33,7 @@ internal class AlignArgumentNames
         park: "Jurassic Park 2") { Height = 2 };
 
     // Single-line call with named arguments stays untouched
-    Caller.F3(o1: "T-Rex", o2: "Raptor", o3: "Triceratops");
+    Caller.ThisIsFunction3(o1: "T-Rex", o2: "Raptor", o3: "Triceratops");
   }
 
   // Multi-line attribute with named arguments
