@@ -1,19 +1,20 @@
-﻿namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
 /// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignArgumentNames"/>
 internal class AlignArgumentNames
 {
   public void Run()
   {
     // Multi-line invocation with named arguments, one argument per line
-    Caller.Function1(o1: "T-Rex",
-      o2:                "Raptor",
-      o3:                "Triceratops");
+    Caller.Function1(rex: "T-Rex",
+      raptor:             "Raptor",
+      spino:              "Triceratops");
 
     // Multi-line invocation with named arguments of very different name lengths
-    Caller.F2(aShortName:       "T-Rex",
-      aVeryVeryLoooooooongName: "Raptor",
-      aNormalName:              "Triceratops");
+    Caller.F2(rex:        "T-Rex",
+      pachycephalosaurus: "Raptor",
+      gallimimus:         "Triceratops");
 
     // Multi-line object creation with named arguments, first argument on the same line
     Tyrannosaurus tRex = new(name: "T-Rex",
@@ -24,9 +25,9 @@ internal class AlignArgumentNames
       park:                        "Jurassic Park");
 
     // Mixed positional and named arguments
-    Caller.ThatIsADifferentFunction(o1: "Blue",
+    Caller.ThatIsADifferentFunction(rex: "Blue",
       "T-Rex",
-      o3: "Raptor");
+      spino: "Raptor");
 
     // Multi-line object creation with named arguments, first argument on its own line
     Velociraptor raptor = new(
@@ -35,15 +36,15 @@ internal class AlignArgumentNames
       weight:      150,
       isCarnivore: true,
       dietType:    Diet.Carnivore,
-      park:        "Jurassic Park 2") { Height = 2 };
+      park:        "Jurassic Park 2 - The Lost World") { Height = 2 };
 
     // Single-line call with named arguments stays untouched
-    Caller.ThisIsFunction3(o1: "T-Rex", o2: "Raptor", o3: "Triceratops");
+    Caller.ThisIsFunction3(rex: "T-Rex", raptor: "Raptor", spino: "Triceratops");
   }
 
   // Multi-line attribute with named arguments
-  [TestCase(o1 = "Tyrannosaurus",
-    o2 =         "Rex")]
+  [TestCase(rex = "Tyrannosaurus",
+    raptor =      "Rex")]
   public void MyTest()
   {
   }

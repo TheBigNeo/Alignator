@@ -1,26 +1,27 @@
-﻿namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
 /// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_FUNCTION"/>
 /// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignArgumentsInFunction_NamedArguments_SpaceBeforeComma"/>
 internal class AlignArgumentsInFunction_NamedArguments_SpaceBeforeComma
 {
   public void Run()
   {
     // Comma alignment stands back for named arguments - only the names rule pads
-    Caller.Function1(name: "T-Rex",
-      diet:                "Carnivore",
-      park:                "Jurassic Park");
+    Caller.Function1(rex: "T-Rex",
+      raptor:             "Carnivore",
+      spino:              "Jurassic Park");
 
     Caller.Function1(
-      name: "T-Rex",
-      diet: "Carnivore",
-      park: "Jurassic Park");
+      rex:    "T-Rex",
+      raptor: "Carnivore",
+      spino:  "Jurassic Park");
 
     // A mixed list with one named argument stands back completely
-    Caller.ThatIsADifferentFunction("Triceratops", "Herbivore", park: "Jurassic Park");
+    Caller.ThatIsADifferentFunction("Triceratops", "Herbi", spino: "Jurassic Park");
 
     // Positional arguments still align across consecutive invocations
-    Caller.ThatIsADifferentFunction("Triceratops", "Herbivore");
+    Caller.ThatIsADifferentFunction("Triceratops", "Herbi");
     Caller.ThatIsADifferentFunction("Moros"      , "Carnivore");
   }
 }

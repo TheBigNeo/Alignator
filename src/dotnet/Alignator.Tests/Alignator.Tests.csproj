@@ -4,6 +4,9 @@
     <TargetFramework>net472</TargetFramework>
     <IsPackable>false</IsPackable>
     <RootNamespace>TBN.Alignator.Tests</RootNamespace>
+    <!-- CS0219: the compiled test data contains unused local 'sortIndex' statements on purpose -
+         they sit between the statements under test and keep their alignment groups apart. -->
+    <NoWarn>$(NoWarn);219</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +22,9 @@
 
   <ItemGroup>
     <Compile Remove="test/**/*"/>
-    <Compile Include="test\data\CodeFormatter\CSharp\*.cs"/>
+    <!-- Test data classes are compiled so the seealso crefs between the tests and
+         their test data resolve and are clickable in the IDE. -->
+    <Compile Include="test\data\CodeFormatter\CSharp\AlignArguments\*.cs"/>
     <None Include="test/**/*"/>
   </ItemGroup>
 

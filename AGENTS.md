@@ -102,7 +102,8 @@ parts line up in columns, improving readability of dense code.
 │   │   │   │   └── NodeHelpers.cs     # GetContainingBlockOffset extension
 │   │   │   └── Psi/CodeStyle/Formatting/
 │   │   │       ├── AlignArgumentsProvider.cs  # Core: registers 22 alignment rules
-│   │   │       ├── AlignPosition.cs           # Enum: DoNotChange, SpaceBeforeComma, SpaceAfterComma, SpaceBeforeParenthese, SpaceAfterParenthese
+│   │   │       ├── AlignPosition.cs           # Comma modes: DoNotChange, SpaceBeforeComma, SpaceAfterComma
+│   │   │       ├── FirstArgumentPosition.cs   # First-argument modes: DoNotChange, SpaceBeforeParenthese, SpaceAfterParenthese
 │   │   │       ├── AlignatorSettingsKey.cs    # Settings keys + .editorconfig aliases
 │   │   │       └── AlignatorSettingsSchema.cs # Settings UI page
 │   │   └── Alignator.Tests/       # NUnit test project
@@ -110,12 +111,13 @@ parts line up in columns, improving readability of dense code.
 │   │       ├── TestEnvironment.cs         # Test zone setup
 │   │       ├── GlobalUsings.cs
 │   │       ├── CodeFormatter/CSharp/AlignArguments/
-│   │       │   └── CSharpQuirkyFormattingTest.cs  # 31 formatter tests
+│   │       │   └── CSharpQuirkyFormattingTest.cs  # 35 formatter tests
 │   │       ├── Data/
 │   │       │   ├── TestAlignatorAttribute.cs
 │   │       │   └── TestData.cs
 │   │       └── test/data/CodeFormatter/CSharp/AlignArguments/
-│   │           ├── *.cs          # Input test files
+│   │           ├── *.cs          # Input test files (also compiled - see Test Structure)
+│   │           ├── TestSupport.cs # Attribute stubs for the test data
 │   │           └── *.cs.gold     # Expected output after formatting
 │   └── rider/
 │       └── main/resources/META-INF/plugin.xml  # Plugin descriptor
@@ -135,20 +137,20 @@ The plugin hooks into the ReSharper C# code formatter via `AlignArgumentsProvide
 |--------------------------------------------|------------------------------------------------------|--------------------------------------|--------------------------------------------------------------|
 | Constructor + SpaceBeforeComma             | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
 | Constructor + SpaceAfterComma              | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
-| Constructor + SpaceBeforeParenthese        | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
-| Constructor + SpaceAfterParenthese         | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`    | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
+| Constructor first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`    | `IObjectCreationExpression`          | `IDeclarationStatement`                                      |
 | Constructor assignment + SpaceBeforeComma | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
 | Constructor assignment + SpaceAfterComma  | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
-| Constructor assignment + SpaceBeforeParenthese | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`           | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
-| Constructor assignment + SpaceAfterParenthese  | `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`           | `IObjectCreationExpression`          | Assignment or field/property initializer                     |
+| Constructor assignment first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer                     |
+| Constructor assignment first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR` | `IObjectCreationExpression` | Assignment or field/property initializer                     |
 | Function + SpaceBeforeComma               | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
 | Function + SpaceAfterComma                | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
-| Function + SpaceBeforeParenthese          | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
-| Function + SpaceAfterParenthese           | `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Function first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION`        | `IInvocationExpression`              | `IExpressionStatement`                                       |
+| Function first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION`        | `IInvocationExpression`              | `IExpressionStatement`                                       |
 | Attribute + SpaceBeforeComma              | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
 | Attribute + SpaceAfterComma               | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
-| Attribute + SpaceBeforeParenthese         | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
-| Attribute + SpaceAfterParenthese          | `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                  | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute first argument + SpaceBeforeParenthese | `INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`      | `IAttribute`                         | `IAttributeSectionList`                                       |
+| Attribute first argument + SpaceAfterParenthese  | `INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`      | `IAttribute`                         | `IAttributeSectionList`                                       |
 | Attribute closing parentheses             | `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`              | `IAttribute`                         | `IAttributeSectionList`                                       |
 | Named argument values (after `name:`)     | `INT_ALIGN_ARGUMENT_NAMES`                           | `IArgumentList` / `IAttribute`       | Per call/attribute (list start offset)                        |
 | Dictionary entries + SpaceBeforeComma     | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`    | `ICollectionElementInitializer`      | Per collection initializer of `IObjectCreationExpression`      |
@@ -170,9 +172,11 @@ Each rule uses `IntAlignRule` with a computed alignment key. Argument rules grou
 - **Argument index** within the argument list
 - **Block offset** — document offset of the enclosing block, scoping alignment to consecutive statements within the same block
 
-The paren modes (`SpaceBeforeParenthese`, `SpaceAfterParenthese`) align the gap before/after the
-opening parenthesis with one shared key per block (no argument index) and reuse the after-comma
-rule for the remaining arguments, so each argument index still gets its own column.
+The first-argument rules (`FirstArgumentPosition`: `SpaceBeforeParenthese`, `SpaceAfterParenthese`)
+align the gap before/after the opening parenthesis with one shared key per block (no argument
+index). Their alignment keys (`ArgBeforeOpenParen`, `ArgAfterOpenParen`) are disjoint from the
+comma-rule keys, so first-argument alignment and comma alignment are independent settings that
+can both be enabled at the same time.
 
 Per-call rules (argument names) and per-initializer rules (dictionary entries) use the argument
 list / collection initializer start offset as the alignment group instead of the block offset,
@@ -181,14 +185,19 @@ engine aligns the k-th same-key gap of each line as one column group.
 
 ### Configuration
 
-Eight settings. `AlignPosition` values: `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`, `SpaceBeforeParenthese`, `SpaceAfterParenthese`. The paren values apply to the constructor, function and attribute settings only.
+Eleven settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
+`FirstArgumentPosition` values (the first argument): `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` —
+these are independent of the `AlignPosition` settings and combine freely with them.
 
-| Setting                                              | Type          | Description                                                      |
-|------------------------------------------------------|---------------|------------------------------------------------------------------|
-| `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                 | `AlignPosition` | Aligns arguments in `new Type(...)` calls                      |
-| `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `AlignPosition` | Aligns arguments in `Foo(...)` calls                          |
-| `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                   | `AlignPosition` | Aligns arguments in `[TestCase(...)]` attributes               |
-| `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`               | `bool`        | Aligns closing parentheses of attributes                          |
+| Setting                                              | Type                  | Description                                                      |
+|------------------------------------------------------|-----------------------|------------------------------------------------------------------|
+| `INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                 | `AlignPosition`       | Aligns arguments in `new Type(...)` calls                      |
+| `INT_ALIGN_ARGUMENTS_IN_FUNCTION`                    | `AlignPosition`       | Aligns arguments in `Foo(...)` calls                          |
+| `INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE`                   | `AlignPosition`       | Aligns arguments in `[TestCase(...)]` attributes               |
+| `INT_ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`            | `FirstArgumentPosition` | Aligns the first argument of `new Type(...)` calls           |
+| `INT_ALIGN_FIRST_ARGUMENT_IN_FUNCTION`               | `FirstArgumentPosition` | Aligns the first argument of `Foo(...)` calls               |
+| `INT_ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`              | `FirstArgumentPosition` | Aligns the first argument of `[TestCase(...)]` attributes   |
+| `INT_ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`               | `bool`                | Aligns closing parentheses of attributes                          |
 | `INT_ALIGN_ARGUMENT_NAMES`                            | `bool`        | Aligns values of named arguments                                  |
 | `INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`     | `AlignPosition` | Aligns key-values of `{"Key", Value}` dictionary-style entries |
 | `INT_ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` | `bool`        | Aligns closing braces of dictionary-style entries                 |
@@ -201,6 +210,9 @@ Eight settings. `AlignPosition` values: `DoNotChange`, `SpaceBeforeComma`, `Spac
 csharp_alignator_align_arguments_in_constructor = space_after_comma
 csharp_alignator_align_arguments_in_function = space_after_comma
 csharp_alignator_align_arguments_in_attribute = space_after_comma
+csharp_alignator_align_first_argument_in_constructor = do_not_change
+csharp_alignator_align_first_argument_in_function = do_not_change
+csharp_alignator_align_first_argument_in_attribute = do_not_change
 csharp_alignator_align_closing_paren_in_attribute = true
 csharp_alignator_align_argument_names = true
 csharp_alignator_align_key_values_in_collection_initializer = space_after_comma
@@ -264,11 +276,22 @@ Each test:
 
 1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/`
 2. Uses `[TestSetting]` attributes to configure `AlignatorSettingsKey` values
-3. Calls `DoNamedTest2()` which formats the input and compares against the gold file
+3. Carries `<seealso>` doc comments linking test method and test data class in both directions - clickable in the IDE
+4. Calls `DoNamedTest2()` which formats the input and compares against the gold file
 
 ### Test Data
 
 Test data stubs (`TestData.cs`) define dummy types (`StringSetting`, `IntSetting`, `Caller.F1`, etc.) so test files compile without external dependencies.
+
+The test `.cs` data files are **compiled** (`Compile Include` in `Alignator.Tests.csproj`) even though the
+formatter tests read them as text: compilation makes the `<seealso>` crefs between
+`CSharpQuirkyFormattingTest` and the test data classes resolve in the IDE. `GlobalUsings.cs` provides
+`TBN.Alignator.Tests.Data` and `TBN.Alignator.Psi.CodeStyle.Formatting` to them. The attribute names used
+in the attribute test data (`Test`, `TestCase`, `TyrannosaurusTestCase`, `RaptorTest`,
+`PachycephalosaurusTestCase`) are stubs in `TestSupport.cs` inside the test-data namespace - they take
+precedence over NUnit's attributes there and never clash with the real test files. CS0219 is suppressed
+in the test project because the test data contains unused `sortIndex` locals on purpose (they keep
+alignment groups apart).
 
 The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `indent_size = 2` for test data files and disables various ReSharper highlighting rules.
 
@@ -284,11 +307,11 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 
 | File                                                                                           | Purpose                                                                             |
 |------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs`                      | Core formatter logic — registers all 14 alignment rules                             |
+| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs`                      | Core formatter logic — registers all 22 alignment rules                             |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`                        | Settings definitions with .editorconfig aliases                                     |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`                     | Settings UI page with live preview                                                  |
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                                  | `GetContainingBlockOffset` — scopes alignment to a block                            |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs` | All 25 formatter tests                                                              |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs` | All 35 formatter tests                                                              |
 | `build.gradle.kts`                                                                             | Gradle build: compiles .NET, runs tests, packages plugin                            |
 | `gradle.properties`                                                                            | Version numbers, SDK version, plugin IDs                                            |
 | `src/dotnet/Plugin.props`                                                                      | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties` |
@@ -297,7 +320,7 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 
 To add a new alignment mode:
 
-1. Add a new value to `AlignPosition` enum
+1. Add a new value to the `AlignPosition` enum (arguments after the first) or the `FirstArgumentPosition` enum (the first argument)
 2. Add a new method in `AlignArgumentsProvider.Initialize()` following the existing pattern
 3. Add a new test in `CSharpQuirkyFormattingTest.cs` with corresponding `.cs`/`.cs.gold` test data files
 4. Update `AlignatorSettingsSchema.cs` if the new mode needs a settings UI entry

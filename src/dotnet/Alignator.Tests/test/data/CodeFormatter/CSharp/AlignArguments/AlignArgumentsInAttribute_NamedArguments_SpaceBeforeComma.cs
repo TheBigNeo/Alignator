@@ -2,6 +2,7 @@ namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
 /// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_ATTRIBUTE"/>
 /// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENT_NAMES"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignArgumentsInAttribute_NamedArguments_SpaceBeforeComma"/>
 internal class AlignArgumentsInAttribute_NamedArguments_SpaceBeforeComma
 {
   // Comma alignment stands back for named attribute arguments - only the names rule pads

@@ -1,6 +1,10 @@
+#nullable enable
+using System.Collections.Generic;
+
 namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
 /// <seealso cref="AlignatorSettingsKey.INT_ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignKeyValuesInCollectionInitializer_DoNotChange"/>
 internal class AlignKeyValuesInCollectionInitializer_DoNotChange
 {
   static void IndominusRex()

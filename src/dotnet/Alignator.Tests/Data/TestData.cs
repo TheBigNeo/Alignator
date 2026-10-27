@@ -15,60 +15,72 @@ internal abstract class AbstractDinosaur
 
 internal sealed class Tyrannosaurus : AbstractDinosaur
 {
-    public Tyrannosaurus(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Tyrannosaurus(object name, object diet = null, object weight = null, object isCarnivore = null, object dietType = null, object park = null) { }
 }
 
 internal sealed class Velociraptor : AbstractDinosaur
 {
-    public Velociraptor(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Velociraptor(object name, object diet = null, object weight = null, object isCarnivore = null, object dietType = null, object park = null) { }
 }
 
 internal sealed class Triceratops : AbstractDinosaur
 {
-    public Triceratops(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Triceratops(object name, object diet = null, object weight = null, object isCarnivore = null, object dietType = null, object park = null) { }
 }
 
 internal sealed class Brachiosaurus : AbstractDinosaur
 {
-    public Brachiosaurus(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
+    public Brachiosaurus(object name, object diet = null, object weight = null, object isCarnivore = null, object dietType = null, object park = null) { }
+}
+
+internal sealed class Moros : AbstractDinosaur
+{
+    public Moros(object name, object diet = null, object weight = null, object isCarnivore = null, object dietType = null, object park = null) { }
+}
+
+internal sealed class Spinosaurus : AbstractDinosaur
+{
+    public Spinosaurus(object name, object diet = null, object weight = null, object isCarnivore = null, object dietType = null, object park = null) { }
 }
 
 internal enum Diet
 {
     Carnivore = 1,
-    Herbivore = 2,
+    Herbi     = 2,
 }
 
 public static class Caller
 {
-    public static void Function1(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
-    public static void ThatIsADifferentFunction(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
-    public static void ThisIsFunction3(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
-    public static void F4(object o1, object o2 = null, object o3 = null, object o4 = null, object o5 = null, object o6 = null) { }
-    public static void F2(object aShortName, object aVeryVeryLoooooooongName = null, object aNormalName = null) { }
+    public static void Function1(object                rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
+    public static void ThatIsADifferentFunction(object rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
+    public static void ThisIsFunction3(object          rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
+    public static void F4(object                       rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
+    public static void F2(object                       rex, object pachycephalosaurus = null, object gallimimus = null) { }
 }
 
 internal sealed class DinosaurPark
 {
-    private Tyrannosaurus        _tRex;
-    private Velociraptor         _raptor;
-    public  Triceratops          Trice { get; private set; }
-    public  Brachiosaurus        Brachio { get; }
+    private Tyrannosaurus _tRex;
+    private Moros         _moros;
+    private Velociraptor  _raptor;
+    public  Triceratops   Trice   { get; private set; }
+    public  Brachiosaurus Brachio { get; }
 
     public DinosaurPark(int sortIndex)
     {
         _tRex   = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
-        _raptor = new Velociraptor("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2") { Height = 2 };
-        Trice   = new Triceratops("Trice", "Herbivore", 9000, false, Diet.Herbivore) { Height = 3 };
-        Brachio = new Brachiosaurus("Brachio", "Herbivore", 6000, false, 250) { Description = "Long neck" };
+        _moros  = new Moros("Moros", "Carnivore", 70, true, Diet.Carnivore, null);
+        _raptor = new Velociraptor("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2 - The Lost World") {Height = 2};
+        Trice   = new Triceratops("Trice", "Herbi", 9000, false, Diet.Herbi) {Height                                             = 3};
+        Brachio = new Brachiosaurus("Brachio", "Herbi", 6000, false, 250) {Description                                           = "Long neck"};
     }
 }
 
 internal enum DangerLevel
 {
-    Low = 1,
-    Medium = 2,
-    High = 3,
+    Low     = 1,
+    Medium  = 2,
+    High    = 3,
     Extreme = 4,
 }
 
@@ -84,6 +96,6 @@ internal sealed class ParkSettings
 
 internal static class RecordFactory
 {
-    public static DinosaurRecord GetDinosaurRecord(object source) => new("Echo", "Carnivore", 0, DangerLevel.Low, false);
+    public static DinosaurRecord  GetDinosaurRecord(object  source) => new("Echo", "Carnivore", 0, DangerLevel.Low, false);
     public static FeedingSchedule GetFeedingSchedule(object source) => new("09:00", "Goat", 1, "T-Rex");
 }

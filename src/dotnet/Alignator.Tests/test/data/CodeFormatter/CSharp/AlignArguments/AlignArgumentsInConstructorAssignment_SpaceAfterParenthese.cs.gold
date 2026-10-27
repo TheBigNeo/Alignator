@@ -1,0 +1,33 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+/// <seealso cref="AlignatorSettingsKey.INT_ALIGN_ARGUMENTS_IN_CONSTRUCTOR"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignArgumentsInConstructorAssignment_SpaceAfterParenthese"/>
+internal class AlignArgumentsInConstructorAssignment_SpaceAfterParenthese
+{
+  private Tyrannosaurus _tRex;
+  private Moros _moros;
+  private Velociraptor _raptor;
+  public Triceratops Trice { get; private set; }
+  public Brachiosaurus Brachio { get; }
+
+  public AlignArgumentsInConstructorAssignment_SpaceAfterParenthese()
+  {
+    var localPark = new Brachiosaurus("Local", "Herbi", 100, false, 12) { Description = "Local park" };
+    var sortIndex = 1;
+
+    _tRex = new Tyrannosaurus(  "T-Rex",   "Carnivore", 8000, true,  Diet.Carnivore, "Jurassic Park");
+    _moros = new Moros(         "Moros",   "Carnivore", 70,   true,  Diet.Carnivore, null);
+    _raptor = new Velociraptor( "Raptor",  "Carnivore", 150,  true,  Diet.Carnivore, "Jurassic Park 2 - The Lost World") { Height = 2 };
+    Trice = new Triceratops(    "Trice",   "Herbi",     9000, false, Diet.Herbi) { Height = 3 };
+    Brachio = new Brachiosaurus("Brachio", "Herbi",     6000, false, 250) { Description = "Long neck" };
+  }
+}
+
+internal class AlignArgumentsInConstructorAssignment_SpaceAfterParenthese_Fields
+{
+  private Tyrannosaurus _tRex = new Tyrannosaurus(                 "T-Rex",   "Carnivore", 8000, true,  Diet.Carnivore, "Jurassic Park");
+  private Moros _moros = new Moros(                                "Moros",   "Carnivore", 70,   true,  Diet.Carnivore, null);
+  private Velociraptor _raptor = new Velociraptor(                 "Raptor",  "Carnivore", 150,  true,  Diet.Carnivore, "Jurassic Park 2 - The Lost World") { Height = 2 };
+  public Triceratops Trice { get; private set; } = new Triceratops("Trice",   "Herbi",     9000, false, Diet.Herbi) { Height = 3 };
+  public Brachiosaurus Brachio { get; } = new Brachiosaurus(       "Brachio", "Herbi",     6000, false, 250) { Description = "Long neck" };
+}
