@@ -6,20 +6,20 @@ internal class AlignArgumentsInFunction_ClosingParen
 {
   static void CallFunctions()
   {
-    Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
-    Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-    Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+    Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+    Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+    Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
   }
 
   static void CallFunctionsWithWrappedArguments()
   {
-    Caller.Function1("Ankylo",
+    Caller.FeedDinosaurs("Ankylo",
         "Brachio");
-    Caller.Function1("Veloci",
+    Caller.FeedDinosaurs("Veloci",
         "Tyrannosaurus");
 
     // A closing parenthesis wrapped onto its own line stays untouched
-    Caller.Function1("Moso",
+    Caller.FeedDinosaurs("Moso",
         "Indor",
         "Spino"
     );

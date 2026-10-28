@@ -6,8 +6,8 @@ internal class AlignArgumentsInFunction_SpaceAfterParenthese
 {
   static void CallFunctions()
   {
-    Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
-    Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-    Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+    Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+    Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+    Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
   }
 }

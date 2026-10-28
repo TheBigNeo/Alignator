@@ -51,11 +51,11 @@ internal enum Diet
 
 public static class Caller
 {
-    public static void Function1(object                rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
-    public static void ThatIsADifferentFunction(object rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
-    public static void ThisIsFunction3(object          rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
-    public static void F4(object                       rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
-    public static void F2(object                       rex, object pachycephalosaurus = null, object gallimimus = null) { }
+    public static void Scan(object                          rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
+    public static void TrackPack(object                     rex, object pachycephalosaurus = null, object gallimimus = null)                                                               { }
+    public static void FeedDinosaurs(object                 rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
+    public static void CountHerdInPaddock(object            rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
+    public static void TransportDinosaursToIslaSorna(object rex, object raptor             = null, object spino      = null, object baryo = null, object moso = null, object galli = null) { }
 }
 
 internal sealed class DinosaurPark

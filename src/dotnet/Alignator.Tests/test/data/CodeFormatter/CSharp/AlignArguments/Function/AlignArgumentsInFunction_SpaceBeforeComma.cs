@@ -6,13 +6,13 @@ internal class AlignArgumentsInFunction_SpaceBeforeComma
 {
   static void CallFunctions()
   {
-    Caller.Function1("T-Rex"                    , "Raptor"       , "Moros"        , "Triceratops");
-    Caller.Function1("Ankylo"                   , "Tyrannosaurus", "Indominus rex", "Brachio");
-    Caller.ThatIsADifferentFunction("Gallimimus", "Indor"        , "Carno"        , "Spino");
-    Caller.Function1("Veloci"                   , "Baryo"        , "Moso"         , "Dilophosaurus");
-    Caller.ThisIsFunction3("T-Rex"              , "Raptor"       , "Moros"        , "Triceratops");
-    Caller.Function1("Ankylo"                   , "Tyrannosaurus", "Indominus rex", "Brachio");
-    Caller.F4("Gallimimus"                      , "Indor"        , "Carno"        , "Spino");
-    Caller.Function1("Veloci"                   , "Baryo"        , "Moso"         , "Dilophosaurus");
+    Caller.FeedDinosaurs("T-Rex"                    , "Raptor"       , "Moros"        , "Triceratops");
+    Caller.FeedDinosaurs("Ankylo"                   , "Tyrannosaurus", "Indominus rex", "Brachio");
+    Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor"        , "Carno"        , "Spino");
+    Caller.FeedDinosaurs("Veloci"                   , "Baryo"        , "Moso"         , "Dilophosaurus");
+    Caller.CountHerdInPaddock("T-Rex"              , "Raptor"       , "Moros"        , "Triceratops");
+    Caller.FeedDinosaurs("Ankylo"                   , "Tyrannosaurus", "Indominus rex", "Brachio");
+    Caller.Scan("Gallimimus"                      , "Indor"        , "Carno"        , "Spino");
+    Caller.FeedDinosaurs("Veloci"                   , "Baryo"        , "Moso"         , "Dilophosaurus");
   }
 }

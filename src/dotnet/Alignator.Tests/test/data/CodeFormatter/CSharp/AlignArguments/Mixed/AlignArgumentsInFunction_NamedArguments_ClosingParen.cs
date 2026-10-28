@@ -11,9 +11,9 @@ internal class AlignArgumentsInFunction_NamedArguments_ClosingParen
     // closing-parenthesis rule pads before the closing parenthesis - the two combine.
     // The closing parentheses of the two calls sit on consecutive lines, so they
     // share one column.
-    Caller.F2(rex: "T-Rex",
+    Caller.TrackPack(rex: "T-Rex",
         pachycephalosaurus: "Raptor",
         gallimimus: "Moros");
-    Caller.F2("Veloci", "Baryo");
+    Caller.TrackPack("Veloci", "Baryo");
   }
 }

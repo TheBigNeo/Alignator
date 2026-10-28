@@ -189,14 +189,14 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """
                             static void CallFunctions()
                             {
-                              Caller.F1("T-Rex",  "Raptor",        "Moros",         "Triceratops");
-                              Caller.F1("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
-                              Caller.F2("Gallimimus", "Indor", "Carno", "Spino");
-                              Caller.F1("Veloci", "Baryo", "Moso", "Dilophosaurus");
-                              Caller.F3("T-Rex", "Raptor", "Moros", "Triceratops");
-                              Caller.F1("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
-                              Caller.F4("Gallimimus", "Indor", "Carno", "Spino");
-                              Caller.F1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+                              Caller.FeedDinosaurs("T-Rex",  "Raptor",        "Moros",         "Triceratops");
+                              Caller.FeedDinosaurs("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
+                              Caller.TrackPack("Gallimimus", "Indor", "Carno", "Spino");
+                              Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
+                              Caller.CountHerdInPaddock("T-Rex", "Raptor", "Moros", "Triceratops");
+                              Caller.FeedDinosaurs("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
+                              Caller.Scan("Gallimimus", "Indor", "Carno", "Spino");
+                              Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
                             }
                     """,
                     parseType: PreviewParseType.Member,
@@ -205,9 +205,9 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """
                             static void CallFunctions()
                             {
-                              Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
-                              Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-                              Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+                              Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+                              Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+                              Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
                             }
                     """,
                     parseType: PreviewParseType.Member,
@@ -216,9 +216,9 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """
                             static void CallFunctions()
                             {
-                              Caller.Function1("T-Rex",  "Raptor",        "Moros",         "Triceratops");
-                              Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-                              Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+                              Caller.FeedDinosaurs("T-Rex",  "Raptor",        "Moros",         "Triceratops");
+                              Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+                              Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
                             }
                     """,
                     parseType: PreviewParseType.Member,

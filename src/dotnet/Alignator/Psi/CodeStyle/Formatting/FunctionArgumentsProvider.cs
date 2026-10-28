@@ -46,8 +46,8 @@ public class FunctionArgumentsProvider : AlignArgumentsProviderBase
     /// </summary>
     /// <example>
     ///     <code>
-    ///     Caller.F1("T-Rex"      , "Carnivore");
-    ///     Caller.F1("Triceratops", "Herbi");
+    ///     Caller.FeedDinosaurs("T-Rex"      , "Carnivore");
+    ///     Caller.FeedDinosaurs("Triceratops", "Herbi");
     ///     </code>
     /// </example>
     private void ALIGN_FUNCTION_ARGUMENTS_SpaceBeforeComma()
@@ -68,8 +68,8 @@ public class FunctionArgumentsProvider : AlignArgumentsProviderBase
     /// </summary>
     /// <example>
     ///     <code>
-    ///     Caller.F1("T-Rex",       "Carnivore");
-    ///     Caller.F1("Triceratops", "Herbi");
+    ///     Caller.FeedDinosaurs("T-Rex",       "Carnivore");
+    ///     Caller.FeedDinosaurs("Triceratops", "Herbi");
     ///     </code>
     /// </example>
     private void ALIGN_FUNCTION_ARGUMENTS_SpaceAfterComma()
@@ -93,8 +93,8 @@ public class FunctionArgumentsProvider : AlignArgumentsProviderBase
     /// </summary>
     /// <example>
     ///     <code>
-    ///     Caller.Function1(               "T-Rex",      "Raptor");
-    ///     Caller.ThatIsADifferentFunction("Gallimimus", "Indor");
+    ///     Caller.FeedDinosaurs               ("T-Rex",      "Raptor");
+    ///     Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor");
     ///     </code>
     /// </example>
     private void ALIGN_FUNCTION_ARGUMENTS_FIRST_SpaceBeforeParenthese()
@@ -117,8 +117,8 @@ public class FunctionArgumentsProvider : AlignArgumentsProviderBase
     /// </summary>
     /// <example>
     ///     <code>
-    ///     Caller.Function1(                "T-Rex",      "Raptor");
-    ///     Caller.ThatIsADifferentFunction("Gallimimus", "Indor");
+    ///     Caller.FeedDinosaurs(          "T-Rex",      "Raptor");
+    ///     Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor");
     ///     </code>
     /// </example>
     private void ALIGN_FUNCTION_ARGUMENTS_FIRST_SpaceAfterParenthese()
@@ -140,8 +140,8 @@ public class FunctionArgumentsProvider : AlignArgumentsProviderBase
     /// </summary>
     /// <example>
     ///     <code>
-    ///     Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops"  );
-    ///     Caller.Function2("Veloci", "Baryo", "Moso", "Dilophosaurus");
+    ///     Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops"  );
+    ///     Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
     ///     </code>
     /// </example>
     private void ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN_SpaceBeforeClosingParen()

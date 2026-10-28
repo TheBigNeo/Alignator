@@ -44,9 +44,9 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
     /// </summary>
     /// <example>
     ///     <code>
-    ///     Caller.F2(rex:                "T-Rex",
-    ///               pachycephalosaurus: "Raptor",
-    ///               gallimimus:         "Triceratops");
+    ///     Caller.TrackPack(rex:             "T-Rex",
+    ///                   pachycephalosaurus: "Raptor",
+    ///                   gallimimus:         "Triceratops");
     ///     </code>
     /// </example>
     private void ALIGN_ARGUMENTS_NAMED_AfterNameColon()

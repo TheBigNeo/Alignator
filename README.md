@@ -10,17 +10,17 @@ For example, arguments of function calls:
 **Before**
 
 ```csharp
-Caller.Function1("T-Rex",  "Raptor",        "Moros",         "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
 ```
 
 **After**
 
 ```csharp
-Caller.Function1("T-Rex",                     "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
-Caller.Function1("Veloci",                    "Baryo",  "Moso",  "Dilophosaurus");
+Caller.FeedDinosaurs("T-Rex",                      "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.FeedDinosaurs("Veloci",                     "Baryo",  "Moso",  "Dilophosaurus");
 ```
 
 …or arguments of test attributes:
@@ -57,24 +57,24 @@ The first argument (`csharp_alignator_align_*_arguments_first`):
 
 ```csharp
 // AlignPosition = SpaceBeforeComma
-Caller.F1("T-Rex"     , "Raptor"       , "Moros"        , "Triceratops");
-Caller.F2("Gallimimus", "Indor"        , "Carno"        , "Spino");
-Caller.F1("Ankylo"    , "Tyrannosaurus", "Indominus rex", "Brachio");
+Caller.FeedDinosaurs("T-Rex"          , "Raptor"       , "Moros"        , "Triceratops");
+Caller.CountHerdInPaddock("Gallimimus", "Indor"        , "Carno"        , "Spino");
+Caller.FeedDinosaurs("Ankylo"         , "Tyrannosaurus", "Indominus rex", "Brachio");
 
 // FirstArgumentPosition = SpaceBeforeParenthese
-Caller.Function1               ("T-Rex", "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-Caller.Function1               ("Veloci", "Baryo", "Moso", "Dilophosaurus");
+Caller.FeedDinosaurs                ("T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.FeedDinosaurs                ("Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
 
 // FirstArgumentPosition = SpaceAfterParenthese
-Caller.Function1(               "T-Rex", "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-Caller.Function1(               "Veloci", "Baryo", "Moso", "Dilophosaurus");
+Caller.FeedDinosaurs(                "T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.FeedDinosaurs(                "Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
 
 // FirstArgumentPosition = SpaceAfterParenthese + AlignPosition = SpaceBeforeComma
-Caller.Function1(               "T-Rex"     , "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor" , "Carno", "Spino");
-Caller.Function1(               "Veloci"    , "Baryo" , "Moso" , "Dilophosaurus");
+Caller.FeedDinosaurs(                "T-Rex"     , "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor" , "Carno", "Spino");
+Caller.FeedDinosaurs(                "Veloci"    , "Baryo" , "Moso" , "Dilophosaurus");
 ```
 
 > **Note on SpaceBeforeComma:** it is rarely used as the final code style in production.
@@ -261,17 +261,17 @@ var diloph = new Brachiosaurus( "Dilophosaurus", "Carnivore", 500 , true , Diet.
 Before
 
 ```csharp
-Caller.F1("T-Rex", "Raptor", "Moros", "Triceratops");
-Caller.F1("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
-Caller.F2("Gallimimus", "Indor", "Carno", "Spino");
+Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+Caller.FeedDinosaurs("Ankylo", "Tyrannosaurus", "Indominus rex", "Brachio");
+Caller.CountHerdInPaddock("Gallimimus", "Indor", "Carno", "Spino");
 ```
 
 After (`space_after_comma`)
 
 ```csharp
-Caller.F1("T-Rex",      "Raptor",        "Moros",         "Triceratops");
-Caller.F1("Ankylo",     "Tyrannosaurus", "Indominus rex", "Brachio");
-Caller.F2("Gallimimus", "Indor",         "Carno",         "Spino");
+Caller.FeedDinosaurs("T-Rex",           "Raptor",        "Moros",         "Triceratops");
+Caller.FeedDinosaurs("Ankylo",          "Tyrannosaurus", "Indominus rex", "Brachio");
+Caller.CountHerdInPaddock("Gallimimus", "Indor",         "Carno",         "Spino");
 ```
 
 ### Align first argument in function
@@ -285,25 +285,25 @@ comma setting, which keeps aligning the arguments after the first:
 Before
 
 ```csharp
-Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
 ```
 
 After (`space_before_parenthese`, shown together with `space_after_comma` for the remaining arguments)
 
 ```csharp
-Caller.Function1               ("T-Rex",      "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
-Caller.Function1               ("Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
+Caller.FeedDinosaurs                ("T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.FeedDinosaurs                ("Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
 ```
 
 After (`space_after_parenthese`, shown together with `space_after_comma` for the remaining arguments)
 
 ```csharp
-Caller.Function1(               "T-Rex",      "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor",  "Carno", "Spino");
-Caller.Function1(               "Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
+Caller.FeedDinosaurs(                "T-Rex",      "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor",  "Carno", "Spino");
+Caller.FeedDinosaurs(                "Veloci",     "Baryo",  "Moso",  "Dilophosaurus");
 ```
 
 ### Align arguments in attribute
@@ -396,17 +396,17 @@ wrapped onto its own line is never padded.
 Before
 
 ```csharp
-Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
 ```
 
 After (`true`)
 
 ```csharp
-Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops"             );
-Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
-Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus"            );
+Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops"              );
+Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus"             );
 ```
 
 ### Align argument names
@@ -416,7 +416,7 @@ Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus"            );
 Before
 
 ```csharp
-Caller.F2(rex: "T-Rex",
+Caller.TrackPack(rex: "T-Rex",
     pachycephalosaurus: "Raptor",
     gallimimus: "Triceratops");
 ```
@@ -424,9 +424,9 @@ Caller.F2(rex: "T-Rex",
 After (`true`)
 
 ```csharp
-Caller.F2(rex:         "T-Rex",
+Caller.TrackPack(rex:  "T-Rex",
     pachycephalosaurus: "Raptor",
-    gallimimus:          "Triceratops");
+    gallimimus:        "Triceratops");
 ```
 
 The same setting aligns named arguments of object creations (`new Velociraptor(rex: ...)` on separate lines)

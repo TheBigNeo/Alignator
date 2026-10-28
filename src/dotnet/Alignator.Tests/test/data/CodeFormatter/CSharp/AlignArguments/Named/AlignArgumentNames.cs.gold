@@ -1,4 +1,4 @@
-using TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+﻿using TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
 namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Named;
 
@@ -9,12 +9,12 @@ internal class AlignArgumentNames
   public void Run()
   {
     // Multi-line invocation with named arguments, one argument per line
-    Caller.Function1(rex: "T-Rex",
-      raptor:             "Raptor",
-      spino:              "Triceratops");
+    Caller.FeedDinosaurs(rex: "T-Rex",
+      raptor:                 "Raptor",
+      spino:                  "Triceratops");
 
     // Multi-line invocation with named arguments of very different name lengths
-    Caller.F2(rex:        "T-Rex",
+    Caller.TrackPack(rex: "T-Rex",
       pachycephalosaurus: "Raptor",
       gallimimus:         "Triceratops");
 
@@ -27,7 +27,7 @@ internal class AlignArgumentNames
       park:                        "Jurassic Park");
 
     // Mixed positional and named arguments
-    Caller.ThatIsADifferentFunction(rex: "Blue",
+    Caller.TransportDinosaursToIslaSorna(rex: "Blue",
       "T-Rex",
       spino: "Raptor");
 
@@ -41,7 +41,7 @@ internal class AlignArgumentNames
       park:        "Jurassic Park 2 - The Lost World") { Height = 2 };
 
     // Single-line call with named arguments stays untouched
-    Caller.ThisIsFunction3(rex: "T-Rex", raptor: "Raptor", spino: "Triceratops");
+    Caller.CountHerdInPaddock(rex: "T-Rex", raptor: "Raptor", spino: "Triceratops");
   }
 
   // Multi-line attribute with named arguments

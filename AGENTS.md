@@ -311,7 +311,7 @@ Each test:
 
 ### Test Data
 
-Test data stubs (`TestData.cs`) define dummy types (`StringSetting`, `IntSetting`, `Caller.F1`, etc.) so test files compile without external dependencies.
+Test data stubs (`TestData.cs`) define dummy types (`StringSetting`, `IntSetting`, `Caller.FeedDinosaurs`, etc.) so test files compile without external dependencies.
 
 The test `.cs` data files are **compiled** (`Compile Include` in `Alignator.Tests.csproj`) even though the
 formatter tests read them as text: compilation makes the `<seealso>` crefs between
