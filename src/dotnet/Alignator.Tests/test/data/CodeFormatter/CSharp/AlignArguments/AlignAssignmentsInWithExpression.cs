@@ -2,7 +2,7 @@ using static TBN.Alignator.Tests.Data.RecordFactory;
 
 namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
-/// <seealso cref="AlignatorSettingsKey.ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION"/>
+/// <seealso cref="AlignatorSettingsKey.ALIGN_WITH_EXPRESSION_ASSIGNMENTS"/>
 /// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignAssignmentsInWithExpression"/>
 internal class AlignAssignmentsInWithExpression
 {

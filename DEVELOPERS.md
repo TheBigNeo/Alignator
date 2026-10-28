@@ -29,20 +29,20 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 - [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 11 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
 - UI: [AlignatorSettingsSchema.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs) ("Alignator align arguments" page part, live previews).
 
-| Name (Setting UI)                                 | Type                  | `.editorconfig` key                                               | Enum Value                                           |
-|---------------------------------------------------|-----------------------|-------------------------------------------------------------------|------------------------------------------------------|
-| Align variables in columns *(built-in, required)* | `bool`                | `int_align_variables`                                             | `CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`        |
-| Align arguments in constructor                    | `AlignPosition`       | `csharp_alignator_align_arguments_in_constructor`                 | `ALIGN_ARGUMENTS_IN_CONSTRUCTOR`                 |
-| Align argument in function                        | `AlignPosition`       | `csharp_alignator_align_arguments_in_function`                    | `ALIGN_ARGUMENTS_IN_FUNCTION`                    |
-| Align arguments in attribute                      | `AlignPosition`       | `csharp_alignator_align_arguments_in_attribute`                   | `ALIGN_ARGUMENTS_IN_ATTRIBUTE`                   |
-| Align first argument in constructor                | `FirstArgumentPosition` | `csharp_alignator_align_first_argument_in_constructor`           | `ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR`           |
-| Align first argument in function                  | `FirstArgumentPosition` | `csharp_alignator_align_first_argument_in_function`              | `ALIGN_FIRST_ARGUMENT_IN_FUNCTION`               |
-| Align first argument in attribute                 | `FirstArgumentPosition` | `csharp_alignator_align_first_argument_in_attribute`             | `ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE`              |
-| Align closing parenthesis in attribute            | `bool`                | `csharp_alignator_align_closing_paren_in_attribute`               | `ALIGN_CLOSING_PAREN_IN_ATTRIBUTE`               |
-| Align argument names                              | `bool`                | `csharp_alignator_align_argument_names`                           | `ALIGN_ARGUMENT_NAMES`                           |
-| Align key-values in collection initializer        | `AlignPosition`       | `csharp_alignator_align_key_values_in_collection_initializer`     | `ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER`     |
-| Align closing braces in collection initializer    | `bool`                | `csharp_alignator_align_closing_braces_in_collection_initializer` | `ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER` |
-| Align assignments in with expression              | `bool`                | `csharp_alignator_align_assignments_in_with_expression`           | `ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION`           |
+| Name (Setting UI)                                   | Type                    | `.editorconfig` key                                                 | Enum Value                                             |
+| --------------------------------------------------- | ----------------------- | ------------------------------------------------------------------- | ------------------------------------------------------ |
+| Align variables in columns *(built-in, required)*   | `bool`                  | `int_align_variables`                                               | `CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`          |
+| Align arguments in constructor                      | `AlignPosition`         | `csharp_alignator_align_constructor_arguments`                      | `ALIGN_CONSTRUCTOR_ARGUMENTS`                          |
+| Align argument in function                          | `AlignPosition`         | `csharp_alignator_align_function_arguments`                         | `ALIGN_FUNCTION_ARGUMENTS`                             |
+| Align arguments in attribute                        | `AlignPosition`         | `csharp_alignator_align_attribute_arguments`                        | `ALIGN_ATTRIBUTE_ARGUMENTS`                            |
+| Align first argument in constructor                 | `FirstArgumentPosition` | `csharp_alignator_align_constructor_arguments_first`                | `ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST`                    |
+| Align first argument in function                    | `FirstArgumentPosition` | `csharp_alignator_align_function_arguments_first`                   | `ALIGN_FUNCTION_ARGUMENTS_FIRST`                       |
+| Align first argument in attribute                   | `FirstArgumentPosition` | `csharp_alignator_align_attribute_arguments_first`                  | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`                      |
+| Align closing parenthesis in attribute              | `bool`                  | `csharp_alignator_align_attribute_arguments_closing_paren`          | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`              |
+| Align argument names                                | `bool`                  | `csharp_alignator_align_arguments_named`                            | `ALIGN_ARGUMENTS_NAMED`                                |
+| Align key-values in collection initializer          | `AlignPosition`         | `csharp_alignator_align_collection_initializer_key_values`          | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`              |
+| Align closing braces in collection initializer      | `bool`                  | `csharp_alignator_align_collection_initializer_closing_braces`      | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES`          |
+| Align assignments in with expression                | `bool`                  | `csharp_alignator_align_with_expression_assignments`                | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`                    |
 
 - **Enum Value** is the settings key used in code — `INT_*` fields on `AlignatorSettingsKey`, the built-in switch on `CSharpFormatSettingsKey`.
 
@@ -64,7 +64,7 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 
 The first-argument settings are independent of the comma settings: both can be enabled at the same time —
 the first-argument setting pads the parenthesis gap, the comma setting pads the comma gaps.
-The `csharp_alignator_align_key_values_in_collection_initializer` setting uses `AlignPosition` only
+The `csharp_alignator_align_collection_initializer_key_values` setting uses `AlignPosition` only
 (dictionary-style entries have no parentheses).
 
 ##### `bool`

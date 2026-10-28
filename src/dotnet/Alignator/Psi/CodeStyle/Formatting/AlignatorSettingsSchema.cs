@@ -49,7 +49,96 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_IN_CONSTRUCTOR,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_NAMED,
+                    """
+                    static void CallFunctions()
+                    {
+                      Tyrannosaurus tRex = new(name: "T-Rex",
+                          diet: "Carnivore",
+                          weight: 8000,
+                          isCarnivore: true,
+                          dietType: Diet.Carnivore,
+                          park: "Jurassic Park");
+
+                      Velociraptor raptor = new(
+                          name: "Raptor",
+                          diet: "Carnivore",
+                          weight: 150,
+                          isCarnivore: true,
+                          dietType: Diet.Carnivore,
+                          park: "Jurassic Park 2 - The Lost World") { Height = 2 };
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ATTRIBUTE_ARGUMENTS,
+                    """
+                    [TestCase("Tyrannosaurus", "Rex")]
+                    [TestCase("Velociraptor", "Raptor")]
+                    [TestCase("Moros", "Moros")]
+                    [TestCase("Pachycephalosaurus", "Pachy")]
+                    [TestFixture]
+                    public void MyTest(string name, string nickname) { }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN,
+                    """
+                    [TestCase("Tyrannosaurus", "Rex")]
+                    [TestCase("Velociraptor", "Raptor")]
+                    [TestCase("Moros", "Moros")]
+                    [TestCase("Pachycephalosaurus", "Pachy")]
+                    [TestFixture]
+                    public void MyTest(string name, string nickname) { }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ATTRIBUTE_ARGUMENTS_FIRST,
+                    """
+                    [TyrannosaurusTestCase("Tyrannosaurus", "Rex")]
+                    [RaptorTest("Velociraptor", "Raptor")]
+                    [Test("Moros", "Moros")]
+                    [PachycephalosaurusTestCase("Pachycephalosaurus", "Pachy")]
+                    [TestFixture]
+                    public void MyTest(string name, string nickname) { }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES,
+                    """
+                    static void DinoFacts()
+                    {
+                      Dictionary<string, string> indominusRexFacts = new()
+                      {
+                        {"Name", "Indominus Rex"},
+                        {"Diet", "Carnivore"},
+                        {"Period", "Cretaceous"},
+                        {"Weight", "8,000 kg"},
+                        {"Enclosure", "Paddock 11"},
+                        {"Genome", "T-Rex, Velociraptor, Cuttlefish, Tree Frog"},
+                      };
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_COLLECTION_INITIALIZER_KEY_VALUES,
+                    """
+                    static void DinoFacts()
+                    {
+                      Dictionary<string, string> indominusRexFacts = new()
+                      {
+                        {"Name", "Indominus Rex"},
+                        {"Diet", "Carnivore"},
+                        {"Period", "Cretaceous"},
+                        {"Weight", "8,000 kg"},
+                        {"Enclosure", "Paddock 11"},
+                        {"Genome", "T-Rex, Velociraptor, Cuttlefish, Tree Frog"},
+                      };
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_CONSTRUCTOR_ARGUMENTS,
                     """
                     static void DefinedType()
                     {
@@ -83,7 +172,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FIRST_ARGUMENT_IN_CONSTRUCTOR,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST,
                     """
                     static void DefinedType()
                     {
@@ -96,7 +185,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_IN_FUNCTION,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FUNCTION_ARGUMENTS,
                     """
                             static void CallFunctions()
                             {
@@ -112,7 +201,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FIRST_ARGUMENT_IN_FUNCTION,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FUNCTION_ARGUMENTS_FIRST,
                     """
                             static void CallFunctions()
                             {
@@ -123,96 +212,7 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_IN_ATTRIBUTE,
-                    """
-                    [TestCase("Tyrannosaurus", "Rex")]
-                    [TestCase("Velociraptor", "Raptor")]
-                    [TestCase("Moros", "Moros")]
-                    [TestCase("Pachycephalosaurus", "Pachy")]
-                    [TestFixture]
-                    public void MyTest(string name, string nickname) { }
-                    """,
-                    parseType: PreviewParseType.Member,
-                    previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FIRST_ARGUMENT_IN_ATTRIBUTE,
-                    """
-                    [TyrannosaurusTestCase("Tyrannosaurus", "Rex")]
-                    [RaptorTest("Velociraptor", "Raptor")]
-                    [Test("Moros", "Moros")]
-                    [PachycephalosaurusTestCase("Pachycephalosaurus", "Pachy")]
-                    [TestFixture]
-                    public void MyTest(string name, string nickname) { }
-                    """,
-                    parseType: PreviewParseType.Member,
-                    previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_CLOSING_PAREN_IN_ATTRIBUTE,
-                    """
-                    [TestCase("Tyrannosaurus", "Rex")]
-                    [TestCase("Velociraptor", "Raptor")]
-                    [TestCase("Moros", "Moros")]
-                    [TestCase("Pachycephalosaurus", "Pachy")]
-                    [TestFixture]
-                    public void MyTest(string name, string nickname) { }
-                    """,
-                    parseType: PreviewParseType.Member,
-                    previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENT_NAMES,
-                    """
-                    static void CallFunctions()
-                    {
-                      Tyrannosaurus tRex = new(name: "T-Rex",
-                          diet: "Carnivore",
-                          weight: 8000,
-                          isCarnivore: true,
-                          dietType: Diet.Carnivore,
-                          park: "Jurassic Park");
-
-                      Velociraptor raptor = new(
-                          name: "Raptor",
-                          diet: "Carnivore",
-                          weight: 150,
-                          isCarnivore: true,
-                          dietType: Diet.Carnivore,
-                          park: "Jurassic Park 2 - The Lost World") { Height = 2 };
-                    }
-                    """,
-                    parseType: PreviewParseType.Member,
-                    previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER,
-                    """
-                    static void DinoFacts()
-                    {
-                      Dictionary<string, string> indominusRexFacts = new()
-                      {
-                        {"Name", "Indominus Rex"},
-                        {"Diet", "Carnivore"},
-                        {"Period", "Cretaceous"},
-                        {"Weight", "8,000 kg"},
-                        {"Enclosure", "Paddock 11"},
-                        {"Genome", "T-Rex, Velociraptor, Cuttlefish, Tree Frog"},
-                      };
-                    }
-                    """,
-                    parseType: PreviewParseType.Member,
-                    previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_CLOSING_BRACES_IN_COLLECTION_INITIALIZER,
-                    """
-                    static void DinoFacts()
-                    {
-                      Dictionary<string, string> indominusRexFacts = new()
-                      {
-                        {"Name", "Indominus Rex"},
-                        {"Diet", "Carnivore"},
-                        {"Period", "Cretaceous"},
-                        {"Weight", "8,000 kg"},
-                        {"Enclosure", "Paddock 11"},
-                        {"Genome", "T-Rex, Velociraptor, Cuttlefish, Tree Frog"},
-                      };
-                    }
-                    """,
-                    parseType: PreviewParseType.Member,
-                    previewFixup: IntAlignFixup)
-           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ASSIGNMENTS_IN_WITH_EXPRESSION,
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_WITH_EXPRESSION_ASSIGNMENTS,
                     """
                     static void IndominusRex()
                     {

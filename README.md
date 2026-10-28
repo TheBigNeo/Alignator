@@ -45,12 +45,12 @@ The argument settings (constructor, function, attribute) come in two independent
 one for the arguments after the first, one for the first argument. The two settings work
 together - they never exclude each other, and each can also be enabled on its own.
 
-Arguments after the first (`csharp_alignator_align_arguments_in_*`):
+Arguments after the first (`csharp_alignator_align_*_arguments`):
 
 - **SpaceAfterComma** — pads after each comma, so arguments start in the same column
 - **SpaceBeforeComma** — pads before each comma, so the commas line up vertically
 
-The first argument (`csharp_alignator_align_first_argument_in_*`):
+The first argument (`csharp_alignator_align_*_arguments_first`):
 
 - **SpaceBeforeParenthese** — pads before the opening parenthesis, so the parentheses (and with them the first arguments) line up vertically
 - **SpaceAfterParenthese** — pads after the opening parenthesis, so the first arguments line up vertically
@@ -81,7 +81,7 @@ Caller.Function1(               "Veloci"    , "Baryo" , "Moso" , "Dilophosaurus"
 > But it is handy as a temporary working style — quickly switch to it, make bulk edits where the visible comma columns help, then switch back to your usual style.
 
 > Whether closing brackets are aligned too is decided by separate settings:
-> `csharp_alignator_align_closing_paren_in_attribute` for the `)` of attributes, and `csharp_alignator_align_closing_braces_in_collection_initializer` for the `}` of dictionary-style entries.
+> `csharp_alignator_align_attribute_arguments_closing_paren` for the `)` of attributes, and `csharp_alignator_align_collection_initializer_closing_braces` for the `}` of dictionary-style entries.
 
 ## Settings
 
@@ -123,44 +123,44 @@ The same settings can be configured in `.editorconfig`:
 int_align_variables = true
 
 # Align arguments in constructor calls
-csharp_alignator_align_arguments_in_constructor = space_after_comma
+csharp_alignator_align_constructor_arguments = space_after_comma
 
 # Align arguments in function calls
-csharp_alignator_align_arguments_in_function = space_after_comma
+csharp_alignator_align_function_arguments = space_after_comma
 
 # Align arguments in attributes
-csharp_alignator_align_arguments_in_attribute = space_after_comma
+csharp_alignator_align_attribute_arguments = space_after_comma
 
 # Align the first argument of constructor calls
-csharp_alignator_align_first_argument_in_constructor = space_before_parenthese
+csharp_alignator_align_constructor_arguments_first = space_before_parenthese
 
 # Align the first argument of function calls
-csharp_alignator_align_first_argument_in_function = do_not_change
+csharp_alignator_align_function_arguments_first = do_not_change
 
 # Align the first argument of attributes
-csharp_alignator_align_first_argument_in_attribute = do_not_change
+csharp_alignator_align_attribute_arguments_first = do_not_change
 
 # Align closing parenthesis in attributes
-csharp_alignator_align_closing_paren_in_attribute = true
+csharp_alignator_align_attribute_arguments_closing_paren = true
 
 # Align named-argument values in multi-line calls
-csharp_alignator_align_argument_names = true
+csharp_alignator_align_arguments_named = true
 
 # Align key-value entries in dictionary-style collection initializers
-csharp_alignator_align_key_values_in_collection_initializer = space_after_comma
+csharp_alignator_align_collection_initializer_key_values = space_after_comma
 
 # Align closing braces of dictionary-style entries
-csharp_alignator_align_closing_braces_in_collection_initializer = true
+csharp_alignator_align_collection_initializer_closing_braces = true
 
 # Align assignments in with-expression initializers
-csharp_alignator_align_assignments_in_with_expression = true
+csharp_alignator_align_with_expression_assignments = true
 ```
 
 </details>
 
 Valid values for the `AlignPosition` settings: `do_not_change`, `space_before_comma`, `space_after_comma`. Bool settings take `true` / `false`.
 Valid values for the `FirstArgumentPosition` settings: `do_not_change`, `space_before_parenthese`, `space_after_parenthese`.
-Each first-argument setting combines freely with its comma counterpart — for example `csharp_alignator_align_first_argument_in_constructor = space_before_parenthese` and `csharp_alignator_align_arguments_in_constructor = space_before_comma` can both be active.
+Each first-argument setting combines freely with its comma counterpart — for example `csharp_alignator_align_constructor_arguments_first = space_before_parenthese` and `csharp_alignator_align_constructor_arguments = space_before_comma` can both be active.
 The collection-initializer setting has no first-argument counterpart (dictionary-style entries have no parentheses).
 
 ## Examples
@@ -172,7 +172,7 @@ Each setting below shows a before/after pair for a formatting run with the respe
 
 ### Align arguments in constructor
 
-> `csharp_alignator_align_arguments_in_constructor`
+> `csharp_alignator_align_constructor_arguments`
 
 Before
 
@@ -206,7 +206,7 @@ var diloph = new Brachiosaurus("Dilophosaurus", "Carnivore", 500 , true , Diet.C
 
 ### Align first argument in constructor
 
-> `csharp_alignator_align_first_argument_in_constructor`
+> `csharp_alignator_align_constructor_arguments_first`
 
 This setting is independent of the comma setting above — both can be enabled at the same time.
 In `space_after_parenthese` mode the parentheses stay where they are and the first arguments share one column:
@@ -252,7 +252,7 @@ var diloph = new Brachiosaurus( "Dilophosaurus", "Carnivore", 500 , true , Diet.
 
 ### Align argument in function
 
-> `csharp_alignator_align_arguments_in_function`
+> `csharp_alignator_align_function_arguments`
 
 Before
 
@@ -272,7 +272,7 @@ Caller.F2("Gallimimus", "Indor",         "Carno",         "Spino");
 
 ### Align first argument in function
 
-> `csharp_alignator_align_first_argument_in_function`
+> `csharp_alignator_align_function_arguments_first`
 
 This setting pads the first argument instead of the commas - `space_before_parenthese` pads
 before the opening parenthesis, `space_after_parenthese` pads after it. It is independent of the
@@ -304,7 +304,7 @@ Caller.Function1(               "Veloci",     "Baryo",  "Moso",  "Dilophosaurus"
 
 ### Align arguments in attribute
 
-> `csharp_alignator_align_arguments_in_attribute`
+> `csharp_alignator_align_attribute_arguments`
 
 Before
 
@@ -326,7 +326,7 @@ After (`space_after_comma`)
 
 ### Align first argument in attribute
 
-> `csharp_alignator_align_first_argument_in_attribute`
+> `csharp_alignator_align_attribute_arguments_first`
 
 Attribute calls often have very different callee lengths, so the first-argument alignment is
 especially visible there. Like the other first-argument settings it combines freely with the
@@ -361,7 +361,7 @@ After (`space_before_parenthese`)
 
 ### Align closing parenthesis in attribute
 
-> `csharp_alignator_align_closing_paren_in_attribute`
+> `csharp_alignator_align_attribute_arguments_closing_paren`
 
 Before
 
@@ -383,7 +383,7 @@ After (`true`)
 
 ### Align argument names
 
-> `csharp_alignator_align_argument_names`
+> `csharp_alignator_align_arguments_named`
 
 Before
 
@@ -415,7 +415,7 @@ so comma alignment and argument-name alignment never pad the same lines twice.
 
 ### Align key-values in collection initializer
 
-> `csharp_alignator_align_key_values_in_collection_initializer`
+> `csharp_alignator_align_collection_initializer_key_values`
 
 Before
 
@@ -446,7 +446,7 @@ Entries are only aligned when they start their own line.
 
 ### Align closing braces in collection initializer
 
-> `csharp_alignator_align_closing_braces_in_collection_initializer`
+> `csharp_alignator_align_collection_initializer_closing_braces`
 
 Before
 
@@ -474,7 +474,7 @@ Dictionary<string, string?> indominusRexFacts = new()
 
 ### Align assignments in with expression
 
-> `csharp_alignator_align_assignments_in_with_expression`
+> `csharp_alignator_align_with_expression_assignments`
 
 Before
 

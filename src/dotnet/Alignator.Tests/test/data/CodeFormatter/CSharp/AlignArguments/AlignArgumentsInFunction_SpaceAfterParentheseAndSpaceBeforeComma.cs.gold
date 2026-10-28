@@ -1,6 +1,6 @@
 namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
-/// <seealso cref="AlignatorSettingsKey.ALIGN_ARGUMENTS_IN_FUNCTION"/>
+/// <seealso cref="AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS"/>
 /// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignArgumentsInFunction_SpaceAfterParentheseAndSpaceBeforeComma"/>
 internal class AlignArgumentsInFunction_SpaceAfterParentheseAndSpaceBeforeComma
 {

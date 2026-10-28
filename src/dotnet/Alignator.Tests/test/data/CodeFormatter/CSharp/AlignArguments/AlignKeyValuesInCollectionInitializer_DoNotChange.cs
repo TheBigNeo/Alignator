@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
 
-/// <seealso cref="AlignatorSettingsKey.ALIGN_KEY_VALUES_IN_COLLECTION_INITIALIZER"/>
+/// <seealso cref="AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_KEY_VALUES"/>
 /// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignKeyValuesInCollectionInitializer_DoNotChange"/>
 internal class AlignKeyValuesInCollectionInitializer_DoNotChange
 {
