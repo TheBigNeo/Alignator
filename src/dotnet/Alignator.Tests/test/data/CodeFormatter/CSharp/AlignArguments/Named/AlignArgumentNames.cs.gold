@@ -1,7 +1,9 @@
-namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+using TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments;
+
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Named;
 
 /// <seealso cref="AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED"/>
-/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.CSharpQuirkyFormattingTest.TestAlignArgumentNames"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.NamedArgumentsFormattingTest.TestAlignArgumentNames"/>
 internal class AlignArgumentNames
 {
   public void Run()
