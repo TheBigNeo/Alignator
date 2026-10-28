@@ -103,6 +103,7 @@ In Visual Studio with ReSharper: **ReSharper | Options | Code Editing | C# | Cod
 | Align first argument in function                  | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
 | Align first argument in attribute                 | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
 | Align closing parenthesis in attribute            | `true`, `false`                                                |
+| Align closing parenthesis in function             | `true`, `false`                                                |
 | Align argument names                              | `true`, `false`                                                |
 | Align key-values in collection initializer        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
 | Align closing braces in collection initializer    | `true`, `false`                                                |
@@ -142,6 +143,9 @@ csharp_alignator_align_attribute_arguments_first = do_not_change
 
 # Align closing parenthesis in attributes
 csharp_alignator_align_attribute_arguments_closing_paren = true
+
+# Align closing parenthesis in functions
+csharp_alignator_align_function_arguments_closing_paren = true
 
 # Align named-argument values in multi-line calls
 csharp_alignator_align_arguments_named = true
@@ -379,6 +383,30 @@ After (`true`)
 [TestCase("Velociraptor",       "Raptor")]
 [TestCase("Moros",              "Moros" )]
 [TestCase("Pachycephalosaurus", "Pachy" )]
+```
+
+### Align closing parenthesis in function
+
+> `csharp_alignator_align_function_arguments_closing_paren`
+
+Aligns the closing parentheses of consecutive `Foo(...)` invocations of one block.
+It combines freely with the comma and first-argument settings, and a closing parenthesis
+wrapped onto its own line is never padded.
+
+Before
+
+```csharp
+Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
+Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+```
+
+After (`true`)
+
+```csharp
+Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops"             );
+Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
+Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus"            );
 ```
 
 ### Align argument names

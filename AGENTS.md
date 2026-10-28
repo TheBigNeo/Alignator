@@ -168,6 +168,7 @@ they register twenty-two alignment rules with alignment priority `100_000` (high
 | Function + SpaceAfterComma                                    | `ALIGN_FUNCTION_ARGUMENTS`                    | `IInvocationExpression`         | `IExpressionStatement`                                    |
 | Function first argument + SpaceBeforeParenthese               | `ALIGN_FUNCTION_ARGUMENTS_FIRST`              | `IInvocationExpression`         | `IExpressionStatement`                                    |
 | Function first argument + SpaceAfterParenthese                | `ALIGN_FUNCTION_ARGUMENTS_FIRST`              | `IInvocationExpression`         | `IExpressionStatement`                                    |
+| Function closing parentheses                                  | `ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`      | `IInvocationExpression`         | `IExpressionStatement`                                    |
 | Attribute + SpaceBeforeComma                                  | `ALIGN_ATTRIBUTE_ARGUMENTS`                   | `IAttribute`                    | `IAttributeSectionList`                                   |
 | Attribute + SpaceAfterComma                                   | `ALIGN_ATTRIBUTE_ARGUMENTS`                   | `IAttribute`                    | `IAttributeSectionList`                                   |
 | Attribute first argument + SpaceBeforeParenthese              | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`             | `IAttribute`                    | `IAttributeSectionList`                                   |
@@ -199,6 +200,13 @@ index). Their alignment keys (`ArgBeforeOpenParen`, `ArgAfterOpenParen`) are dis
 comma-rule keys, so first-argument alignment and comma alignment are independent settings that
 can both be enabled at the same time.
 
+The closing-parenthesis rules (`ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`,
+`ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`) pad the gap before the closing parenthesis with one
+shared key per block (`AttrClose`, `FuncClose`), so they combine freely with the comma settings.
+The engine only groups gaps on consecutive lines, so in practice they align the closing
+parentheses of consecutive single-line invocations or attributes; a closing parenthesis wrapped
+onto its own line is never padded.
+
 Per-call rules (argument names) and per-initializer rules (dictionary entries) use the argument
 list / collection initializer start offset as the alignment group instead of the block offset,
 and the dictionary entry rules use one shared key per initializer without an element index: the
@@ -206,7 +214,7 @@ engine aligns the k-th same-key gap of each line as one column group.
 
 ### Configuration
 
-Eleven settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
+Twelve settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
 `FirstArgumentPosition` values (the first argument): `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` —
 these are independent of the `AlignPosition` settings and combine freely with them.
 
@@ -219,6 +227,7 @@ these are independent of the `AlignPosition` settings and combine freely with th
 | `ALIGN_FUNCTION_ARGUMENTS_FIRST`              | `FirstArgumentPosition` | Aligns the first argument of `Foo(...)` calls                  |
 | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`             | `FirstArgumentPosition` | Aligns the first argument of `[TestCase(...)]` attributes      |
 | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`     | `bool`                  | Aligns closing parentheses of attributes                       |
+| `ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`      | `bool`                  | Aligns closing parentheses of `Foo(...)` calls                 |
 | `ALIGN_ARGUMENTS_NAMED`                       | `bool`                  | Aligns values of named arguments                               |
 | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `AlignPosition`         | Aligns key-values of `{"Key", Value}` dictionary-style entries |
 | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES` | `bool`                  | Aligns closing braces of dictionary-style entries              |

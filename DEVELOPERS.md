@@ -27,7 +27,7 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 
 #### Settings
 
-- [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 11 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
+- [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 12 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
 - UI: [AlignatorSettingsSchema.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs) ("Alignator align arguments" page part, live previews).
 
 | Name (Setting UI)                                   | Type                    | `.editorconfig` key                                                 | Enum Value                                             |
@@ -40,6 +40,7 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 | Align first argument in function                    | `FirstArgumentPosition` | `csharp_alignator_align_function_arguments_first`                   | `ALIGN_FUNCTION_ARGUMENTS_FIRST`                       |
 | Align first argument in attribute                   | `FirstArgumentPosition` | `csharp_alignator_align_attribute_arguments_first`                  | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`                      |
 | Align closing parenthesis in attribute              | `bool`                  | `csharp_alignator_align_attribute_arguments_closing_paren`          | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`              |
+| Align closing parenthesis in function              | `bool`                  | `csharp_alignator_align_function_arguments_closing_paren`           | `ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`                |
 | Align argument names                                | `bool`                  | `csharp_alignator_align_arguments_named`                            | `ALIGN_ARGUMENTS_NAMED`                                |
 | Align key-values in collection initializer          | `AlignPosition`         | `csharp_alignator_align_collection_initializer_key_values`          | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`              |
 | Align closing braces in collection initializer      | `bool`                  | `csharp_alignator_align_collection_initializer_closing_braces`      | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES`          |
