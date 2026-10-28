@@ -53,4 +53,13 @@ public class MixedContextsFormattingTest : CodeFormatterWithExplicitSettingsTest
     {
         DoNamedTest2();
     }
+
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Mixed.AlignArgumentsInFunction_NamedArguments_ClosingParen"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),                   true)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN), true)]
+    public void TestAlignArgumentsInFunction_NamedArguments_ClosingParen()
+    {
+        DoNamedTest2();
+    }
 }

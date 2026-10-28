@@ -50,9 +50,18 @@ public class FunctionArgumentsFormattingTest : CodeFormatterWithExplicitSettings
 
     /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Function.AlignArgumentsInFunction_SpaceAfterParentheseAndSpaceBeforeComma"/>
     [Test]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS),         AlignPosition.SpaceBeforeComma)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_FIRST), FirstArgumentPosition.SpaceAfterParenthese)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS),                 AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_FIRST),           FirstArgumentPosition.SpaceAfterParenthese)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN),    true)]
     public void TestAlignArgumentsInFunction_SpaceAfterParentheseAndSpaceBeforeComma()
+    {
+        DoNamedTest2();
+    }
+
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Function.AlignArgumentsInFunction_ClosingParen"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN), true)]
+    public void TestAlignArgumentsInFunction_ClosingParen()
     {
         DoNamedTest2();
     }

@@ -201,6 +201,17 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN,
+                    """
+                            static void CallFunctions()
+                            {
+                              Caller.Function1("T-Rex", "Raptor", "Moros", "Triceratops");
+                              Caller.ThatIsADifferentFunction("Gallimimus", "Indor", "Carno", "Spino");
+                              Caller.Function1("Veloci", "Baryo", "Moso", "Dilophosaurus");
+                            }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
            .ItemFor((AlignatorSettingsKey x) => x.ALIGN_FUNCTION_ARGUMENTS_FIRST,
                     """
                             static void CallFunctions()

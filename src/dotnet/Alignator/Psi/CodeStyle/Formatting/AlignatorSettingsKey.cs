@@ -72,6 +72,10 @@ public class AlignatorSettingsKey
     [SettingsEntry(AlignPosition.DoNotChange, "Align argument in function")]
     public AlignPosition ALIGN_FUNCTION_ARGUMENTS;
 
+    [EditorConfigEntryAlias("alignator_align_function_arguments_closing_paren", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(false, "Align closing parenthesis in function")]
+    public bool ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN;
+
     [EditorConfigEntryAlias("alignator_align_function_arguments_first", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in function")]
     public FirstArgumentPosition ALIGN_FUNCTION_ARGUMENTS_FIRST;
