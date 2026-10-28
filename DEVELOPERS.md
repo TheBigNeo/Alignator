@@ -12,8 +12,9 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 
 #### Alignment rules
 
-- All alignment logic lives in [AlignArgumentsProvider.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProvider.cs):
-  extends `CSharpFormatterInfoProviderPart`, registers 22 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
+- All alignment logic lives in [AlignArgumentsProviderBase.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProviderBase.cs) and its six context subclasses
+  (`ConstructorArgumentsProvider`, `FunctionArgumentsProvider`, `AttributeArgumentsProvider`, `NamedArgumentsProvider`, `CollectionInitializerArgumentsProvider`,
+  `WithExpressionAssignmentsProvider`): each extends `CSharpFormatterInfoProviderPart` via the shared base; together they register 22 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
 - Rules require the built-in `int_align_variables` switch (`CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`) — no Alignator alignment without it.
   The settings page shows this switch at the top of the Alignator group.
 - Named-argument alignment takes precedence: comma and paren rules stand back for calls that use named arguments, so no line is padded twice.

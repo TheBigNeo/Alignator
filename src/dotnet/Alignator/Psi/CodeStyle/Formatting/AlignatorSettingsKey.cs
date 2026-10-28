@@ -7,7 +7,7 @@ using JetBrains.ReSharper.Psi.EditorConfig;
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
 /// <summary>
-///     One field per Alignator alignment setting; the field name is the key in the JetBrains settings store and in the rule registration of <see cref="AlignArgumentsProvider"/>.
+///     One field per Alignator alignment setting; the field name is the key in the JetBrains settings store and in the rule registration of the <see cref="AlignArgumentsProviderBase"/> subclasses - one provider class per context.
 /// </summary>
 /// <remarks>
 ///     <para>
@@ -28,7 +28,7 @@ namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 ///             </item>
 ///             <item>Give it a <c>[EditorConfigEntryAlias]</c>: <c>alignator_</c> plus the key name in lowercase snake_case.</item>
 ///             <item>Bind it in <see cref="AlignatorSettingsSchema.DescribePart"/> with an <c>ItemFor</c> call, at the same alphabetical position.</item>
-///             <item>Switch on it from a rule registered in <see cref="AlignArgumentsProvider.Initialize"/>.</item>
+///             <item>Switch on it from a rule registered in the matching provider's <c>Initialize()</c> - e.g. <see cref="ConstructorArgumentsProvider"/> for a CONSTRUCTOR key.</item>
 ///         </list>
 ///     </para>
 /// </remarks>
