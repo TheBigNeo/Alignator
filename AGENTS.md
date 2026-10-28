@@ -118,14 +118,25 @@ parts line up in columns, improving readability of dense code.
 │   │       ├── TestEnvironment.cs         # Test zone setup
 │   │       ├── GlobalUsings.cs
 │   │       ├── CodeFormatter/CSharp/AlignArguments/
-│   │       │   └── CSharpQuirkyFormattingTest.cs  # 35 formatter tests
+│   │       │   ├── ConstructorArgumentsFormattingTest.cs          # Constructor tests (9)
+│   │       │   ├── FunctionArgumentsFormattingTest.cs             # Function tests (5)
+│   │       │   ├── AttributeArgumentsFormattingTest.cs           # Attribute tests (5)
+│   │       │   ├── NamedArgumentsFormattingTest.cs               # Named-argument test (1)
+│   │       │   ├── CollectionInitializerFormattingTest.cs         # Collection initializer tests (7)
+│   │       │   ├── WithExpressionFormattingTest.cs               # With-expression tests (4)
+│   │       │   └── MixedContextsFormattingTest.cs                # Cross-context combinations (4)
 │   │       ├── Data/
 │   │       │   ├── TestAlignatorAttribute.cs
 │   │       │   └── TestData.cs
 │   │       └── test/data/CodeFormatter/CSharp/AlignArguments/
-│   │           ├── *.cs          # Input test files (also compiled - see Test Structure)
-│   │           ├── TestSupport.cs # Attribute stubs for the test data
-│   │           └── *.cs.gold     # Expected output after formatting
+│   │           ├── TestSupport.cs      # Attribute stubs for the test data
+│   │           ├── Attributes/         # Attribute data (folder named plural: 'Attribute' clashes with System.Attribute)
+│   │           ├── CollectionInitializer/
+│   │           ├── Constructor/
+│   │           ├── Function/
+│   │           ├── Mixed/              # Combinations across contexts
+│   │           ├── Named/
+│   │           └── WithExpression/     # One folder per context, .cs input + .cs.gold expected output each
 │   └── rider/
 │       └── main/resources/META-INF/plugin.xml  # Plugin descriptor
 └── tools/                         # nuget.exe, vswhere.exe (Windows build helpers)
@@ -266,7 +277,7 @@ csharp_alignator_align_with_expression_assignments = true
 dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj
 
 # Run a specific test class
-dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj --filter "FullyQualifiedName~CSharpQuirkyFormattingTest"
+dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj --filter "FullyQualifiedName~ConstructorArgumentsFormattingTest"
 ```
 
 ### Lint Commands
@@ -284,7 +295,7 @@ Tests use the ReSharper test framework (`CodeFormatterWithExplicitSettingsTestBa
 
 Each test:
 
-1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/`
+1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/<Context>/` (context folders: `Constructor`, `Function`, `Attributes`, `Named`, `CollectionInitializer`, `WithExpression`; `Mixed` for cross-context combinations)
 2. Uses `[TestSetting]` attributes to configure `AlignatorSettingsKey` values
 3. Carries `<seealso>` doc comments linking test method and test data class in both directions - clickable in the IDE
 4. Calls `DoNamedTest2()` which formats the input and compares against the gold file
@@ -295,7 +306,7 @@ Test data stubs (`TestData.cs`) define dummy types (`StringSetting`, `IntSetting
 
 The test `.cs` data files are **compiled** (`Compile Include` in `Alignator.Tests.csproj`) even though the
 formatter tests read them as text: compilation makes the `<seealso>` crefs between
-`CSharpQuirkyFormattingTest` and the test data classes resolve in the IDE. `GlobalUsings.cs` provides
+the formatting test classes and the test data classes resolve in the IDE. `GlobalUsings.cs` provides
 `TBN.Alignator.Tests.Data` and `TBN.Alignator.Psi.CodeStyle.Formatting` to them. The attribute names used
 in the attribute test data (`Test`, `TestCase`, `TyrannosaurusTestCase`, `RaptorTest`,
 `PachycephalosaurusTestCase`) are stubs in `TestSupport.cs` inside the test-data namespace - they take
@@ -322,7 +333,7 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`                        | Settings definitions with .editorconfig aliases                                     |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`                     | Settings UI page with live preview                                                  |
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                                  | `GetContainingBlockOffset` — scopes alignment to a block                            |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs` | All 35 formatter tests                                                              |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 35 formatter tests — one test class per context + `MixedContextsFormattingTest`                                                              |
 | `build.gradle.kts`                                                                             | Gradle build: compiles .NET, runs tests, packages plugin                            |
 | `gradle.properties`                                                                            | Version numbers, SDK version, plugin IDs                                            |
 | `src/dotnet/Plugin.props`                                                                      | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties` |
@@ -333,5 +344,5 @@ To add a new alignment mode:
 
 1. Add a new value to the `AlignPosition` enum (arguments after the first) or the `FirstArgumentPosition` enum (the first argument)
 2. Add a new method in the matching context provider's `Initialize()` following the existing pattern
-3. Add a new test in `CSharpQuirkyFormattingTest.cs` with corresponding `.cs`/`.cs.gold` test data files
+3. Add a new test in the matching context formatting test class with corresponding `.cs`/`.cs.gold` test data files in that context folder
 4. Update `AlignatorSettingsSchema.cs` if the new mode needs a settings UI entry

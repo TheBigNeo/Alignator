@@ -93,20 +93,20 @@ In Visual Studio with ReSharper: **ReSharper | Options | Code Editing | C# | Cod
 > For convenience, the switch is also shown at the top of the Alignator settings group —
 > it is the same value as in ReSharper's own formatting settings, so changing it in either place updates the single stored value.
 
-| Setting (UI)                                      | Values                                               |
-|---------------------------------------------------|------------------------------------------------------|
-| Align variables in columns *(built-in, required)* | `true`, `false`                                      |
-| Align arguments in constructor                    | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
-| Align argument in function                        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
-| Align arguments in attribute                      | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
+| Setting (UI)                                      | Values                                                         |
+|---------------------------------------------------|----------------------------------------------------------------|
+| Align variables in columns *(built-in, required)* | `true`, `false`                                                |
+| Align arguments in constructor                    | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align argument in function                        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align arguments in attribute                      | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
 | Align first argument in constructor               | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
-| Align first argument in function                 | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
-| Align first argument in attribute                | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
-| Align closing parenthesis in attribute            | `true`, `false`                                      |
-| Align argument names                              | `true`, `false`                                      |
-| Align key-values in collection initializer        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma` |
-| Align closing braces in collection initializer    | `true`, `false`                                      |
-| Align assignments in with expression              | `true`, `false`                                      |
+| Align first argument in function                  | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
+| Align first argument in attribute                 | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
+| Align closing parenthesis in attribute            | `true`, `false`                                                |
+| Align argument names                              | `true`, `false`                                                |
+| Align key-values in collection initializer        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align closing braces in collection initializer    | `true`, `false`                                                |
+| Align assignments in with expression              | `true`, `false`                                                |
 
 The `.editorconfig` key for each setting is shown in the collapsed example below and in [DEVELOPERS.md](DEVELOPERS.md).
 

@@ -1,0 +1,21 @@
+using static TBN.Alignator.Tests.Data.RecordFactory;
+
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.WithExpression;
+
+/// <seealso cref="AlignatorSettingsKey.ALIGN_WITH_EXPRESSION_ASSIGNMENTS"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.WithExpressionFormattingTest.TestAlignAssignmentsInWithExpression"/>
+internal class AlignAssignmentsInWithExpression
+{
+  static void IndominusRex()
+  {
+    DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)
+      with
+      {
+        Name                     = "Indominus Rex",
+        Diet                     = "Carnivore",
+        PaddockNumber            = 11,
+        DangerLevel              = DangerLevel.Extreme,
+        ThermalCamouflageEnabled = true,
+      };
+  }
+}

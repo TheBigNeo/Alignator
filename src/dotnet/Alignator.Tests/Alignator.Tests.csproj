@@ -24,7 +24,7 @@
     <Compile Remove="test/**/*"/>
     <!-- Test data classes are compiled so the seealso crefs between the tests and
          their test data resolve and are clickable in the IDE. -->
-    <Compile Include="test\data\CodeFormatter\CSharp\AlignArguments\*.cs"/>
+    <Compile Include="test\data\CodeFormatter\CSharp\AlignArguments\**\*.cs"/>
     <None Include="test/**/*"/>
   </ItemGroup>
 

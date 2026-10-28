@@ -2,7 +2,7 @@
 // they take precedence over any equally named attribute from a using scope: the data files
 // resolve 'Test', 'TestCase', ... to these stubs, while real test files only see NUnit's
 // attributes. Compiling the test data (see Alignator.Tests.csproj) is what makes the
-// seealso crefs between CSharpQuirkyFormattingTest and the test data resolve in the IDE.
+// seealso crefs between the formatting test classes and the test data resolve in the IDE.
 
 using System;
 

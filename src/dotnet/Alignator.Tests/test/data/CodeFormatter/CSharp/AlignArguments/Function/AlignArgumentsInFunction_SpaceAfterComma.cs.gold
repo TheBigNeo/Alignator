@@ -1,0 +1,18 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Function;
+
+/// <seealso cref="AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.FunctionArgumentsFormattingTest.TestAlignArgumentsInFunction_SpaceAfterComma"/>
+internal class AlignArgumentsInFunction_SpaceAfterComma
+{
+  static void CallFunctions()
+  {
+    Caller.Function1("T-Rex",                     "Raptor",        "Moros",         "Triceratops");
+    Caller.Function1("Ankylo",                    "Tyrannosaurus", "Indominus rex", "Brachio");
+    Caller.ThatIsADifferentFunction("Gallimimus", "Indor",         "Carno",         "Spino");
+    Caller.Function1("Veloci",                    "Baryo",         "Moso",          "Dilophosaurus");
+    Caller.ThisIsFunction3("T-Rex",               "Raptor",        "Moros",         "Triceratops");
+    Caller.Function1("Ankylo",                    "Tyrannosaurus", "Indominus rex", "Brachio");
+    Caller.F4("Gallimimus",                       "Indor",         "Carno",         "Spino");
+    Caller.Function1("Veloci",                    "Baryo",         "Moso",          "Dilophosaurus");
+  }
+}

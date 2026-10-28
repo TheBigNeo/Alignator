@@ -88,7 +88,7 @@ The `csharp_alignator_align_collection_initializer_key_values` setting uses `Ali
 | .NET-only pack/publish via MSBuild            | [publishPlugin.ps1](publishPlugin.ps1), [buildPlugin.ps1](buildPlugin.ps1)                                                    |
 | Workflow rules for implementation tasks       | [docs/PlanRules.md](docs/PlanRules.md)                                                                                        |
 | AI agent rules (incl. dinosaur names)         | [AGENTS.md](AGENTS.md)                                                                                                        |
-| Formatter tests                               | [CSharpQuirkyFormattingTest.cs](src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/CSharpQuirkyFormattingTest.cs) |
+| Formatter tests                               | [Formatting tests](src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/) — one test class per context + `MixedContextsFormattingTest` |
 | Test data (`.cs` / `.cs.gold` pairs)          | [test/data](src/dotnet/Alignator.Tests/test/data/CodeFormatter/CSharp/AlignArguments/)                                        |
 
 ## Build and test
