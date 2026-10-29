@@ -19,8 +19,8 @@ internal class AllSettingsAtOnce
   static Moros Moros = null!;
 
 
-  [TestCase("Tyrannosaurus", "Rex")]
-  [TestCase("Velociraptor", "Raptor")]
+  [TestCase("Tyrannosaurus",      "Rex")]
+  [TestCase("Velociraptor",       "Raptor")]
   [TestCase("Pachycephalosaurus", "Pachy")]
   static void CallFunctions()
   {
@@ -28,18 +28,26 @@ internal class AllSettingsAtOnce
     Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
     Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
 
-    RRex = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
+    RRex   = new Tyrannosaurus("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
     Raptor = new Velociraptor("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2 - The Lost World") { Height = 2 };
-    Trike = new Triceratops("Triceratops", "Herbi", 9000, false, Diet.Herbi) { Height = 3 };
-    Moros = new Moros("Moros", "Carnivore", 70, true, Diet.Carnivore, null);
+    Trike  = new Triceratops("Triceratops", "Herbi", 9000, false, Diet.Herbi) { Height                                       = 3 };
+    Moros  = new Moros("Moros", "Carnivore", 70, true, Diet.Carnivore, null);
 
     Tyrannosaurus tRexLocal = new("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
     Moros morosLocal = new("Moros", "Carnivore", 70, true, Diet.Carnivore, null);
     Velociraptor raptorLocal = new("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2 - The Lost World") { Height = 2 };
-    Triceratops trikeLocal = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null) { Height = 3 };
+    Triceratops trikeLocal = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null) { Height                                  = 3 };
     Brachiosaurus dilophLocal = new("Dilophosaurus", "Carnivore", 500, true, Diet.Carnivore, null);
 
     Tyrannosaurus tRex2 = new(name: "T-Rex",
+      diet: "Carnivore",
+      weight: 8000,
+      isCarnivore: true,
+      dietType: Diet.Carnivore,
+      park: "Jurassic Park");
+
+    Tyrannosaurus tRex3 = new(
+      name: "T-Rex",
       diet: "Carnivore",
       weight: 8000,
       isCarnivore: true,

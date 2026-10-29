@@ -89,4 +89,13 @@ public class ConstructorArgumentsFormattingTest : CodeFormatterWithExplicitSetti
     {
         DoNamedTest2();
     }
+
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Constructor.AlignArgumentsInConstructorAssignment_SpaceBeforeParenthese"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_CONSTRUCTOR_ARGUMENTS),         AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST), FirstArgumentPosition.SpaceBeforeParenthese)]
+    public void TestAlignArgumentsInConstructorAssignment_SpaceBeforeParenthese()
+    {
+        DoNamedTest2();
+    }
 }

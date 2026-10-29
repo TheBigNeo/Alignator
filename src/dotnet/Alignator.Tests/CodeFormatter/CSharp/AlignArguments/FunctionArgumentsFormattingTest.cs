@@ -66,6 +66,16 @@ public class FunctionArgumentsFormattingTest : CodeFormatterWithExplicitSettings
         DoNamedTest2();
     }
 
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Function.AlignArgumentsInFunction_SpaceBeforeParentheseAndSpaceAfterComma"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS),             AlignPosition.SpaceAfterComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_FIRST),       FirstArgumentPosition.SpaceBeforeParenthese)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN), true)]
+    public void TestAlignArgumentsInFunction_SpaceBeforeParentheseAndSpaceAfterComma()
+    {
+        DoNamedTest2();
+    }
+
     /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Function.AlignArgumentsInFunction_ClosingParen"/>
     [Test]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN), true)]
