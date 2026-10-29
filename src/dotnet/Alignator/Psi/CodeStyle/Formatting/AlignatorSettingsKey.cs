@@ -21,7 +21,7 @@ namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 ///     <para>
 ///         To add a new key:
 ///         <list type="number">
-///             <item>Declare a public field named exactly like the key, at its alphabetical position among the existing fields.</item>
+///             <item>Declare a public field named exactly like the key, at its alphabetical position among the existing fields - in the <c>#region</c> of its context (context-independent keys go into the <c>Named</c> region, ahead of the contexts).</item>
 ///             <item>
 ///                 Give it a <c>[SettingsEntry]</c> with its default value and UI text.
 ///                 The field name becomes the settings-store key, so a later rename discards user-set values - they fall back to the entry default.
@@ -36,9 +36,15 @@ namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 [SettingsKey(typeof(CodeFormattingSettingsKey), "Settings for Alignator plugin.")]
 public class AlignatorSettingsKey
 {
+    #region Named (context independent)
+
     [EditorConfigEntryAlias("alignator_align_arguments_named", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align argument names")]
     public bool ALIGN_ARGUMENTS_NAMED;
+
+    #endregion
+
+    #region Attribute
 
     [EditorConfigEntryAlias("alignator_align_attribute_arguments", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(AlignPosition.DoNotChange, "Align arguments in attribute")]
@@ -52,6 +58,10 @@ public class AlignatorSettingsKey
     [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in attribute")]
     public FirstArgumentPosition ALIGN_ATTRIBUTE_ARGUMENTS_FIRST;
 
+    #endregion
+
+    #region Collection initializer
+
     [EditorConfigEntryAlias("alignator_align_collection_initializer_closing_braces", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align closing braces in collection initializer")]
     public bool ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES;
@@ -60,6 +70,10 @@ public class AlignatorSettingsKey
     [SettingsEntry(AlignPosition.DoNotChange, "Align key-values in collection initializer")]
     public AlignPosition ALIGN_COLLECTION_INITIALIZER_KEY_VALUES;
 
+    #endregion
+
+    #region Constructor
+
     [EditorConfigEntryAlias("alignator_align_constructor_arguments", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(AlignPosition.DoNotChange, "Align arguments in constructor")]
     public AlignPosition ALIGN_CONSTRUCTOR_ARGUMENTS;
@@ -67,6 +81,10 @@ public class AlignatorSettingsKey
     [EditorConfigEntryAlias("alignator_align_constructor_arguments_first", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in constructor")]
     public FirstArgumentPosition ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST;
+
+    #endregion
+
+    #region Function
 
     [EditorConfigEntryAlias("alignator_align_function_arguments", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(AlignPosition.DoNotChange, "Align argument in function")]
@@ -80,7 +98,13 @@ public class AlignatorSettingsKey
     [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in function")]
     public FirstArgumentPosition ALIGN_FUNCTION_ARGUMENTS_FIRST;
 
+    #endregion
+
+    #region With expression
+
     [EditorConfigEntryAlias("alignator_align_with_expression_assignments", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align assignments in with expression")]
     public bool ALIGN_WITH_EXPRESSION_ASSIGNMENTS;
+
+    #endregion
 }

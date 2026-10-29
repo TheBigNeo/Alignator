@@ -14,7 +14,15 @@
 
     <PackageProjectUrl></PackageProjectUrl>
     <PackageLicenseUrl></PackageLicenseUrl>
-    <PackageIconUrl></PackageIconUrl>
+    <PackageIcon>alignator-1024.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\docs\branding\png\alignator-1024.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+      <Link>alignator-1024.png</Link>
+    </None>
+  </ItemGroup>
 
 </Project>
