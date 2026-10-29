@@ -65,19 +65,19 @@ public class MixedContextsFormattingTest : CodeFormatterWithExplicitSettingsTest
 
     /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Mixed.AllSettingsAtOnce"/>
     [Test]
-    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.INT_ALIGN_VARIABLES),                    true)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS),                   AlignPosition.SpaceAfterComma)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN),      true)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS_FIRST),             FirstArgumentPosition.SpaceBeforeParenthese)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_KEY_VALUES),     AlignPosition.SpaceBeforeComma)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES), true)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_CONSTRUCTOR_ARGUMENTS),                 AlignPosition.SpaceBeforeComma)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST),          FirstArgumentPosition.SpaceBeforeParenthese)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS),                    AlignPosition.SpaceAfterComma)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_FIRST),              FirstArgumentPosition.SpaceBeforeParenthese)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN),      true)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_WITH_EXPRESSION_ASSIGNMENTS),           true)]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),           true)]
+    [TestSetting(typeof(CSharpFormatSettingsKey), nameof(CSharpFormatSettingsKey.INT_ALIGN_VARIABLES),                      true)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS),                   AlignPosition.SpaceAfterComma)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN),     true)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS_FIRST),             FirstArgumentPosition.SpaceBeforeParenthese)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_KEY_VALUES),     AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES), true)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_CONSTRUCTOR_ARGUMENTS),                 AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST),           FirstArgumentPosition.SpaceBeforeParenthese)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS),                    AlignPosition.SpaceAfterComma)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_FIRST),              FirstArgumentPosition.SpaceBeforeParenthese)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN),      true)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_WITH_EXPRESSION_ASSIGNMENTS),           true)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),                       true)]
     public void TestAllSettingsAtOnce()
     {
         DoNamedTest2();

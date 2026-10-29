@@ -6,7 +6,7 @@ namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Attr
 /// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.AttributeArgumentsFormattingTest.TestAlignArgumentsInAttribute_SpaceBeforeParenthese"/>
 [TyrannosaurusTestCase("Tyrannosaurus", "Rex")]
 [RaptorTest("Velociraptor", "Raptor")]
-[Test("Moros", "Moros")]
+[Dino("Moros", "Moros")]
 [PachycephalosaurusTestCase("Pachycephalosaurus", "Pachy")]
 internal class AlignArgumentsInAttribute_SpaceBeforeParenthese
 {
