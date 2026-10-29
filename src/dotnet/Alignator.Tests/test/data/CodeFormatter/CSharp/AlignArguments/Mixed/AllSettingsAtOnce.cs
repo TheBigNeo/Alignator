@@ -39,20 +39,20 @@ internal class AllSettingsAtOnce
     Triceratops trikeLocal = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null) { Height                                  = 3 };
     Brachiosaurus dilophLocal = new("Dilophosaurus", "Carnivore", 500, true, Diet.Carnivore, null);
 
-    Tyrannosaurus tRex2 = new(name: "T-Rex",
+    Velociraptor blue = new(name: "Blue",
       diet: "Carnivore",
-      weight: 8000,
+      weight: 150,
       isCarnivore: true,
       dietType: Diet.Carnivore,
-      park: "Jurassic Park");
+      park: "Jurassic World");
 
-    Tyrannosaurus tRex3 = new(
-      name: "T-Rex",
+    Spinosaurus spino = new(
+      name: "Spino",
       diet: "Carnivore",
-      weight: 8000,
+      weight: 6000,
       isCarnivore: true,
       dietType: Diet.Carnivore,
-      park: "Jurassic Park");
+      park: "Jurassic Park 3");
 
     Dictionary<string, string?> indominusRexFacts = new()
     {
