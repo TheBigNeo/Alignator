@@ -3,21 +3,23 @@
 #########################
 
 [test/data/CodeFormatter/CSharp/AlignArguments/**/*.cs]
-indent_size                                                                = 2
-int_align_variables                                                        = false
+indent_size                                            = 2
+int_align_variables                                    = false
+# resharper_int_align_assignments                       = false
+# resharper_int_align_invocations                       = false
 
-resharper_inconsistent_naming_highlighting                                 = none
-resharper_arrange_type_member_modifiers_highlighting                       = none
-resharper_unused_type_global_highlighting                                  = none
-resharper_unused_member_local_highlighting                                 = none
-resharper_unused_variable_highlighting                                     = none
-resharper_class_can_be_sealed_global_highlighting                          = none
+resharper_inconsistent_naming_highlighting             = none
+resharper_arrange_type_member_modifiers_highlighting   = none
+resharper_unused_type_global_highlighting              = none
+resharper_unused_member_local_highlighting             = none
+resharper_unused_variable_highlighting                 = none
+resharper_class_can_be_sealed_global_highlighting      = none
 
 
 # ReSharper properties
-resharper_align_multiline_array_and_object_initializer                     = false
-resharper_allow_far_alignment                                              = false
-resharper_csharp_align_multiline_argument                                  = false
+resharper_align_multiline_array_and_object_initializer = false
+resharper_allow_far_alignment                          = false
+resharper_csharp_align_multiline_argument              = false
 # resharper_int_align_assignments                                            = false
 # resharper_int_align_invocations                                            = false
 # resharper_keep_existing_attribute_arrangement                              = false

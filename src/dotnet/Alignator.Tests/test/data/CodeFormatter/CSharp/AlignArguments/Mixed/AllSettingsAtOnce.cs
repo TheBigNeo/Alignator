@@ -10,17 +10,9 @@ namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Mixe
 ///     so the effect of combining all settings can be seen at a glance. The formatting test and
 ///     its gold file are created once the blocks for the real test are picked from this class.
 /// </summary>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.MixedContextsFormattingTest.TestAllSettingsAtOnce"/>
 internal class AllSettingsAtOnce
 {
-  // ALIGN_ATTRIBUTE_ARGUMENTS SpaceBeforeParenthese
-  // ALIGN_COLLECTION_INITIALIZER_KEY_VALUES SpaceBeforeComma
-  // ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES
-  // AlignArgumentsInConstructor_SpaceAfterParentheseAndSpaceBeforeComma
-  // AlignArgumentsInConstructor_SpaceAfterParentheseAndSpaceBeforeComma
-  // AlignArgumentsInFunction_SpaceBeforeParenthese
-  // AlignArgumentsInFunction_ClosingParen
-  // ALIGN_FUNCTION_ARGUMENTS_FIRST SpaceBeforeParenthese
-
   static Tyrannosaurus RRex = null!;
   static Velociraptor Raptor = null!;
   static Triceratops Trike = null!;

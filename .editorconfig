@@ -3,5 +3,10 @@ insert_final_newline                              = true
 indent_style                                      = space
 indent_size                                       = 4
 
+
+int_align_variables                                                        = true
+resharper_int_align_assignments                                            = true
+resharper_int_align_invocations                                            = true
+
 resharper_class_can_be_sealed_global_highlighting = warning
 resharper_class_can_be_sealed_local_highlighting  = warning
