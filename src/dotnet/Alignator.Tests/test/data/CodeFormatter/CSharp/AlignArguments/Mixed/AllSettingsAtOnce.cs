@@ -20,9 +20,6 @@ internal class AllSettingsAtOnce
   // AlignArgumentsInFunction_SpaceBeforeParenthese
   // AlignArgumentsInFunction_ClosingParen
   // ALIGN_FUNCTION_ARGUMENTS_FIRST SpaceBeforeParenthese
-  //
-  //
-  //
 
   static Tyrannosaurus RRex = null!;
   static Velociraptor Raptor = null!;
