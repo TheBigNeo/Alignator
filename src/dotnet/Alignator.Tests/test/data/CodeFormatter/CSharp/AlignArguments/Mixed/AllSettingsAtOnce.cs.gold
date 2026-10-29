@@ -19,9 +19,9 @@ internal class AllSettingsAtOnce
   static Moros Moros = null!;
 
 
-  [TestCase("Tyrannosaurus",      "Rex"   )]
-  [TestCase("Velociraptor",       "Raptor")]
-  [TestCase("Pachycephalosaurus", "Pachy" )]
+  [TyrannosaurusTestCase     ("Tyrannosaurus",      "Rex"   )]
+  [RaptorTest                ("Velociraptor",       "Raptor")]
+  [PachycephalosaurusTestCase("Pachycephalosaurus", "Pachy" )]
   static void CallFunctions()
   {
     Caller.FeedDinosaurs                ("T-Rex",      "Raptor", "Moros", "Triceratops"  );
