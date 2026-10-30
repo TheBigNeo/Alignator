@@ -21,4 +21,13 @@ public class NamedArgumentsFormattingTest : CodeFormatterWithExplicitSettingsTes
     {
         DoNamedTest2();
     }
+
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Named.AlignArgumentNamesAll"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),     true)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED_ALL), true)]
+    public void TestAlignArgumentNamesAll()
+    {
+        DoNamedTest2();
+    }
 }

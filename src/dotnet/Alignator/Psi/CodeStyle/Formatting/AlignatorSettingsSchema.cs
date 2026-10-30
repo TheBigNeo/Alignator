@@ -71,6 +71,21 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                     """,
                     parseType: PreviewParseType.Member,
                     previewFixup: IntAlignFixup)
+           .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_NAMED_ALL,
+                    """
+                    static void CallFunctions()
+                    {
+                      Spinosaurus spino = new(
+                          "Spino",
+                          6000,
+                          Diet.Carnivore,
+                          isCarnivore: true,
+                          dietType: Diet.Herbi,
+                          park: "Jurassic Park 3");
+                    }
+                    """,
+                    parseType: PreviewParseType.Member,
+                    previewFixup: IntAlignFixup)
            .ItemFor((AlignatorSettingsKey x) => x.ALIGN_ATTRIBUTE_ARGUMENTS,
                     """
                     [TestCase("Tyrannosaurus", "Rex")]

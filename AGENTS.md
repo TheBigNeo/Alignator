@@ -13,6 +13,7 @@ You are a direct, critical, efficiency-focused assistant.
 - **Transparency:** Surface errors, blockers, and incomplete work. Never claim unverified success.
 - DO NOT COMMIT!
 - DO NOT ADD ``Co-Authored-By: Mistral ...`` TO THE COMMIT MESSAGE
+- DO NOT TOUCH CHANGELOG.md
 
 Apply brevity limits to responses, not requested deliverables.
 
@@ -111,7 +112,7 @@ parts line up in columns, improving readability of dense code.
 │   │   │       ├── CollectionInitializerArgumentsProvider.cs   # Collection initializer rules (ALIGN_COLLECTION_INITIALIZER_*)
 │   │   │       ├── ConstructorArgumentsProvider.cs             # Constructor argument rules (ALIGN_CONSTRUCTOR_ARGUMENTS*)
 │   │   │       ├── FunctionArgumentsProvider.cs                # Invocation argument rules (ALIGN_FUNCTION_ARGUMENTS*)
-│   │   │       ├── NamedArgumentsProvider.cs                   # Named-argument rule (ALIGN_ARGUMENTS_NAMED)
+│   │   │       ├── NamedArgumentsProvider.cs                   # Named-argument rules (ALIGN_ARGUMENTS_NAMED, ALIGN_ARGUMENTS_NAMED_ALL)
 │   │   │       └── WithExpressionAssignmentsProvider.cs        # With-expression rule (ALIGN_WITH_EXPRESSION_ASSIGNMENTS)
 │   │   └── Alignator.Tests/       # NUnit test project
 │   │       ├── Alignator.Tests.csproj
@@ -175,6 +176,7 @@ they register twenty-two alignment rules with alignment priority `100_000` (high
 | Attribute first argument + SpaceAfterParenthese               | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`             | `IAttribute`                    | `IAttributeSectionList`                                   |
 | Attribute closing parentheses                                 | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`     | `IAttribute`                    | `IAttributeSectionList`                                   |
 | Named argument values (after `name:`)                         | `ALIGN_ARGUMENTS_NAMED`                       | `IArgumentList` / `IAttribute`  | Per call/attribute (list start offset)                    |
+| Unnamed arguments of mixed lists (line indent into the value column) | `ALIGN_ARGUMENTS_NAMED_ALL`            | `IArgumentList`                 | Per call/attribute (list start offset)                    |
 | Dictionary entries + SpaceBeforeComma                         | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
 | Dictionary entries + SpaceAfterComma                          | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
 | Dictionary entry closing braces                               | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES` | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
@@ -229,6 +231,7 @@ these are independent of the `AlignPosition` settings and combine freely with th
 | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`     | `bool`                  | Aligns closing parentheses of attributes                       |
 | `ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`      | `bool`                  | Aligns closing parentheses of `Foo(...)` calls                 |
 | `ALIGN_ARGUMENTS_NAMED`                       | `bool`                  | Aligns values of named arguments                               |
+| `ALIGN_ARGUMENTS_NAMED_ALL`                   | `bool`                  | Indents the unnamed arguments of mixed lists into the value column |
 | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `AlignPosition`         | Aligns key-values of `{"Key", Value}` dictionary-style entries |
 | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES` | `bool`                  | Aligns closing braces of dictionary-style entries              |
 | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`           | `bool`                  | Aligns assignments in `with` expression initializers           |
@@ -245,6 +248,7 @@ csharp_alignator_align_function_arguments_first = do_not_change
 csharp_alignator_align_attribute_arguments_first = do_not_change
 csharp_alignator_align_attribute_arguments_closing_paren = true
 csharp_alignator_align_arguments_named = true
+csharp_alignator_align_arguments_named_all = true
 csharp_alignator_align_collection_initializer_key_values = space_after_comma
 csharp_alignator_align_collection_initializer_closing_braces = true
 csharp_alignator_align_with_expression_assignments = true

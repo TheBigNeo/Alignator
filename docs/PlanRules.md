@@ -23,9 +23,9 @@ phases below in order. Do not start writing code before Phase 3.
 * Read and search the associated code parts: callers, configuration, tests, data
   models. Read before you write (Rule 8). Never plan against code you have not seen.
 * Check for existing patterns that already solve the problem (Rule 2, Rule 11).
-* Create a task folder in the repo: `doc/tasks/<task-id>/`
-  (e.g. `doc/tasks/SBS-4553-quartz-update/`).
-* Write `doc/tasks/<task-id>/reference.md` containing the distilled context:
+* Create a task folder in the repo: `docs/tasks/<task-id>/`
+  (e.g. `docs/tasks/SBS-4553-quartz-update/`).
+* Write `docs/tasks/<task-id>/reference.md` containing the distilled context:
     * Goal and acceptance criteria (from Phase 1)
     * Relevant files with paths and the key symbols in each
     * Current behavior and why the change is needed
@@ -36,7 +36,7 @@ phases below in order. Do not start writing code before Phase 3.
 
 ## Phase 3 — Write the plan
 
-* Write `doc/tasks/<task-id>/plan.md` containing:
+* Write `docs/tasks/<task-id>/plan.md` containing:
     * The approach: how the issue will be fixed, step by step, in plain sentences
     * Affected files per step
     * Verification per step (test, build, manual check) — a step without a
