@@ -62,10 +62,6 @@ public class AlignatorSettingsKey
     [SettingsEntry(false, "Align argument names")]
     public bool ALIGN_ARGUMENTS_NAMED;
 
-    [EditorConfigEntryAlias("alignator_align_arguments_named_all", EditorConfigAliasType.LanguageSpecificStandard)]
-    [SettingsEntry(false, "Align arguments without names too")]
-    public bool ALIGN_ARGUMENTS_NAMED_ALL;
-
     #endregion
 
     #region Attribute

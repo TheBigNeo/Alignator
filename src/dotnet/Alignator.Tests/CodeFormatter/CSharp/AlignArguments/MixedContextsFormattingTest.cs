@@ -78,7 +78,6 @@ public class MixedContextsFormattingTest : CodeFormatterWithExplicitSettingsTest
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN),      true)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_WITH_EXPRESSION_ASSIGNMENTS),           true)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),                       true)]
-    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED_ALL),                   true)]
     public void TestAllSettingsAtOnce()
     {
         DoNamedTest2();

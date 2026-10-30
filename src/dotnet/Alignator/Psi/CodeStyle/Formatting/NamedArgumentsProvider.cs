@@ -5,21 +5,15 @@ using JetBrains.Lifetimes;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Parsing;
-using JetBrains.ReSharper.Psi.CSharp.Impl.Tree;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
-using JetBrains.ReSharper.Psi.Format;
 using JetBrains.ReSharper.Psi.Impl.CodeStyle;
 using JetBrains.ReSharper.Psi.Tree;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
 /// <summary>
-///     Registers the alignment rules for named arguments - the context-independent head of the ARGUMENTS family:
-///     <c>ALIGN_ARGUMENTS_NAMED</c> aligns the values of named arguments,
-///     and <c>ALIGN_ARGUMENTS_NAMED_ALL</c> pulls the unnamed arguments of a mixed list
-///     into the same value column with an indenting rule -
-///     the alignment engine cannot move a line-leading argument,
-///     so its line indent carries it into the column instead.
+///     Registers the alignment rule for named arguments - the context-independent head of the ARGUMENTS family:
+///     <c>ALIGN_ARGUMENTS_NAMED</c> aligns the values of named arguments.
 /// </summary>
 [Language(typeof(CSharpLanguage))]
 public class NamedArgumentsProvider : AlignArgumentsProviderBase
@@ -40,7 +34,6 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
         base.Initialize();
 
         ALIGN_ARGUMENTS_NAMED_AfterNameColon();
-        ALIGN_ARGUMENTS_NAMED_ALL_ArgumentIndent();
     }
 
     /// <summary>
@@ -145,145 +138,6 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
                 )
             )
            .Build();
-    }
-
-    /// <summary>
-    ///     Aligns the unnamed arguments of a mixed argument list into the value column of the named arguments -
-    ///     the <c>ALIGN_ARGUMENTS_NAMED_ALL</c> variant of the named-arguments rule.
-    ///     The alignment engine pads only gaps without line breaks,
-    ///     so an argument that starts its own line cannot be moved by an alignment rule;
-    ///     this indenting rule gives the argument's line
-    ///     the argument indent plus the longest named-argument name prefix instead,
-    ///     so the unnamed arguments start in the value column that the named rule builds.
-    /// </summary>
-    /// <example>
-    ///     <code>
-    ///     Spinosaurus spino = new(
-    ///         "Spino",
-    ///         diet:        "Carnivore",
-    ///         6000,
-    ///         isCarnivore: true,
-    ///         park:        "Jurassic Park 3");
-    ///     </code>
-    /// </example>
-    private void ALIGN_ARGUMENTS_NAMED_ALL_ArgumentIndent()
-    {
-        DescribeWithExternalKey<AlignatorSettingsKey, IndentingRule>()
-           .Name(nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED_ALL) + "_ArgumentIndent")
-           .Where(Node().HasType(ElementType.C_SHARP_ARGUMENT).Satisfies((node, _) => node.NodeOrNull is ICSharpArgument {ArgumentName: null} argument
-                                       && StartsOwnLineAfterToken(argument)
-                                       && !ContainsLineBreak(argument)))
-           .CloseNodeGetter(NextSolidSibling)
-           .SwitchOnExternalKey(
-                (AlignatorSettingsKey x) => x.ALIGN_ARGUMENTS_NAMED_ALL,
-                When(true).Calculate((node, _) =>
-                    {
-                        var columnOffset = 0;
-
-                        if (node is VirtNode virtNode && virtNode.NodeOrNull is ICSharpArgument argument)
-                        {
-                            var offset = CalculateValueColumnOffset(argument);
-
-                            if (offset is null)
-                            {
-                                return null;
-                            }
-
-                            columnOffset = offset.Value;
-                        }
-                        // No node: registration probes the option tree to sort the rule into the internal indenting bucket,
-                        // so the indent type must come through here
-
-                        return new ConstantOptionNode(
-                            new IndentOptionValue(
-                                IndentType.StartAtExternal | IndentType.EndAtExternal | IndentType.NonSticky,
-                                0,
-                                new Whitespace(0, columnOffset)
-                            )
-                        );
-                    }
-                )
-            )
-           .Build();
-    }
-
-    /// <summary>
-    ///     Returns the offset between the argument-line indent and the value column
-    ///     that the named rule builds for the argument's list:
-    ///     the longest <c>name:</c> prefix among the named arguments,
-    ///     plus the one mandatory space after the colon.
-    ///     The named rule pads the values into that column only while its column chains
-    ///     - consecutive lines with a named-argument gap each -
-    ///     so this indent matches it only when every named argument of the list starts its own line;
-    ///     otherwise it returns <c>null</c> and the list stays untouched.
-    /// </summary>
-    private static int? CalculateValueColumnOffset(ICSharpArgument argument)
-    {
-        if (argument.Parent is not IArgumentList argumentList)
-        {
-            return null;
-        }
-
-        var maxPrefix = 0;
-
-        foreach (var namedArgument in argumentList.Arguments)
-        {
-            if (namedArgument.ArgumentName is null)
-            {
-                continue;
-            }
-
-            // A named argument on the opening-parenthesis line or in the middle of a line
-            // breaks the column chain of the named rule, or shifts it -
-            // this indent cannot reproduce either, so it stands back for the whole list
-            if (!StartsOwnLineAfterToken(namedArgument))
-            {
-                return null;
-            }
-
-            var prefix = NamePrefixLength(namedArgument);
-            if (prefix > maxPrefix)
-            {
-                maxPrefix = prefix;
-            }
-        }
-
-        return maxPrefix == 0 ? null : maxPrefix + 1;
-    }
-
-    /// <summary>Returns the length of the <c>name:</c> prefix of a named argument, colon included.</summary>
-    private static int NamePrefixLength(ICSharpArgument argument)
-    {
-        var length = 0;
-
-        for (var child = argument.FirstChild; child != null; child = child.NextSibling)
-        {
-            length += child.GetTextLength();
-
-            if (IsColonToken(child))
-            {
-                break;
-            }
-        }
-
-        return length;
-    }
-
-    /// <summary>
-    ///     Returns the first sibling behind the node that is not whitespace.
-    ///     When no solid sibling exists (the node is the last child of its parent),
-    ///     the node itself is returned instead of null, so the indenting rule still gets a close node.
-    /// </summary>
-    private static VirtNode NextSolidSibling(VirtNode node, CodeFormattingContext _)
-    {
-        var next = node.NextSibling;
-
-        while (next is { IsWhitespace: true })
-        {
-            next = next.NextSibling;
-        }
-
-        return next == null ? node : next;
     }
 
     /// <summary>

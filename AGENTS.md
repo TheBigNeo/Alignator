@@ -112,7 +112,7 @@ parts line up in columns, improving readability of dense code.
 │   │   │       ├── CollectionInitializerArgumentsProvider.cs   # Collection initializer rules (ALIGN_COLLECTION_INITIALIZER_*)
 │   │   │       ├── ConstructorArgumentsProvider.cs             # Constructor argument rules (ALIGN_CONSTRUCTOR_ARGUMENTS*)
 │   │   │       ├── FunctionArgumentsProvider.cs                # Invocation argument rules (ALIGN_FUNCTION_ARGUMENTS*)
-│   │   │       ├── NamedArgumentsProvider.cs                   # Named-argument rules (ALIGN_ARGUMENTS_NAMED, ALIGN_ARGUMENTS_NAMED_ALL)
+│   │   │       ├── NamedArgumentsProvider.cs                   # Named-argument rule (ALIGN_ARGUMENTS_NAMED)
 │   │   │       └── WithExpressionAssignmentsProvider.cs        # With-expression rule (ALIGN_WITH_EXPRESSION_ASSIGNMENTS)
 │   │   └── Alignator.Tests/       # NUnit test project
 │   │       ├── Alignator.Tests.csproj
@@ -122,7 +122,7 @@ parts line up in columns, improving readability of dense code.
 │   │       │   ├── ConstructorArgumentsFormattingTest.cs          # Constructor tests (10)
 │   │       │   ├── FunctionArgumentsFormattingTest.cs             # Function tests (8)
 │   │       │   ├── AttributeArgumentsFormattingTest.cs           # Attribute tests (6)
-│   │       │   ├── NamedArgumentsFormattingTest.cs               # Named-argument tests (2)
+│   │       │   ├── NamedArgumentsFormattingTest.cs               # Named-argument tests (1)
 │   │       │   ├── CollectionInitializerFormattingTest.cs         # Collection initializer tests (7)
 │   │       │   ├── WithExpressionFormattingTest.cs               # With-expression tests (4)
 │   │       │   └── MixedContextsFormattingTest.cs                # Cross-context combinations (6)
@@ -150,7 +150,7 @@ The plugin hooks into the ReSharper C# code formatter via six provider classes, 
 `NamedArgumentsProvider`, `CollectionInitializerArgumentsProvider`, `WithExpressionAssignmentsProvider`),
 all deriving from `AlignArgumentsProviderBase`, which extends `CSharpFormatterInfoProviderPart`.
 The platform aggregates all parts (`IImmutableEnumerable<CSharpFormatterInfoProviderPart>`); together
-they register twenty-four alignment rules with alignment priority `100_000` (high, runs after standard formatting).
+they register twenty-three alignment rules with alignment priority `100_000` (high, runs after standard formatting).
 
 ### Alignment Rules
 
@@ -175,7 +175,6 @@ they register twenty-four alignment rules with alignment priority `100_000` (hig
 | Attribute first argument + SpaceAfterParenthese               | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`             | `IAttribute`                    | `IAttributeSectionList`                                   |
 | Attribute closing parentheses                                 | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`     | `IAttribute`                    | `IAttributeSectionList`                                   |
 | Named argument values (after `name:`)                         | `ALIGN_ARGUMENTS_NAMED`                       | `IArgumentList` / `IAttribute`  | Per call/attribute (list start offset)                    |
-| Unnamed arguments of mixed lists (line indent into the value column) | `ALIGN_ARGUMENTS_NAMED_ALL`            | `IArgumentList`                 | Per call/attribute (list start offset)                    |
 | Dictionary entries + SpaceBeforeComma                         | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
 | Dictionary entries + SpaceAfterComma                          | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
 | Dictionary entry closing braces                               | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES` | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
@@ -215,7 +214,7 @@ engine aligns the k-th same-key gap of each line as one column group.
 
 ### Configuration
 
-Thirteen settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
+Twelve settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
 `FirstArgumentPosition` values (the first argument): `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` —
 these are independent of the `AlignPosition` settings and combine freely with them.
 
@@ -235,7 +234,6 @@ group; it is the same value as in ReSharper's own formatting settings.
 | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`     | `bool`                  | Aligns closing parentheses of attributes                       |
 | `ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`      | `bool`                  | Aligns closing parentheses of `Foo(...)` calls                 |
 | `ALIGN_ARGUMENTS_NAMED`                       | `bool`                  | Aligns values of named arguments                               |
-| `ALIGN_ARGUMENTS_NAMED_ALL`                   | `bool`                  | Indents the unnamed arguments of mixed lists into the value column |
 | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `AlignPosition`         | Aligns key-values of `{"Key", Value}` dictionary-style entries |
 | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES` | `bool`                  | Aligns closing braces of dictionary-style entries              |
 | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`           | `bool`                  | Aligns assignments in `with` expression initializers           |
@@ -255,7 +253,6 @@ csharp_alignator_align_function_arguments_first = do_not_change
 csharp_alignator_align_attribute_arguments_first = do_not_change
 csharp_alignator_align_attribute_arguments_closing_paren = true
 csharp_alignator_align_arguments_named = true
-csharp_alignator_align_arguments_named_all = true
 csharp_alignator_align_collection_initializer_key_values = space_after_comma
 csharp_alignator_align_collection_initializer_closing_braces = true
 csharp_alignator_align_with_expression_assignments = true
@@ -350,7 +347,7 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`                        | Settings definitions with .editorconfig aliases                                     |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`                     | Settings UI page with live preview                                                  |
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                                  | `GetContainingBlockOffset` — scopes alignment to a block                            |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 43 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest`                                                              |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 42 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest`                                                              |
 | `build.gradle.kts`                                                                             | Gradle build: compiles .NET, runs tests, packages plugin                            |
 | `gradle.properties`                                                                            | Version numbers, SDK version, plugin IDs                                            |
 | `src/dotnet/Plugin.props`                                                                      | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties` |
