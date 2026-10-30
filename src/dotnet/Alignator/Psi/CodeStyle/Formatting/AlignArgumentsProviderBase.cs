@@ -86,7 +86,9 @@ public abstract class AlignArgumentsProviderBase : CSharpFormatterInfoProviderPa
 
                         // Named-argument lists belong to the argument-names rule, which pads between the argument name
                         // and its value. Aligning commas on top of that pads the same lines twice, so this rule stands back
-                        if (UsesNamedArguments(arguments))
+                        // Attribute named arguments live in the attribute's PropertyAssignments, not in Arguments -
+                        // UsesNamedArguments cannot see them, so the attribute is checked directly here
+                        if (UsesNamedArguments(arguments) || ctx.Parent.NodeOrNull is IAttribute { PropertyAssignments.Count: > 0 })
                         {
                             return null;
                         }
@@ -212,7 +214,9 @@ public abstract class AlignArgumentsProviderBase : CSharpFormatterInfoProviderPa
 
                         // Named-argument lists belong to the argument-names rule -
                         // the paren alignment stands back entirely, like the comma alignment rules
-                        if (UsesNamedArguments(arguments))
+                        // Attribute named arguments live in the attribute's PropertyAssignments, not in Arguments -
+                        // UsesNamedArguments cannot see them, so the attribute is checked directly here
+                        if (UsesNamedArguments(arguments) || parent is IAttribute { PropertyAssignments.Count: > 0 })
                         {
                             return null;
                         }

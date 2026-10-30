@@ -17,7 +17,7 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
   `WithExpressionAssignmentsProvider`): each extends `CSharpFormatterInfoProviderPart` via the shared base; together they register 23 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
 - Rules require the built-in `int_align_invocations` switch (`CSharpFormatSettingsKey.INT_ALIGN_INVOCATIONS`) — no Alignator alignment without it.
   The settings page shows this switch at the top of the Alignator group.
-- Named-argument alignment takes precedence: comma and paren rules stand back for calls that use named arguments, so no line is padded twice.
+- Named-argument alignment takes precedence: comma and paren rules stand back for calls and attribute lists that use named arguments, so no line is padded twice.
 
 #### Alignment keys
 

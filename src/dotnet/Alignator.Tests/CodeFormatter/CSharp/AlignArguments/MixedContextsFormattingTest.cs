@@ -54,6 +54,15 @@ public class MixedContextsFormattingTest : CodeFormatterWithExplicitSettingsTest
         DoNamedTest2();
     }
 
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Mixed.AlignArgumentsInAttribute_NamedArguments_MultiLine"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS), AlignPosition.SpaceBeforeComma)]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),     true)]
+    public void TestAlignArgumentsInAttribute_NamedArguments_MultiLine()
+    {
+        DoNamedTest2();
+    }
+
     /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Mixed.AlignArgumentsInFunction_NamedArguments_ClosingParen"/>
     [Test]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),                  true)]

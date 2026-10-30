@@ -427,7 +427,7 @@ and attribute named arguments in their only legal syntax, `Name = value`:
 ```
 
 Named arguments are only padded when they start their own line: single-line calls stay untouched, and the positional arguments of a mixed list keep their spacing.
-When a call uses named arguments, the comma alignment rules above (constructor, function, attribute) stand back for that call — including for the positional arguments of a mixed list —
+When a call or attribute list uses named arguments, the comma alignment rules above (constructor, function, attribute) stand back for it — including for the positional arguments of a mixed list —
 so comma alignment and argument-name alignment never pad the same lines twice.
 
 ### Align key-values in collection initializer

@@ -125,7 +125,7 @@ parts line up in columns, improving readability of dense code.
 │   │       │   ├── NamedArgumentsFormattingTest.cs               # Named-argument tests (1)
 │   │       │   ├── CollectionInitializerFormattingTest.cs         # Collection initializer tests (7)
 │   │       │   ├── WithExpressionFormattingTest.cs               # With-expression tests (4)
-│   │       │   └── MixedContextsFormattingTest.cs                # Cross-context combinations (6)
+│   │       │   └── MixedContextsFormattingTest.cs                # Cross-context combinations (7)
 │   │       ├── Data/
 │   │       │   ├── TestAlignatorAttribute.cs
 │   │       │   └── TestData.cs
@@ -211,6 +211,9 @@ Per-call rules (argument names) and per-initializer rules (dictionary entries) u
 list / collection initializer start offset as the alignment group instead of the block offset,
 and the dictionary entry rules use one shared key per initializer without an element index: the
 engine aligns the k-th same-key gap of each line as one column group.
+Named-argument alignment takes precedence: the comma and first-argument rules stand back for argument lists
+and attribute lists that use named arguments (including attribute Name = property assignments),
+so no line is padded twice.
 
 ### Configuration
 
@@ -243,7 +246,7 @@ group; it is the same value as in ReSharper's own formatting settings.
 ```ini
 [*.cs]
 # Built-in switch: required for every Alignator alignment
-int_align_invocations                            = true
+int_align_invocations = true
 
 csharp_alignator_align_constructor_arguments = space_after_comma
 csharp_alignator_align_function_arguments = space_after_comma
@@ -340,17 +343,17 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 
 ## Key Files
 
-| File                                                                                           | Purpose                                                                             |
-|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProviderBase.cs`                  | Shared rule builders, tree helpers, variant record, priority                        |
-| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/*ArgumentsProvider.cs`                          | One provider class per context — registers that context's alignment rules           |
-| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`                        | Settings definitions with .editorconfig aliases                                     |
-| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`                     | Settings UI page with live preview                                                  |
-| `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                                  | `GetContainingBlockOffset` — scopes alignment to a block                            |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 42 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest`                                                              |
-| `build.gradle.kts`                                                                             | Gradle build: compiles .NET, runs tests, packages plugin                            |
-| `gradle.properties`                                                                            | Version numbers, SDK version, plugin IDs                                            |
-| `src/dotnet/Plugin.props`                                                                      | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties` |
+| File                                                                                | Purpose                                                                                                         |
+|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProviderBase.cs`       | Shared rule builders, tree helpers, variant record, priority                                                    |
+| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/*ArgumentsProvider.cs`               | One provider class per context — registers that context's alignment rules                                       |
+| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`             | Settings definitions with .editorconfig aliases                                                                 |
+| `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`          | Settings UI page with live preview                                                                              |
+| `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                       | `GetContainingBlockOffset` — scopes alignment to a block                                                        |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 43 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest` |
+| `build.gradle.kts`                                                                  | Gradle build: compiles .NET, runs tests, packages plugin                                                        |
+| `gradle.properties`                                                                 | Version numbers, SDK version, plugin IDs                                                                        |
+| `src/dotnet/Plugin.props`                                                           | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties`                             |
 
 ## Extending the Plugin
 

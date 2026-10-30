@@ -41,6 +41,8 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
     ///     the <c>name:</c> colon for calls and object creations,
     ///     the <c>Name =</c> assignment for attributes, the only legal named-argument syntax there -
     ///     so the values share one column when arguments are written on separate lines.
+    ///     Malformed error-recovery PSI such as <c>[Test(Name = x = 1)]</c> no longer receives an alignment key -
+    ///     a deliberate bug fix.
     /// </summary>
     /// <example>
     ///     <code>
@@ -72,6 +74,15 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
 
                         var gapParent = ctx.Parent.NodeOrNull;
                         if (gapParent is null)
+                        {
+                            return null;
+                        }
+
+                        // Both accepted forms have an argument-shaped gap parent: the 'name:' colon gap sits inside
+                        // an ICSharpArgument, the attribute 'Name = value' assignment gap inside an IPropertyAssignment.
+                        // Every other '=' or ':' gap - ordinary assignments, ternaries, case labels, object
+                        // initializers, with expressions - is rejected here without walking anything.
+                        if (gapParent is not (ICSharpArgument or IPropertyAssignment))
                         {
                             return null;
                         }

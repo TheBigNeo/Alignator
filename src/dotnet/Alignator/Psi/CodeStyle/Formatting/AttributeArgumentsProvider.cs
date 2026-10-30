@@ -98,6 +98,8 @@ public class AttributeArgumentsProvider : AlignArgumentsProviderBase
 
     /// <summary>
     ///     Aligns closing parentheses of attributes by padding before them, so they share one column.
+    ///     Fully-named attribute lists can never match the rule, because the node left of the gap
+    ///     is inside an IPropertyAssignment, not an ICSharpArgument - consistent with the stand-back.
     ///     Controlled by a separate setting,
     ///     so comma alignment and closing parenthesis alignment can be enabled at the same time.
     /// </summary>
