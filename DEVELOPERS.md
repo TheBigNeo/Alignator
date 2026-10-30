@@ -27,7 +27,7 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 
 #### Settings
 
-- [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 12 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
+- [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 15 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
 - UI: [AlignatorSettingsSchema.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs) ("Alignator align arguments" page part, live previews).
 
 | Name (Setting UI)                                            | Type                    | `.editorconfig` key                                            | Enum Value                                      |
@@ -44,6 +44,9 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 | Align argument names                                         | `bool`                  | `csharp_alignator_align_arguments_named`                       | `ALIGN_ARGUMENTS_NAMED`                         |
 | Align key-values in collection initializer                   | `AlignPosition`         | `csharp_alignator_align_collection_initializer_key_values`     | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`       |
 | Align closing braces in collection initializer               | `bool`                  | `csharp_alignator_align_collection_initializer_closing_braces` | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES`   |
+| Align opening braces in object initializer                  | `OpeningBracePosition`   | `csharp_alignator_align_object_initializer_opening_braces`    | `ALIGN_OBJECT_INITIALIZER_OPENING_BRACES`       |
+| Align assignments in object initializer                     | `bool`                  | `csharp_alignator_align_object_initializer_assignments`      | `ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS`          |
+| Align closing braces in object initializer                  | `bool`                  | `csharp_alignator_align_object_initializer_closing_braces`   | `ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES`       |
 | Align assignments in with expression                         | `bool`                  | `csharp_alignator_align_with_expression_assignments`           | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`             |
 
 - **Enum Value** is the settings key used in code — `INT_*` fields on `AlignatorSettingsKey`, the built-in switch on `CSharpFormatSettingsKey`.

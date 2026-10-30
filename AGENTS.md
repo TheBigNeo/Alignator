@@ -68,8 +68,8 @@ Before returning a task as done:
 ### Purpose
 
 Vertical alignment of arguments in constructor calls (`new Type(...)`), function invocations (`Foo(...)`), attributes (`[TestCase(...)]`), of named-argument values, of `{"Key", Value}`
-dictionary-style entries in collection initializers, and of property assignments in
-`with` expression initializers. The plugin pads whitespace so aligned
+dictionary-style entries in collection initializers, of object initializers inside
+collections, and of property assignments in `with` expression initializers. The plugin pads whitespace so aligned
 parts line up in columns, improving readability of dense code.
 
 ### Technical Details
@@ -87,10 +87,10 @@ parts line up in columns, improving readability of dense code.
 ### Architecture
 
 The plugin hooks into the ReSharper C# code formatter via six provider classes, one per context (`ConstructorArgumentsProvider`, `FunctionArgumentsProvider`, `AttributeArgumentsProvider`,
-`NamedArgumentsProvider`, `CollectionInitializerArgumentsProvider`, `WithExpressionAssignmentsProvider`),
-all deriving from `AlignArgumentsProviderBase`, which extends `CSharpFormatterInfoProviderPart`.
+`NamedArgumentsProvider`, `CollectionInitializerArgumentsProvider`, `ObjectInitializerArgumentsProvider`,
+`WithExpressionAssignmentsProvider`), all deriving from `AlignArgumentsProviderBase`, which extends `CSharpFormatterInfoProviderPart`.
 The platform aggregates all parts (`IImmutableEnumerable<CSharpFormatterInfoProviderPart>`); together
-they register twenty-three alignment rules with alignment priority `100_000` (high, runs after standard formatting).
+they register twenty-eight alignment rules with alignment priority `100_000` (high, runs after standard formatting).
 
 ### Alignment Rules
 
@@ -118,12 +118,24 @@ they register twenty-three alignment rules with alignment priority `100_000` (hi
 | Dictionary entries + SpaceBeforeComma                         | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
 | Dictionary entries + SpaceAfterComma                          | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
 | Dictionary entry closing braces                               | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES` | `ICollectionElementInitializer` | Per collection initializer of `IObjectCreationExpression` |
+| Object initializer opening braces + SpaceBeforeBrace          | `ALIGN_OBJECT_INITIALIZER_OPENING_BRACES`     | `IObjectCreationExpression`     | Per collection expression / initializer                   |
+| Object initializer opening braces + SpaceAfterBrace           | `ALIGN_OBJECT_INITIALIZER_OPENING_BRACES`     | `IObjectInitializer`            | Per collection expression / initializer                   |
+| Object initializer assignments + BeforeEq                    | `ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS`        | `IMemberInitializer`             | Per collection expression / initializer                   |
+| Object initializer assignments + AfterComma                  | `ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS`        | `IObjectInitializer`            | Per collection expression / initializer                   |
+| Object initializer closing braces                             | `ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES`     | `IObjectInitializer`            | Per collection expression / initializer                   |
 | With-expression assignments                                   | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`           | `IWithInitializerAssignment`    | Per with expression                                       |
 
 Dictionary-style entries are `ICollectionElementInitializer` nodes with at least two
 `ICSharpArgument` children inside an `ICollectionInitializer` of an `IObjectCreationExpression`;
 simple `{expr}` entries are never touched. Entry alignment applies only to entries that start
 their own line and span a single line.
+
+Object initializer alignment targets `IObjectCreationExpression` entries (including target-typed `new()`) with a
+non-empty `IObjectInitializer` that are direct entries of one collection - a collection expression (`[ .. ]`, wrapped
+in an `IExpressionElement`) or a collection initializer (`new List<T> { .. }`, wrapped in a braceless
+`ICollectionElementInitializer`) - and uses the collection's start offset as the alignment group: entries of
+different collections never align. Like dictionary entries, qualified entries start their own line, span a single
+line, and the engine only groups gaps on consecutive lines, so a multi-line entry splits the group.
 
 ### Alignment Key Calculation
 
@@ -151,15 +163,19 @@ Per-call rules (argument names) and per-initializer rules (dictionary entries) u
 list / collection initializer start offset as the alignment group instead of the block offset,
 and the dictionary entry rules use one shared key per initializer without an element index: the
 engine aligns the k-th same-key gap of each line as one column group.
+The object initializer rules do the same per enclosing collection with the disjoint key stems
+`ObjInit` + `BeforeOpenBrace` / `AfterOpenBrace` / `BeforeEq` / `AfterComma` / `BeforeCloseBrace`,
+so the three settings combine freely with each other and with all other settings.
 Named-argument alignment takes precedence: the comma and first-argument rules stand back for argument lists
 and attribute lists that use named arguments (including attribute Name = property assignments),
 so no line is padded twice.
 
 ### Configuration
 
-Twelve settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
+Fifteen settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
 `FirstArgumentPosition` values (the first argument): `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` —
 these are independent of the `AlignPosition` settings and combine freely with them.
+`OpeningBracePosition` values (object initializer opening braces): `DoNotChange`, `SpaceBeforeBrace`, `SpaceAfterBrace`.
 
 All Alignator rules additionally require the built-in `int_align_invocations` switch
 (`CSharpFormatSettingsKey.INT_ALIGN_INVOCATIONS`, default off) - no Alignator alignment
@@ -179,6 +195,9 @@ group; it is the same value as in ReSharper's own formatting settings.
 | `ALIGN_ARGUMENTS_NAMED`                       | `bool`                  | Aligns values of named arguments                               |
 | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`     | `AlignPosition`         | Aligns key-values of `{"Key", Value}` dictionary-style entries |
 | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES` | `bool`                  | Aligns closing braces of dictionary-style entries              |
+| `ALIGN_OBJECT_INITIALIZER_OPENING_BRACES`    | `OpeningBracePosition`  | Aligns opening braces in object initializer entries            |
+| `ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS`       | `bool`                  | Aligns assignments in object initializer entries               |
+| `ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES`    | `bool`                  | Aligns closing braces in object initializer entries            |
 | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`           | `bool`                  | Aligns assignments in `with` expression initializers           |
 
 **.editorconfig** configuration:
@@ -198,6 +217,9 @@ csharp_alignator_align_attribute_arguments_closing_paren = true
 csharp_alignator_align_arguments_named = true
 csharp_alignator_align_collection_initializer_key_values = space_after_comma
 csharp_alignator_align_collection_initializer_closing_braces = true
+csharp_alignator_align_object_initializer_opening_braces = space_before_brace
+csharp_alignator_align_object_initializer_assignments = true
+csharp_alignator_align_object_initializer_closing_braces = true
 csharp_alignator_align_with_expression_assignments = true
 ```
 
@@ -248,7 +270,7 @@ Tests use the ReSharper test framework (`CodeFormatterWithExplicitSettingsTestBa
 
 Each test:
 
-1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/<Context>/` (context folders: `Constructor`, `Function`, `Attributes`, `Named`, `CollectionInitializer`, `WithExpression`; `Mixed` for cross-context combinations). The attribute context folder is named `Attributes` (plural) because a folder named `Attribute` would clash with `System.Attribute`
+1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/<Context>/` (context folders: `Constructor`, `Function`, `Attributes`, `Named`, `CollectionInitializer`, `ObjectInitializer`, `WithExpression`; `Mixed` for cross-context combinations). The attribute context folder is named `Attributes` (plural) because a folder named `Attribute` would clash with `System.Attribute`
 2. Uses `[TestSetting]` attributes to configure `AlignatorSettingsKey` values
 3. Carries `<seealso>` doc comments linking test method and test data class in both directions - clickable in the IDE
 4. Calls `DoNamedTest2()` which formats the input and compares against the gold file
@@ -292,7 +314,7 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                       | `GetContainingBlockOffset` — scopes alignment to a block                                                        |
 | `src/dotnet/Alignator/Alignator.csproj`, `Alignator.Rider.csproj`               | Same sources, compiled with the `RESHARPER` and `RIDER` defines respectively |
 | `protocol/`                                                                     | rd-gen protocol definitions (Kotlin/C# codegen), included as the `:protocol` subproject |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 43 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest` |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 60 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest` |
 | `build.gradle.kts`                                                                  | Gradle build: compiles .NET, runs tests, packages plugin                                                        |
 | `gradle.properties`                                                                 | Version numbers, SDK version, plugin IDs                                                                        |
 | `src/dotnet/Plugin.props`                                                           | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties`                             |
@@ -301,7 +323,8 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 
 To add a new alignment mode:
 
-1. Add a new value to the `AlignPosition` enum (arguments after the first) or the `FirstArgumentPosition` enum (the first argument)
+1. Add a new value to the `AlignPosition` enum (arguments after the first), the `FirstArgumentPosition` enum (the first argument)
+   or the `OpeningBracePosition` enum (object initializer opening braces)
 2. Add a new method in the matching context provider's `Initialize()` following the existing pattern
 3. Add a new test in the matching context formatting test class with corresponding `.cs`/`.cs.gold` test data files in that context folder
 4. Update `AlignatorSettingsSchema.cs` if the new mode needs a settings UI entry

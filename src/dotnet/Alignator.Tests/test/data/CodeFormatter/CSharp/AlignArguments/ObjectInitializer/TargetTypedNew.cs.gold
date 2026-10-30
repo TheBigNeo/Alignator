@@ -1,0 +1,15 @@
+﻿namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer;
+
+/// <seealso cref="AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.ObjectInitializerFormattingTest.TestTargetTypedNew"/>
+internal class TargetTypedNew
+{
+  static void Paddock()
+  {
+    Paddock[] paddocks =
+    [
+      new() { Number = 1,  Description = "Raptor Pen"    },
+      new() { Number = 11, Description = "T-Rex Paddock" },
+    ];
+  }
+}

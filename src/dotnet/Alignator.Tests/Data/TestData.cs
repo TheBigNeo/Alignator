@@ -86,6 +86,12 @@ internal enum DangerLevel
     Extreme = 4,
 }
 
+internal sealed class Paddock
+{
+    public int Number { get; set; }
+    public string Description { get; set; }
+}
+
 internal record DinosaurRecord(string Name, string Diet, int PaddockNumber, DangerLevel DangerLevel, bool ThermalCamouflageEnabled, int Speed = 0);
 
 internal record FeedingSchedule(string Time, string Food, int Quantity, string Recipient);

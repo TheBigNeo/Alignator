@@ -64,6 +64,13 @@ internal class AllSettingsAtOnce
       { "Genome", "T-Rex, Velociraptor, Cuttlefish, Tree Frog" },
     };
 
+    Tyrannosaurus[] paddock =
+    [
+      new Tyrannosaurus("T-Rex") { Height = 2 },
+      new Tyrannosaurus("Velociraptor") { Description = "Fast", Height = 1 },
+      new Tyrannosaurus("Indominus Rex") { Height = 4 },
+    ];
+
     DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)
       with
       {

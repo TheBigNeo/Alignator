@@ -14,7 +14,7 @@ namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 /// <remarks>
 ///     <para>
 ///         Key naming scheme: <c>ALIGN_&lt;CONTEXT&gt;_&lt;FAMILY&gt;[_&lt;VARIANT&gt;]</c>.
-///         The context (ATTRIBUTE, COLLECTION_INITIALIZER, CONSTRUCTOR, FUNCTION, WITH_EXPRESSION, ...) comes first,
+///         The context (ATTRIBUTE, COLLECTION_INITIALIZER, CONSTRUCTOR, FUNCTION, OBJECT_INITIALIZER, WITH_EXPRESSION, ...) comes first,
 ///         so all keys of one context sort into one alphabetical block.
 ///         The family is the stem that names what is aligned - ARGUMENTS, KEY_VALUES, ASSIGNMENTS -
 ///         and every key that aligns the same kind of node in the same context hangs on that same stem.
@@ -117,6 +117,22 @@ public class AlignatorSettingsKey
     [EditorConfigEntryAlias("alignator_align_function_arguments_first", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(FirstArgumentPosition.DoNotChange, "Align first argument in function")]
     public FirstArgumentPosition ALIGN_FUNCTION_ARGUMENTS_FIRST;
+
+    #endregion
+
+    #region Object initializer
+
+    [EditorConfigEntryAlias("alignator_align_object_initializer_assignments", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(false, "Align assignments in object initializer")]
+    public bool ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS;
+
+    [EditorConfigEntryAlias("alignator_align_object_initializer_closing_braces", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(false, "Align closing braces in object initializer")]
+    public bool ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES;
+
+    [EditorConfigEntryAlias("alignator_align_object_initializer_opening_braces", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(OpeningBracePosition.DoNotChange, "Align opening braces in object initializer")]
+    public OpeningBracePosition ALIGN_OBJECT_INITIALIZER_OPENING_BRACES;
 
     #endregion
 

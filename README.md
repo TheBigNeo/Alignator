@@ -1,7 +1,7 @@
 # Alignator
 
 Alignator is a plugin for **JetBrains Rider and ReSharper** that pads whitespace in C# code so that related elements line up in clean columns:
-arguments of constructor, function, and attribute calls, values of named arguments, dictionary-style entries in collection initializers, and assignments in `with` expressions.
+arguments of constructor, function, and attribute calls, values of named arguments, dictionary-style entries in collection initializers, object initializers inside collections, and assignments in `with` expressions.
 
 ## What can be aligned
 
@@ -81,7 +81,8 @@ Caller.FeedDinosaurs(                "Veloci"    , "Baryo" , "Moso" , "Dilophosa
 > But it is handy as a temporary working style — quickly switch to it, make bulk edits where the visible comma columns help, then switch back to your usual style.
 
 > Whether closing brackets are aligned too is decided by separate settings:
-> `csharp_alignator_align_attribute_arguments_closing_paren` for the `)` of attributes, `csharp_alignator_align_function_arguments_closing_paren` for the `)` of function calls, and `csharp_alignator_align_collection_initializer_closing_braces` for the `}` of dictionary-style entries.
+> `csharp_alignator_align_attribute_arguments_closing_paren` for the `)` of attributes, `csharp_alignator_align_function_arguments_closing_paren` for the `)` of function calls, and `csharp_alignator_align_collection_initializer_closing_braces` for the `}` of dictionary-style entries,
+> as well as `csharp_alignator_align_object_initializer_closing_braces` for the `}` of object initializer entries inside collections.
 
 ## Settings
 
@@ -107,6 +108,9 @@ In Visual Studio with ReSharper: **ReSharper | Options | Code Editing | C# | Cod
 | Align closing parenthesis in function             | `true`, `false`                                                |
 | Align argument names                              | `true`, `false`                                                |
 | Align key-values in collection initializer        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align opening braces in object initializer        | `DoNotChange`, `SpaceBeforeBrace`, `SpaceAfterBrace`             |
+| Align assignments in object initializer           | `true`, `false`                                                |
+| Align closing braces in object initializer        | `true`, `false`                                                |
 | Align closing braces in collection initializer    | `true`, `false`                                                |
 | Align assignments in with expression              | `true`, `false`                                                |
 
@@ -145,6 +149,11 @@ csharp_alignator_align_arguments_named                       = true # Align name
 csharp_alignator_align_collection_initializer_key_values     = space_after_comma # Align key-value entries in dictionary-style collection initializers
 csharp_alignator_align_collection_initializer_closing_braces = true              # Align closing braces of dictionary-style entries
 
+# Object initializers
+csharp_alignator_align_object_initializer_opening_braces    = space_before_brace # Align opening braces of object initializer entries in collections
+csharp_alignator_align_object_initializer_assignments      = true              # Align assignments of object initializer entries in collections
+csharp_alignator_align_object_initializer_closing_braces   = true              # Align closing braces of object initializer entries in collections
+
 # With expressions
 csharp_alignator_align_with_expression_assignments           = true # Align assignments in with-expression initializers
 ```
@@ -153,6 +162,7 @@ csharp_alignator_align_with_expression_assignments           = true # Align assi
 
 Valid values for the `AlignPosition` settings: `do_not_change`, `space_before_comma`, `space_after_comma`. Bool settings take `true` / `false`.
 Valid values for the `FirstArgumentPosition` settings: `do_not_change`, `space_before_parenthese`, `space_after_parenthese`.
+Valid values for the `OpeningBracePosition` setting: `do_not_change`, `space_before_brace`, `space_after_brace`.
 Each first-argument setting combines freely with its comma counterpart — for example `csharp_alignator_align_constructor_arguments_first = space_before_parenthese` and `csharp_alignator_align_constructor_arguments = space_before_comma` can both be active.
 The collection-initializer setting has no first-argument counterpart (dictionary-style entries have no parentheses).
 
@@ -487,6 +497,107 @@ Dictionary<string, string?> indominusRexFacts = new()
   {"Enclosure", "Paddock 11"                                 },
   {"Genome",    "T-Rex, Velociraptor, Cuttlefish, Tree Frog" },
 };
+```
+
+### Align opening braces in object initializer
+
+> `csharp_alignator_align_object_initializer_opening_braces`
+
+Aligns the object initializers (`new X() { .. }`) inside one collection - a collection expression (`[ .. ]`)
+or a collection initializer (`new List<T> { .. }`) - one entry per line.
+In `space_before_brace` mode the `{` of every entry lines up in one column:
+
+Before
+
+```csharp
+Tyrannosaurus[] paddock =
+[
+  new Tyrannosaurus("T-Rex") { Height = 2 },
+  new Tyrannosaurus("Velociraptor") { Height = 1 },
+  new Tyrannosaurus("Indominus Rex") { Height = 4 },
+];
+```
+
+After (`space_before_brace`)
+
+```csharp
+Tyrannosaurus[] paddock =
+[
+  new Tyrannosaurus("T-Rex")         { Height = 2 },
+  new Tyrannosaurus("Velociraptor")  { Height = 1 },
+  new Tyrannosaurus("Indominus Rex") { Height = 4 },
+];
+```
+
+In `space_after_brace` mode the braces stay where they are and the first members share one column:
+
+```csharp
+Tyrannosaurus[] paddock =
+[
+  new Tyrannosaurus("T-Rex") {         Height = 2 },
+  new Tyrannosaurus("Velociraptor") {  Height = 1 },
+  new Tyrannosaurus("Indominus Rex") { Height = 4 },
+];
+```
+
+Only entries that start their own line and span a single line are aligned;
+entries of different collections never align with each other.
+
+### Align assignments in object initializer
+
+> `csharp_alignator_align_object_initializer_assignments`
+
+Aligns the assignments of object initializer entries inside one collection:
+the `=` of the k-th member and the starts of the members after the commas share one column each.
+It combines freely with the opening-brace setting - with aligned braces, every column lines up:
+
+Before
+
+```csharp
+Tyrannosaurus[] paddock =
+[
+  new Tyrannosaurus("T-Rex") { Height = 2, Description = "Alpha" },
+  new Tyrannosaurus("Velociraptor") { Description = "Beta", Height = 1 },
+];
+```
+
+After (`true`, shown together with `space_before_brace`)
+
+```csharp
+Tyrannosaurus[] paddock =
+[
+  new Tyrannosaurus("T-Rex")        { Height      = 2,      Description = "Alpha" },
+  new Tyrannosaurus("Velociraptor") { Description = "Beta", Height      = 1 },
+];
+```
+
+### Align closing braces in object initializer
+
+> `csharp_alignator_align_object_initializer_closing_braces`
+
+Aligns the closing braces of object initializer entries inside one collection into one column.
+It combines freely with the opening-brace and assignment settings:
+
+Before
+
+```csharp
+Tyrannosaurus[] paddock =
+[
+  new Tyrannosaurus("T-Rex") { Height = 2 },
+  new Tyrannosaurus("Velociraptor") { Height = 1, Description = "Fast" },
+  new Tyrannosaurus("Indominus Rex") { Height = 4, Description = "Hybrid" },
+];
+```
+
+After (`true`)
+
+```csharp
+Tyrannosaurus[] paddock =
+[
+  new Tyrannosaurus("T-Rex") { Height = 2                                 },
+  new Tyrannosaurus("Velociraptor") { Height = 1, Description = "Fast"    },
+  new Tyrannosaurus("Indominus Rex") { Height = 4, Description = "Hybrid" },
+];
 ```
 
 ### Align assignments in with expression

@@ -228,6 +228,48 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                 """,
                 parseType: PreviewParseType.Member,
                 previewFixup: IntAlignFixup)
+            .ItemFor((AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS,
+                """
+                static void Paddock()
+                {
+                  Tyrannosaurus[] paddock =
+                  [
+                    new Tyrannosaurus("T-Rex") { Height = 2, Description = "Alpha" },
+                    new Tyrannosaurus("Velociraptor") { Height = 1, Description = "Beta" },
+                    new Tyrannosaurus("Indominus Rex") { Height = 4, Description = "Hybrid" },
+                  ];
+                }
+                """,
+                parseType: PreviewParseType.Member,
+                previewFixup: IntAlignFixup)
+            .ItemFor((AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES,
+                """
+                static void Paddock()
+                {
+                  Tyrannosaurus[] paddock =
+                  [
+                    new Tyrannosaurus("T-Rex") { Height = 2 },
+                    new Tyrannosaurus("Velociraptor") { Height = 1, Description = "Beta" },
+                    new Tyrannosaurus("Indominus Rex") { Height = 4, Description = "Hybrid" },
+                  ];
+                }
+                """,
+                parseType: PreviewParseType.Member,
+                previewFixup: IntAlignFixup)
+            .ItemFor((AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_OPENING_BRACES,
+                """
+                static void Paddock()
+                {
+                  Tyrannosaurus[] paddock =
+                  [
+                    new Tyrannosaurus("T-Rex") { Height = 2, Description = "Alpha" },
+                    new Tyrannosaurus("Velociraptor") { Height = 1, Description = "Beta" },
+                    new Tyrannosaurus("Indominus Rex") { Height = 4, Description = "Hybrid" },
+                  ];
+                }
+                """,
+                parseType: PreviewParseType.Member,
+                previewFixup: IntAlignFixup)
             .ItemFor((AlignatorSettingsKey x) => x.ALIGN_WITH_EXPRESSION_ASSIGNMENTS,
                 """
                 static void IndominusRex()
