@@ -81,7 +81,7 @@ Caller.FeedDinosaurs(                "Veloci"    , "Baryo" , "Moso" , "Dilophosa
 > But it is handy as a temporary working style — quickly switch to it, make bulk edits where the visible comma columns help, then switch back to your usual style.
 
 > Whether closing brackets are aligned too is decided by separate settings:
-> `csharp_alignator_align_attribute_arguments_closing_paren` for the `)` of attributes, and `csharp_alignator_align_collection_initializer_closing_braces` for the `}` of dictionary-style entries.
+> `csharp_alignator_align_attribute_arguments_closing_paren` for the `)` of attributes, `csharp_alignator_align_function_arguments_closing_paren` for the `)` of function calls, and `csharp_alignator_align_collection_initializer_closing_braces` for the `}` of dictionary-style entries.
 
 ## Settings
 

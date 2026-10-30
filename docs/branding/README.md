@@ -1,8 +1,7 @@
 # Alignator branding assets
 
 The editable icon artwork and its generated exports live in this directory.
-Extract the archive at the repository root to add `assets/branding/` without
-replacing the repository's main README or build configuration.
+The NuGet package icon is consumed from here by `src/dotnet/Plugin.props`.
 
 ## Editable source
 
@@ -51,8 +50,8 @@ Requirements:
 Run from the repository root:
 
 ```bash
-python -m pip install -r assets/branding/tools/requirements.txt
-python assets/branding/tools/export_assets.py
+python -m pip install -r docs/branding/tools/requirements.txt
+python docs/branding/tools/export_assets.py
 ```
 
 On Windows, if Inkscape is not on `PATH`:
@@ -67,9 +66,9 @@ master. Edit the master rather than the generated PNG or ICO files.
 
 ## Use in a Rider plugin
 
-Copy `rider/META-INF/pluginIcon.svg` to the plugin's resources directory so that
-it is packaged as `META-INF/pluginIcon.svg` in the plugin JAR. The exact resources
-directory depends on the repository layout.
+Copy `rider/META-INF/pluginIcon.svg` to
+`src/rider/main/resources/META-INF/pluginIcon.svg` so that it is packaged as
+`META-INF/pluginIcon.svg` in the plugin JAR.
 
 The standalone SVG and generic PNG exports use the master canvas. The Rider
 export adds transparent padding for its plugin-manager presentation.

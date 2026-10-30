@@ -131,7 +131,6 @@ Placeholder checklist for the first release:
 
 - [plugin.xml](src/rider/main/resources/META-INF/plugin.xml): `<version>`, `since-build`/`until-build` are patched by the Gradle build; the real `<description>` is in place (Marketplace approval checks this).
 - [Plugin.props](src/dotnet/Plugin.props): `Description`, `Authors`, `PackageProjectUrl` and the MIT license (`PackageLicenseExpression`, [LICENSE](LICENSE)) are in place.
-- README badge IDs (`RIDER_PLUGIN_ID`, `RESHARPER_PLUGIN_ID`).
 - Consider a `Company.Package` package ID (e.g. `ReSharperPlugin.Alignator`) — the ReSharper DevGuide requires a `.` in extension package IDs.
 
 ## Install
