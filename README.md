@@ -139,6 +139,7 @@ csharp_alignator_align_attribute_arguments_closing_paren     = true             
 
 # Named arguments
 csharp_alignator_align_arguments_named                       = true # Align named-argument values in multi-line calls
+csharp_alignator_align_arguments_named_all                   = true # Also align the unnamed arguments of mixed lists
 
 # Collection initializers
 csharp_alignator_align_collection_initializer_key_values     = space_after_comma # Align key-value entries in dictionary-style collection initializers
@@ -425,9 +426,43 @@ and attribute named arguments in their only legal syntax, `Name = value`:
     pachycephalosaurus = "Rex")]
 ```
 
-Named arguments are only padded when they start their own line: single-line calls stay untouched, and positional arguments in the same call are never modified.
+Named arguments are only padded when they start their own line: single-line calls stay untouched, and positional arguments in the same call are aligned only by the setting below.
 When a call uses named arguments, the comma alignment rules above (constructor, function, attribute) stand back for that call — including for the positional arguments of a mixed list —
 so comma alignment and argument-name alignment never pad the same lines twice.
+
+### Align arguments without names too
+
+> `csharp_alignator_align_arguments_named_all`
+
+Extends `csharp_alignator_align_arguments_named` to mixed lists that also contain unnamed arguments: an indenting rule gives the line of an unnamed argument the argument indent plus the longest `name:` prefix of the list, so the unnamed arguments start in the value column that the named-argument setting builds.
+
+Before
+
+```csharp
+Spinosaurus spino = new(
+    "Spino",
+    6000,
+    Diet.Carnivore,
+    isCarnivore: true,
+    dietType: Diet.Herbi,
+    park: "Jurassic Park 3");
+```
+
+After (`true`, together with `csharp_alignator_align_arguments_named`)
+
+```csharp
+Spinosaurus spino = new(
+              "Spino",
+              6000,
+              Diet.Carnivore,
+    isCarnivore: true,
+    dietType:   Diet.Herbi,
+    park:       "Jurassic Park 3");
+```
+
+The rule needs at least one named argument - purely positional lists belong to the comma alignment settings above - and it stands back when a named argument sits on the opening-parenthesis line or in the middle of a line, or when an unnamed argument does not start its own line. Attribute arguments are not covered yet.
+
+When the positional and named arguments alternate line by line, the unnamed arguments still start in the value column, but the named values keep their own spacing: the value column of the named arguments chains only across consecutive lines that each hold a named argument, a limit of the platform alignment engine.
 
 ### Align key-values in collection initializer
 
