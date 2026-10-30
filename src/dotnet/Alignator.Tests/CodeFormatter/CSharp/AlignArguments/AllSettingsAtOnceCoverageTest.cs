@@ -1,4 +1,4 @@
-using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
@@ -6,10 +6,10 @@ using NUnit.Framework;
 namespace TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments;
 
 /// <summary>
-///     Guards <see cref="MixedContextsFormattingTest.TestAllSettingsAtOnce"/> against gaps in its settings
-///     coverage: every key declared on <see cref="AlignatorSettingsKey"/> must be set on the test method via
-///     <c>[TestSetting]</c> - a newly added key without a matching TestSetting fails this test, so the
-///     showcase always exercises the full settings surface.
+///     Guards <see cref="MixedContextsFormattingTest.TestAllSettingsAtOnce"/> against gaps in its settings coverage:
+///     every key declared on <see cref="AlignatorSettingsKey"/> must be set on the test method via <c>[TestSetting]</c> -
+///     a newly added key without a matching TestSetting fails this test,
+///     so the showcase always exercises the full settings surface.
 /// </summary>
 [TestFixture]
 public class AllSettingsAtOnceCoverageTest

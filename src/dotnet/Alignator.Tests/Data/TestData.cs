@@ -102,8 +102,8 @@ internal static class RecordFactory
     public static FeedingSchedule GetFeedingSchedule(object source) => new("09:00", "Goat", 1, "T-Rex");
 }
 
-// Attribute named arguments are matched case-sensitively, so the properties carry the
-// lowercase names the test data writes.
+// Attribute named arguments are matched case-sensitively,
+// so the properties carry the lowercase names the test data writes.
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
 internal sealed class TestCaseAttribute : Attribute
 {

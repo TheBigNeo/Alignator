@@ -18,14 +18,14 @@ namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 [Language(typeof(CSharpLanguage))]
 public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
 {
-    public CollectionInitializerArgumentsProvider(ISettingsSchema           settingsSchema,
-                                                 ICalculatedSettingsSchema calculatedSettingsSchema,
-                                                 IThreading                threading,
-                                                 Lifetime                  lifetime)
+    public CollectionInitializerArgumentsProvider(ISettingsSchema settingsSchema,
+        ICalculatedSettingsSchema calculatedSettingsSchema,
+        IThreading threading,
+        Lifetime lifetime)
         : base(settingsSchema,
-               calculatedSettingsSchema,
-               threading,
-               lifetime)
+            calculatedSettingsSchema,
+            threading,
+            lifetime)
     {
     }
 
@@ -39,8 +39,8 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Aligns keys of dictionary-style collection initializer entries by padding
-    ///     before the comma, so the commas share one column.
+    ///     Aligns keys of dictionary-style collection initializer entries by padding before the comma,
+    ///     so the commas share one column.
     /// </summary>
     /// <example>
     ///     <code>
@@ -55,8 +55,8 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
         => BuildIntAlignKeyValuesInCollectionInitializerRule(AlignPosition.SpaceBeforeComma);
 
     /// <summary>
-    ///     Aligns values of dictionary-style collection initializer entries by padding
-    ///     after the comma, so the values share one column.
+    ///     Aligns values of dictionary-style collection initializer entries by padding after the comma,
+    ///     so the values share one column.
     /// </summary>
     /// <example>
     ///     <code>
@@ -71,9 +71,10 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
         => BuildIntAlignKeyValuesInCollectionInitializerRule(AlignPosition.SpaceAfterComma);
 
     /// <summary>
-    ///     Aligns closing braces of dictionary-style collection initializer entries by padding
-    ///     before them, so they share one column. Controlled by a separate setting, so key-value
-    ///     alignment and closing brace alignment can be enabled at the same time.
+    ///     Aligns closing braces of dictionary-style collection initializer entries by padding before them,
+    ///     so they share one column.
+    ///     Controlled by a separate setting,
+    ///     so key-value alignment and closing brace alignment can be enabled at the same time.
     /// </summary>
     /// <example>
     ///     <code>
@@ -87,13 +88,13 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
     private void ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES_BeforeClosingBrace()
     {
         DescribeWithExternalKey<AlignatorSettingsKey, IntAlignRule>()
-           .Name(nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES) + "_BeforeClosingBrace")
-           .Where(
+            .Name(nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES) + "_BeforeClosingBrace")
+            .Where(
                 Left().Satisfies((node, _) => node.NodeOrNull is ICSharpArgument),
                 Right().HasType(CSharpTokenType.RBRACE),
                 Parent().Satisfies((node, _) => node.NodeOrNull is ICollectionElementInitializer)
             )
-           .SwitchOnExternalKey(
+            .SwitchOnExternalKey(
                 (AlignatorSettingsKey x) => x.ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES,
                 When(true).Calculate((formattingRangeContext, _) =>
                     {
@@ -110,45 +111,15 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
                             return null;
                         }
 
-                        // Dictionary-style entries carry a key and a value argument; simple {expr}
-                        // entries have a single argument and must not be padded
-                        var argumentCount = 0;
-                        for (var child = entry.FirstChild; child != null; child = child.NextSibling)
-                        {
-                            if (child is ICSharpArgument)
-                            {
-                                argumentCount++;
-                            }
-                        }
+                        var collectionInitializer = TryGetAlignableInitializer(entry);
 
-                        if (argumentCount < 2)
+                        if (collectionInitializer is null)
                         {
                             return null;
                         }
 
-                        // Only entries of a collection initializer of an object creation are aligned,
-                        // and the initializer scopes the alignment group: entries of different
-                        // initializers never align with each other
-                        if (entry.Parent is not ICollectionInitializer {Parent: IObjectCreationExpression} collectionInitializer)
-                        {
-                            return null;
-                        }
-
-                        // Align only entries that start their own line or open the initializer:
-                        // entries in the middle of a line have nothing to align with
-                        if (!EntryStartsOwnLine(entry))
-                        {
-                            return null;
-                        }
-
-                        // An entry wrapped over several lines cannot be aligned
-                        if (ContainsLineBreak(entry))
-                        {
-                            return null;
-                        }
-
-                        // One shared key per collection initializer, like the attribute closing
-                        // parenthesis rule: every closing brace aligns to one common column
+                        // One shared key per collection initializer, like the attribute closing parenthesis rule:
+                        // every closing brace aligns to one common column
                         return new IntAlignOptionValue(
                             $"CollInitClose$BeforeCloseBrace$Coll{collectionInitializer.GetDocumentStartOffset().Offset}",
                             AlignatorPriority
@@ -156,15 +127,16 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
                     }
                 )
             )
-           .Build();
+            .Build();
     }
 
     /// <summary>
-    ///     Builds the shared <see cref="IntAlignRule"/> for one key-value alignment position of
-    ///     dictionary-style collection initializer entries: it matches the whitespace gap between
-    ///     an entry's key argument and its comma (or between the comma and the value argument) and
-    ///     aligns all gaps that share the variant's alignment key (comma mode, enclosing
-    ///     collection initializer offset).
+    ///     Builds the shared <see cref="IntAlignRule"/> for one key-value alignment position
+    ///     of dictionary-style collection initializer entries:
+    ///     it matches the whitespace gap between an entry's key argument and its comma
+    ///     (or between the comma and the value argument)
+    ///     and aligns all gaps that share the variant's alignment key
+    ///     (comma mode, enclosing collection initializer offset).
     /// </summary>
     private void BuildIntAlignKeyValuesInCollectionInitializerRule(AlignPosition position)
     {
@@ -173,21 +145,21 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
         var commaKeyPart  = isSpaceBefore ? "ArgComma" : "ArgAfterComma";
 
         var leftCondition = isSpaceBefore
-                                ? Left().Satisfies((node, _) => node.NodeOrNull is ICSharpArgument)
-                                : Left().HasType(CSharpTokenType.COMMA);
+            ? Left().Satisfies((node, _) => node.NodeOrNull is ICSharpArgument)
+            : Left().HasType(CSharpTokenType.COMMA);
 
         var rightCondition = isSpaceBefore
-                                 ? Right().HasType(CSharpTokenType.COMMA)
-                                 : Right().Satisfies((node, _) => node.NodeOrNull is ICSharpArgument);
+            ? Right().HasType(CSharpTokenType.COMMA)
+            : Right().Satisfies((node, _) => node.NodeOrNull is ICSharpArgument);
 
         DescribeWithExternalKey<AlignatorSettingsKey, IntAlignRule>()
-           .Name(nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_KEY_VALUES) + nameSuffix)
-           .Where(
+            .Name(nameof(AlignatorSettingsKey.ALIGN_COLLECTION_INITIALIZER_KEY_VALUES) + nameSuffix)
+            .Where(
                 leftCondition,
                 rightCondition,
                 Parent().Satisfies((node, _) => node.NodeOrNull is ICollectionElementInitializer)
             )
-           .SwitchOnExternalKey(
+            .SwitchOnExternalKey(
                 (AlignatorSettingsKey x) => x.ALIGN_COLLECTION_INITIALIZER_KEY_VALUES,
                 When(position).Calculate((formattingRangeContext, _) =>
                     {
@@ -204,45 +176,15 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
                             return null;
                         }
 
-                        // Dictionary-style entries carry a key and a value argument; simple {expr}
-                        // entries have a single argument and no inner comma, so they are skipped
-                        var argumentCount = 0;
-                        for (var child = entry.FirstChild; child != null; child = child.NextSibling)
-                        {
-                            if (child is ICSharpArgument)
-                            {
-                                argumentCount++;
-                            }
-                        }
+                        var collectionInitializer = TryGetAlignableInitializer(entry);
 
-                        if (argumentCount < 2)
+                        if (collectionInitializer is null)
                         {
                             return null;
                         }
 
-                        // Only entries of a collection initializer of an object creation are aligned,
-                        // and the initializer scopes the alignment group: entries of different
-                        // initializers never align with each other
-                        if (entry.Parent is not ICollectionInitializer {Parent: IObjectCreationExpression} collectionInitializer)
-                        {
-                            return null;
-                        }
-
-                        // Align only entries that start their own line or open the initializer:
-                        // entries in the middle of a line have nothing to align with
-                        if (!EntryStartsOwnLine(entry))
-                        {
-                            return null;
-                        }
-
-                        // An entry wrapped over several lines cannot be aligned
-                        if (ContainsLineBreak(entry))
-                        {
-                            return null;
-                        }
-
-                        // One shared key per collection initializer - no element index: the engine
-                        // aligns the k-th same-key gap of each line as one column group
+                        // One shared key per collection initializer - no element index:
+                        // the engine aligns the k-th same-key gap of each line as one column group
                         return new IntAlignOptionValue(
                             $"CollInit${commaKeyPart}$Coll{collectionInitializer.GetDocumentStartOffset().Offset}",
                             AlignatorPriority
@@ -250,6 +192,57 @@ public class CollectionInitializerArgumentsProvider : AlignArgumentsProviderBase
                     }
                 )
             )
-           .Build();
+            .Build();
+    }
+
+    /// <summary>
+    ///     Returns the collection initializer that owns the entry when the entry is alignable:
+    ///     it must be a dictionary-style entry with a key and a value argument
+    ///     - simple <c>{expr}</c> entries have a single argument and stay untouched -
+    ///     it must be a child of a collection initializer of an object creation,
+    ///     which scopes the alignment group,
+    ///     and it must start its own line and span a single line.
+    ///     Returns <c>null</c> otherwise.
+    /// </summary>
+    private static ICollectionInitializer TryGetAlignableInitializer(ICollectionElementInitializer entry)
+    {
+        // Dictionary-style entries carry a key and a value argument;
+        // simple {expr} entries have a single argument and must not be padded
+        var argumentCount = 0;
+        for (var child = entry.FirstChild; child != null; child = child.NextSibling)
+        {
+            if (child is ICSharpArgument)
+            {
+                argumentCount++;
+            }
+        }
+
+        if (argumentCount < 2)
+        {
+            return null;
+        }
+
+        // Only entries of a collection initializer of an object creation are aligned,
+        // and the initializer scopes the alignment group:
+        // entries of different initializers never align with each other
+        if (entry.Parent is not ICollectionInitializer { Parent: IObjectCreationExpression } collectionInitializer)
+        {
+            return null;
+        }
+
+        // Align only entries that start their own line or open the initializer:
+        // entries in the middle of a line have nothing to align with
+        if (!StartsOwnLineAfterToken(entry, token => token.GetTokenType() == CSharpTokenType.LBRACE))
+        {
+            return null;
+        }
+
+        // An entry wrapped over several lines cannot be aligned
+        if (ContainsLineBreak(entry))
+        {
+            return null;
+        }
+
+        return collectionInitializer;
     }
 }

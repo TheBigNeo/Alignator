@@ -48,6 +48,14 @@ public class AttributeArgumentsFormattingTest : CodeFormatterWithExplicitSetting
         DoNamedTest2();
     }
 
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Attributes.AlignClosingParenInAttribute_WrappedParenOwnLineUntouched"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN), true)]
+    public void TestAlignClosingParenInAttribute_WrappedParenOwnLineUntouched()
+    {
+        DoNamedTest2();
+    }
+
     /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Attributes.AlignArgumentsInAttribute_SpaceBeforeCommaAndClosingParen"/>
     [Test]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_ATTRIBUTE_ARGUMENTS),                 AlignPosition.SpaceBeforeComma)]

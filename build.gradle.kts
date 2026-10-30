@@ -42,10 +42,6 @@ tasks.wrapper {
 
 version = extra["PluginVersion"] as String
 
-tasks.processResources {
-    from("dependencies.json") { into("META-INF") }
-}
-
 sourceSets {
     main {
         java.srcDir("src/rider/main/java")

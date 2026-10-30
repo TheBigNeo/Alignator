@@ -14,8 +14,8 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 
 - All alignment logic lives in [AlignArgumentsProviderBase.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProviderBase.cs) and its six context subclasses
   (`ConstructorArgumentsProvider`, `FunctionArgumentsProvider`, `AttributeArgumentsProvider`, `NamedArgumentsProvider`, `CollectionInitializerArgumentsProvider`,
-  `WithExpressionAssignmentsProvider`): each extends `CSharpFormatterInfoProviderPart` via the shared base; together they register 22 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
-- Rules require the built-in `int_align_variables` switch (`CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`) — no Alignator alignment without it.
+  `WithExpressionAssignmentsProvider`): each extends `CSharpFormatterInfoProviderPart` via the shared base; together they register 24 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
+- Rules require the built-in `int_align_invocations` switch (`CSharpFormatSettingsKey.INT_ALIGN_INVOCATIONS`) — no Alignator alignment without it.
   The settings page shows this switch at the top of the Alignator group.
 - Named-argument alignment takes precedence: comma and paren rules stand back for calls that use named arguments, so no line is padded twice.
 
@@ -30,40 +30,40 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 - [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 13 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
 - UI: [AlignatorSettingsSchema.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs) ("Alignator align arguments" page part, live previews).
 
-| Name (Setting UI)                                   | Type                    | `.editorconfig` key                                                 | Enum Value                                             |
-| --------------------------------------------------- | ----------------------- | ------------------------------------------------------------------- | ------------------------------------------------------ |
-| Align variables in columns *(built-in, required)*   | `bool`                  | `int_align_variables`                                               | `CSharpFormatSettingsKey.INT_ALIGN_VARIABLES`          |
-| Align arguments in constructor                      | `AlignPosition`         | `csharp_alignator_align_constructor_arguments`                      | `ALIGN_CONSTRUCTOR_ARGUMENTS`                          |
-| Align argument in function                          | `AlignPosition`         | `csharp_alignator_align_function_arguments`                         | `ALIGN_FUNCTION_ARGUMENTS`                             |
-| Align arguments in attribute                        | `AlignPosition`         | `csharp_alignator_align_attribute_arguments`                        | `ALIGN_ATTRIBUTE_ARGUMENTS`                            |
-| Align first argument in constructor                 | `FirstArgumentPosition` | `csharp_alignator_align_constructor_arguments_first`                | `ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST`                    |
-| Align first argument in function                    | `FirstArgumentPosition` | `csharp_alignator_align_function_arguments_first`                   | `ALIGN_FUNCTION_ARGUMENTS_FIRST`                       |
-| Align first argument in attribute                   | `FirstArgumentPosition` | `csharp_alignator_align_attribute_arguments_first`                  | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`                      |
-| Align closing parenthesis in attribute              | `bool`                  | `csharp_alignator_align_attribute_arguments_closing_paren`          | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`              |
-| Align closing parenthesis in function              | `bool`                  | `csharp_alignator_align_function_arguments_closing_paren`           | `ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`                |
-| Align argument names                                | `bool`                  | `csharp_alignator_align_arguments_named`                            | `ALIGN_ARGUMENTS_NAMED`                                |
-| Align arguments without names too                   | `bool`                  | `csharp_alignator_align_arguments_named_all`                        | `ALIGN_ARGUMENTS_NAMED_ALL`                            |
-| Align key-values in collection initializer          | `AlignPosition`         | `csharp_alignator_align_collection_initializer_key_values`          | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`              |
-| Align closing braces in collection initializer      | `bool`                  | `csharp_alignator_align_collection_initializer_closing_braces`      | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES`          |
-| Align assignments in with expression                | `bool`                  | `csharp_alignator_align_with_expression_assignments`                | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`                    |
+| Name (Setting UI)                                            | Type                    | `.editorconfig` key                                            | Enum Value                                      |
+|--------------------------------------------------------------|-------------------------|----------------------------------------------------------------|-------------------------------------------------|
+| Align invocation arguments in columns *(built-in, required)* | `bool`                  | `int_align_invocations`                                        | `CSharpFormatSettingsKey.INT_ALIGN_INVOCATIONS` |
+| Align arguments in constructor                               | `AlignPosition`         | `csharp_alignator_align_constructor_arguments`                 | `ALIGN_CONSTRUCTOR_ARGUMENTS`                   |
+| Align argument in function                                   | `AlignPosition`         | `csharp_alignator_align_function_arguments`                    | `ALIGN_FUNCTION_ARGUMENTS`                      |
+| Align arguments in attribute                                 | `AlignPosition`         | `csharp_alignator_align_attribute_arguments`                   | `ALIGN_ATTRIBUTE_ARGUMENTS`                     |
+| Align first argument in constructor                          | `FirstArgumentPosition` | `csharp_alignator_align_constructor_arguments_first`           | `ALIGN_CONSTRUCTOR_ARGUMENTS_FIRST`             |
+| Align first argument in function                             | `FirstArgumentPosition` | `csharp_alignator_align_function_arguments_first`              | `ALIGN_FUNCTION_ARGUMENTS_FIRST`                |
+| Align first argument in attribute                            | `FirstArgumentPosition` | `csharp_alignator_align_attribute_arguments_first`             | `ALIGN_ATTRIBUTE_ARGUMENTS_FIRST`               |
+| Align closing parenthesis in attribute                       | `bool`                  | `csharp_alignator_align_attribute_arguments_closing_paren`     | `ALIGN_ATTRIBUTE_ARGUMENTS_CLOSING_PAREN`       |
+| Align closing parenthesis in function                        | `bool`                  | `csharp_alignator_align_function_arguments_closing_paren`      | `ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN`        |
+| Align argument names                                         | `bool`                  | `csharp_alignator_align_arguments_named`                       | `ALIGN_ARGUMENTS_NAMED`                         |
+| Align arguments without names too                            | `bool`                  | `csharp_alignator_align_arguments_named_all`                   | `ALIGN_ARGUMENTS_NAMED_ALL`                     |
+| Align key-values in collection initializer                   | `AlignPosition`         | `csharp_alignator_align_collection_initializer_key_values`     | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`       |
+| Align closing braces in collection initializer               | `bool`                  | `csharp_alignator_align_collection_initializer_closing_braces` | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES`   |
+| Align assignments in with expression                         | `bool`                  | `csharp_alignator_align_with_expression_assignments`           | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`             |
 
 - **Enum Value** is the settings key used in code — `INT_*` fields on `AlignatorSettingsKey`, the built-in switch on `CSharpFormatSettingsKey`.
 
 ##### `AlignPosition` (arguments after the first)
 
-| .DotSettings        | `.editorconfig`             |
-|---------------------|-----------------------------|
-| `DoNotChange`       | `do_not_change`             |
-| `SpaceBeforeComma`  | `space_before_comma`        |
-| `SpaceAfterComma`   | `space_after_comma`         |
+| .DotSettings       | `.editorconfig`      |
+|--------------------|----------------------|
+| `DoNotChange`      | `do_not_change`      |
+| `SpaceBeforeComma` | `space_before_comma` |
+| `SpaceAfterComma`  | `space_after_comma`  |
 
 ##### `FirstArgumentPosition` (the first argument)
 
-| .DotSettings             | `.editorconfig`             |
-|--------------------------|-----------------------------|
-| `DoNotChange`            | `do_not_change`             |
-| `SpaceBeforeParenthese`  | `space_before_parenthese`   |
-| `SpaceAfterParenthese`   | `space_after_parenthese`    |
+| .DotSettings            | `.editorconfig`           |
+|-------------------------|---------------------------|
+| `DoNotChange`           | `do_not_change`           |
+| `SpaceBeforeParenthese` | `space_before_parenthese` |
+| `SpaceAfterParenthese`  | `space_after_parenthese`  |
 
 The first-argument settings are independent of the comma settings: both can be enabled at the same time —
 the first-argument setting pads the parenthesis gap, the comma setting pads the comma gaps.
@@ -79,19 +79,19 @@ The `csharp_alignator_align_collection_initializer_key_values` setting uses `Ali
 
 ## Where to find what
 
-| Topic                                         | Where                                                                                                                         |
-|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| .NET solution (plugin + tests)                | [Alignator.sln](Alignator.sln)                                                                                                |
-| Gradle build (`buildPlugin`, `publishPlugin`) | [build.gradle.kts](build.gradle.kts)                                                                                          |
-| Plugin version, SDK version                   | [gradle.properties](gradle.properties)                                                                                        |
-| `SdkVersion` (sync with `ProductVersion`)     | [src/dotnet/Plugin.props](src/dotnet/Plugin.props)                                                                            |
-| Rider plugin descriptor                       | [src/rider/main/resources/META-INF/plugin.xml](src/rider/main/resources/META-INF/plugin.xml)                                  |
-| Release notes source                          | [CHANGELOG.md](CHANGELOG.md)                                                                                                  |
-| .NET-only pack/publish via MSBuild            | [publishPlugin.ps1](publishPlugin.ps1), [buildPlugin.ps1](buildPlugin.ps1)                                                    |
-| Workflow rules for implementation tasks       | [docs/PlanRules.md](docs/PlanRules.md)                                                                                        |
-| AI agent rules (incl. dinosaur names)         | [AGENTS.md](AGENTS.md)                                                                                                        |
+| Topic                                         | Where                                                                                                                                            |
+|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| .NET solution (plugin + tests)                | [Alignator.sln](Alignator.sln)                                                                                                                   |
+| Gradle build (`buildPlugin`, `publishPlugin`) | [build.gradle.kts](build.gradle.kts)                                                                                                             |
+| Plugin version, SDK version                   | [gradle.properties](gradle.properties)                                                                                                           |
+| `SdkVersion` (sync with `ProductVersion`)     | [src/dotnet/Plugin.props](src/dotnet/Plugin.props)                                                                                               |
+| Rider plugin descriptor                       | [src/rider/main/resources/META-INF/plugin.xml](src/rider/main/resources/META-INF/plugin.xml)                                                     |
+| Release notes source                          | [CHANGELOG.md](CHANGELOG.md)                                                                                                                     |
+| .NET-only pack/publish via MSBuild            | [publishPlugin.ps1](publishPlugin.ps1), [buildPlugin.ps1](buildPlugin.ps1)                                                                       |
+| Workflow rules for implementation tasks       | [docs/PlanRules.md](docs/PlanRules.md)                                                                                                           |
+| AI agent rules (incl. dinosaur names)         | [AGENTS.md](AGENTS.md)                                                                                                                           |
 | Formatter tests                               | [Formatting tests](src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/) — one test class per context + `MixedContextsFormattingTest` |
-| Test data (`.cs` / `.cs.gold` pairs)          | [test/data](src/dotnet/Alignator.Tests/test/data/CodeFormatter/CSharp/AlignArguments/)                                        |
+| Test data (`.cs` / `.cs.gold` pairs)          | [test/data](src/dotnet/Alignator.Tests/test/data/CodeFormatter/CSharp/AlignArguments/)                                                           |
 
 ## Build and test
 
@@ -117,7 +117,6 @@ Steps to prepare a new version:
 Rules to know:
 
 - Marketplace checks SemVer (`MAJOR.MINOR.PATCH`, on by default for new plugins): <https://plugins.jetbrains.com/docs/marketplace/semver.html>
-- `9999.0.x` is the template dev placeholder — never publish it.
 - IDE compatibility comes from the `Wave` NuGet dependency (`253.0.0` ⇔ Rider/ReSharper 2025.3), derived from `SdkVersion` in [Plugin.props](src/dotnet/Plugin.props).
 
 ## Publish
@@ -131,8 +130,8 @@ Rules to know:
 
 Placeholder checklist for the first release:
 
-- [plugin.xml](src/rider/main/resources/META-INF/plugin.xml): `<version>`, `since-build`/`until-build`, real `<description>` (Marketplace approval checks this).
-- [Plugin.props](src/dotnet/Plugin.props): `Description`, `Authors`, `PackageProjectUrl`, `PackageLicenseUrl`, `PackageIconUrl`.
+- [plugin.xml](src/rider/main/resources/META-INF/plugin.xml): `<version>`, `since-build`/`until-build` are patched by the Gradle build; the real `<description>` is in place (Marketplace approval checks this).
+- [Plugin.props](src/dotnet/Plugin.props): `Description`, `Authors`, `PackageProjectUrl` and the MIT license (`PackageLicenseExpression`, [LICENSE](LICENSE)) are in place.
 - README badge IDs (`RIDER_PLUGIN_ID`, `RESHARPER_PLUGIN_ID`).
 - Consider a `Company.Package` package ID (e.g. `ReSharperPlugin.Alignator`) — the ReSharper DevGuide requires a `.` in extension package IDs.
 

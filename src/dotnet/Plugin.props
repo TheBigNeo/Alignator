@@ -6,14 +6,14 @@
     <SdkVersion>2025.3.0.1</SdkVersion>
 
     <Title>Alignator</Title>
-    <Description>Description</Description>
+    <Description>Vertically aligns arguments in C# code: arguments of constructor, function and attribute calls, values of named arguments, dictionary-style entries in collection initializers, and assignments in with expressions. Works through the ReSharper column-alignment engine; every alignment has its own setting (.editorconfig: csharp_alignator_*).</Description>
 
-    <Authors>Author</Authors>
+    <Authors>TheBigNeo</Authors>
     <Copyright>Copyright $([System.DateTime]::Now.Year) Maintainers of Alignator</Copyright>
     <PackageTags>resharper plugin</PackageTags>
 
-    <PackageProjectUrl></PackageProjectUrl>
-    <PackageLicenseUrl></PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/TheBigNeo/Alignator</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageIcon>alignator-1024.png</PackageIcon>
   </PropertyGroup>
 

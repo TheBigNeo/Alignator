@@ -10,9 +10,9 @@ public static class NodeHelpers
 {
     /// <summary>
     ///     Returns the document start offset of the innermost enclosing <see cref="IBlock"/>,
-    ///     or - when no block ancestor exists (e.g. for field/property initializers) - of the
-    ///     innermost enclosing <see cref="ICSharpTypeDeclaration"/>. Alignment rules use this
-    ///     offset to scope an alignment group to one block or type declaration.
+    ///     or - when no block ancestor exists (e.g. for field/property initializers) -
+    ///     of the innermost enclosing <see cref="ICSharpTypeDeclaration"/>.
+    ///     Alignment rules use this offset to scope an alignment group to one block or type declaration.
     /// </summary>
     /// <param name="node">Node to start the ancestor search from.</param>
     /// <returns>The block (or type declaration) start offset, or <c>null</c> if neither is found.</returns>

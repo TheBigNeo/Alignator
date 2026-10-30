@@ -7,8 +7,8 @@ using NUnit.Framework;
 namespace TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments;
 
 /// <summary>
-///     Tests that combine alignment settings across contexts - e.g. the comma alignment of one
-///     context together with the context-independent named-argument alignment.
+///     Tests that combine alignment settings across contexts -
+///     e.g. the comma alignment of one context together with the context-independent named-argument alignment.
 /// </summary>
 [TestAlignator]
 [Category("Formatting"), Category("CSharp")]

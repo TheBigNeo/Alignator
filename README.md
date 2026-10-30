@@ -89,13 +89,14 @@ Open **[File | Settings | Editor | Code Style | C#](jetbrains://Rider/settings?n
 In Visual Studio with ReSharper: **ReSharper | Options | Code Editing | C# | Code Style | Others**.
 
 > **Important:** All Alignator alignments are driven by ReSharper's built-in column-alignment engine.
-> They only take effect when the built-in `int_align_variables` switch is enabled (`true`).
-> For convenience, the switch is also shown at the top of the Alignator settings group —
-> it is the same value as in ReSharper's own formatting settings, so changing it in either place updates the single stored value.
+> They only take effect when the built-in `int_align_invocations` switch is enabled (`true`) —
+> `int_align_variables` alone does not enable them. For convenience, the switch is also shown at
+> the top of the Alignator settings group — it is the same value as in ReSharper's own formatting
+> settings, so changing it in either place updates the single stored value.
 
 | Setting (UI)                                      | Values                                                         |
 |---------------------------------------------------|----------------------------------------------------------------|
-| Align variables in columns *(built-in, required)* | `true`, `false`                                                |
+| Align invocation arguments in columns *(built-in, required)* | `true`, `false`                                          |
 | Align arguments in constructor                    | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
 | Align argument in function                        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
 | Align arguments in attribute                      | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
@@ -121,7 +122,7 @@ The same settings can be configured in `.editorconfig`:
 ```ini
 [*.cs]
 # Built-in switch: Alignator alignments only take effect when this is true
-int_align_variables                                          = true
+int_align_invocations                                        = true
 
 # Constructor calls
 csharp_alignator_align_constructor_arguments                 = space_after_comma       # Align arguments in constructor calls
@@ -158,7 +159,7 @@ The collection-initializer setting has no first-argument counterpart (dictionary
 
 ## Examples
 
-> All examples assume `int_align_variables = true`.
+> All examples assume `int_align_invocations = true`.
 > This built-in switch is required for every Alignator alignment — it also aligns the `=` of consecutive variable declarations, as visible in the constructor example.
 
 Each setting below shows a before/after pair for a formatting run with the respective setting enabled.
@@ -554,6 +555,10 @@ DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)
     ThermalCamouflageEnabled = true,
   };
 ```
+
+## License
+
+Alignator is released under the [MIT License](LICENSE).
 
 ---
 

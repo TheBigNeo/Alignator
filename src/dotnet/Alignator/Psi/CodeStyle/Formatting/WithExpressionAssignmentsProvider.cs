@@ -12,8 +12,8 @@ using JetBrains.ReSharper.Psi.Tree;
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
 /// <summary>
-///     Registers the alignment rule for the property assignments of <c>with</c> expression
-///     initializers (<c>ALIGN_WITH_EXPRESSION_ASSIGNMENTS</c>).
+///     Registers the alignment rule for the property assignments
+///     of <c>with</c> expression initializers (<c>ALIGN_WITH_EXPRESSION_ASSIGNMENTS</c>).
 /// </summary>
 [Language(typeof(CSharpLanguage))]
 public class WithExpressionAssignmentsProvider : AlignArgumentsProviderBase
@@ -37,9 +37,8 @@ public class WithExpressionAssignmentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Aligns the property assignments of a <c>with</c> expression initializer by padding
-    ///     before the <c>=</c>, so the equals signs share one column when the assignments are
-    ///     written on separate lines.
+    ///     Aligns the property assignments of a <c>with</c> expression initializer by padding before the <c>=</c>,
+    ///     so the equals signs share one column when the assignments are written on separate lines.
     /// </summary>
     /// <example>
     ///     <code>
@@ -82,8 +81,8 @@ public class WithExpressionAssignmentsProvider : AlignArgumentsProviderBase
                         }
 
                         // Walk up to the with expression - every other '=' gap is rejected -
-                        // and scope the alignment group to it: assignments of different
-                        // with expressions never align with each other
+                        // and scope the alignment group to it:
+                        // assignments of different with expressions never align with each other
                         IWithExpression withExpression = null;
                         for (ITreeNode n = assignment; n != null; n = n.Parent)
                         {
@@ -101,11 +100,11 @@ public class WithExpressionAssignmentsProvider : AlignArgumentsProviderBase
                             return null;
                         }
 
-                        // Align only assignments that start their own line or open the
-                        // initializer: assignments in the middle of a line have nothing to
-                        // align with, and a fully single-line with expression - where every
-                        // gap is the only one of its key - stays untouched
-                        if (!EntryStartsOwnLine(assignment))
+                        // Align only assignments that start their own line or open the initializer:
+                        // assignments in the middle of a line have nothing to align with,
+                        // and a fully single-line with expression - where every gap is the only one of its key -
+                        // stays untouched
+                        if (!StartsOwnLineAfterToken(assignment, token => token.GetTokenType() == CSharpTokenType.LBRACE))
                         {
                             return null;
                         }

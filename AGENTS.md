@@ -119,19 +119,18 @@ parts line up in columns, improving readability of dense code.
 │   │       ├── TestEnvironment.cs         # Test zone setup
 │   │       ├── GlobalUsings.cs
 │   │       ├── CodeFormatter/CSharp/AlignArguments/
-│   │       │   ├── ConstructorArgumentsFormattingTest.cs          # Constructor tests (9)
-│   │       │   ├── FunctionArgumentsFormattingTest.cs             # Function tests (5)
-│   │       │   ├── AttributeArgumentsFormattingTest.cs           # Attribute tests (5)
-│   │       │   ├── NamedArgumentsFormattingTest.cs               # Named-argument test (1)
+│   │       │   ├── ConstructorArgumentsFormattingTest.cs          # Constructor tests (10)
+│   │       │   ├── FunctionArgumentsFormattingTest.cs             # Function tests (8)
+│   │       │   ├── AttributeArgumentsFormattingTest.cs           # Attribute tests (6)
+│   │       │   ├── NamedArgumentsFormattingTest.cs               # Named-argument tests (2)
 │   │       │   ├── CollectionInitializerFormattingTest.cs         # Collection initializer tests (7)
 │   │       │   ├── WithExpressionFormattingTest.cs               # With-expression tests (4)
-│   │       │   └── MixedContextsFormattingTest.cs                # Cross-context combinations (4)
+│   │       │   └── MixedContextsFormattingTest.cs                # Cross-context combinations (6)
 │   │       ├── Data/
 │   │       │   ├── TestAlignatorAttribute.cs
 │   │       │   └── TestData.cs
 │   │       └── test/data/CodeFormatter/CSharp/AlignArguments/
-│   │           ├── TestSupport.cs      # Attribute stubs for the test data
-│   │           ├── Attributes/         # Attribute data (folder named plural: 'Attribute' clashes with System.Attribute)
+│   │           │   │           ├── Attributes/         # Attribute data (folder named plural: 'Attribute' clashes with System.Attribute)
 │   │           ├── CollectionInitializer/
 │   │           ├── Constructor/
 │   │           ├── Function/
@@ -151,7 +150,7 @@ The plugin hooks into the ReSharper C# code formatter via six provider classes, 
 `NamedArgumentsProvider`, `CollectionInitializerArgumentsProvider`, `WithExpressionAssignmentsProvider`),
 all deriving from `AlignArgumentsProviderBase`, which extends `CSharpFormatterInfoProviderPart`.
 The platform aggregates all parts (`IImmutableEnumerable<CSharpFormatterInfoProviderPart>`); together
-they register twenty-two alignment rules with alignment priority `100_000` (high, runs after standard formatting).
+they register twenty-four alignment rules with alignment priority `100_000` (high, runs after standard formatting).
 
 ### Alignment Rules
 
@@ -216,9 +215,14 @@ engine aligns the k-th same-key gap of each line as one column group.
 
 ### Configuration
 
-Twelve settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
+Thirteen settings. `AlignPosition` values (arguments after the first): `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`.
 `FirstArgumentPosition` values (the first argument): `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` —
 these are independent of the `AlignPosition` settings and combine freely with them.
+
+All Alignator rules additionally require the built-in `int_align_invocations` switch
+(`CSharpFormatSettingsKey.INT_ALIGN_INVOCATIONS`, default off) - no Alignator alignment
+takes effect without it. The settings page shows this switch at the top of the Alignator
+group; it is the same value as in ReSharper's own formatting settings.
 
 | Setting                                       | Type                    | Description                                                    |
 |-----------------------------------------------|-------------------------|----------------------------------------------------------------|
@@ -240,6 +244,9 @@ these are independent of the `AlignPosition` settings and combine freely with th
 
 ```ini
 [*.cs]
+# Built-in switch: required for every Alignator alignment
+int_align_invocations                            = true
+
 csharp_alignator_align_constructor_arguments = space_after_comma
 csharp_alignator_align_function_arguments = space_after_comma
 csharp_alignator_align_attribute_arguments = space_after_comma
@@ -293,13 +300,6 @@ dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj
 dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj --filter "FullyQualifiedName~ConstructorArgumentsFormattingTest"
 ```
 
-### Lint Commands
-
-```bash
-skirnir-lint          # Builds changed projects + Roslynator analyzers
-skirnir-lint --fix    # Also applies dotnet format
-```
-
 ## Test Structure
 
 Tests use the ReSharper test framework (`CodeFormatterWithExplicitSettingsTestBase<CSharpLanguage>`).
@@ -322,7 +322,7 @@ formatter tests read them as text: compilation makes the `<seealso>` crefs betwe
 the formatting test classes and the test data classes resolve in the IDE. `GlobalUsings.cs` provides
 `TBN.Alignator.Tests.Data` and `TBN.Alignator.Psi.CodeStyle.Formatting` to them. The attribute names used
 in the attribute test data (`Test`, `TestCase`, `TyrannosaurusTestCase`, `RaptorTest`,
-`PachycephalosaurusTestCase`) are stubs in `TestSupport.cs` inside the test-data namespace - they take
+`PachycephalosaurusTestCase`) are stubs in `TestData.cs` inside the test-data namespace - they take
 precedence over NUnit's attributes there and never clash with the real test files. CS0219 is suppressed
 in the test project because the test data contains unused `sortIndex` locals on purpose (they keep
 alignment groups apart).
@@ -333,6 +333,10 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 
 - **Language:** C# with `LangVersion=Latest`
 - **Indentation:** 4 spaces for source code, 2 spaces for test data files
+- **Comments:** No hard 120-character limit. Wrap comment lines at intelligent breaks that follow the sentence -
+  one sentence, clause, or phrase per line, like Markdown prose. A hard cut at a fixed column in the middle of a
+  clause (or a compound like "the / whitespace gap") is hard to read; break after a sentence, between clauses,
+  or before a parenthetical or example instead, even when lines then differ in length.
 - **Namespaces:** File-scoped
 - **Nullable:** Enabled where `#nullable enable` is present
 - **EditorConfig:** Root `.editorconfig` enables `resharper_class_can_be_sealed_*_highlighting = warning`
@@ -346,7 +350,7 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`                        | Settings definitions with .editorconfig aliases                                     |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`                     | Settings UI page with live preview                                                  |
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                                  | `GetContainingBlockOffset` — scopes alignment to a block                            |
-| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 35 formatter tests — one test class per context + `MixedContextsFormattingTest`                                                              |
+| `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 43 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest`                                                              |
 | `build.gradle.kts`                                                                             | Gradle build: compiles .NET, runs tests, packages plugin                            |
 | `gradle.properties`                                                                            | Version numbers, SDK version, plugin IDs                                            |
 | `src/dotnet/Plugin.props`                                                                      | `SdkVersion=2025.3.0.1` — keep in sync with `ProductVersion` in `gradle.properties` |

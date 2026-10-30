@@ -7,28 +7,48 @@ using JetBrains.ReSharper.Psi.EditorConfig;
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
 /// <summary>
-///     One field per Alignator alignment setting; the field name is the key in the JetBrains settings store and in the rule registration of the <see cref="AlignArgumentsProviderBase"/> subclasses - one provider class per context.
+///     One field per Alignator alignment setting; the field name is the key in the JetBrains settings store
+///     and in the rule registration of the <see cref="AlignArgumentsProviderBase"/> subclasses -
+///     one provider class per context.
 /// </summary>
 /// <remarks>
 ///     <para>
 ///         Key naming scheme: <c>ALIGN_&lt;CONTEXT&gt;_&lt;FAMILY&gt;[_&lt;VARIANT&gt;]</c>.
-///         The context (ATTRIBUTE, COLLECTION_INITIALIZER, CONSTRUCTOR, FUNCTION, WITH_EXPRESSION, ...) comes first, so all keys of one context sort into one alphabetical block.
-///         The family is the stem that names what is aligned - ARGUMENTS, KEY_VALUES, ASSIGNMENTS - and every key that aligns the same kind of node in the same context hangs on that same stem.
-///         Variants of a stem are appended as suffixes: <c>_FIRST</c> (first argument at the opening parenthesis), <c>_CLOSING_PAREN</c>, <c>_CLOSING_BRACES</c>.
-///         A new variant of an existing stem must extend that stem - e.g. a closing-parenthesis rule for constructors becomes <c>ALIGN_CONSTRUCTOR_ARGUMENTS_CLOSING_PAREN</c> - so the family stays visible in both the name and the sort order.
-///         A context-independent key uses the bare family stem and sorts ahead of the contexts (<c>ALIGN_ARGUMENTS_NAMED</c> heads the ARGUMENTS family); if it is later split per context, the context moves to the front without breaking the scheme.
+///         The context (ATTRIBUTE, COLLECTION_INITIALIZER, CONSTRUCTOR, FUNCTION, WITH_EXPRESSION, ...) comes first,
+///         so all keys of one context sort into one alphabetical block.
+///         The family is the stem that names what is aligned - ARGUMENTS, KEY_VALUES, ASSIGNMENTS -
+///         and every key that aligns the same kind of node in the same context hangs on that same stem.
+///         Variants of a stem are appended as suffixes:
+///         <c>_FIRST</c> (first argument at the opening parenthesis), <c>_CLOSING_PAREN</c>, <c>_CLOSING_BRACES</c>.
+///         A new variant of an existing stem must extend that stem -
+///         e.g. a closing-parenthesis rule for constructors becomes <c>ALIGN_CONSTRUCTOR_ARGUMENTS_CLOSING_PAREN</c> -
+///         so the family stays visible in both the name and the sort order.
+///         A context-independent key uses the bare family stem and sorts ahead of the contexts
+///         (<c>ALIGN_ARGUMENTS_NAMED</c> heads the ARGUMENTS family);
+///         if it is later split per context, the context moves to the front without breaking the scheme.
 ///     </para>
 ///     <para>
 ///         To add a new key:
 ///         <list type="number">
-///             <item>Declare a public field named exactly like the key, at its alphabetical position among the existing fields - in the <c>#region</c> of its context (context-independent keys go into the <c>Named</c> region, ahead of the contexts).</item>
+///             <item>
+///                 Declare a public field named exactly like the key,
+///                 at its alphabetical position among the existing fields - in the <c>#region</c> of its context
+///                 (context-independent keys go into the <c>Named</c> region, ahead of the contexts).
+///             </item>
 ///             <item>
 ///                 Give it a <c>[SettingsEntry]</c> with its default value and UI text.
-///                 The field name becomes the settings-store key, so a later rename discards user-set values - they fall back to the entry default.
+///                 The field name becomes the settings-store key,
+///                 so a later rename discards user-set values - they fall back to the entry default.
 ///             </item>
 ///             <item>Give it a <c>[EditorConfigEntryAlias]</c>: <c>alignator_</c> plus the key name in lowercase snake_case.</item>
-///             <item>Bind it in <see cref="AlignatorSettingsSchema.DescribePart"/> with an <c>ItemFor</c> call, at the same alphabetical position.</item>
-///             <item>Switch on it from a rule registered in the matching provider's <c>Initialize()</c> - e.g. <see cref="ConstructorArgumentsProvider"/> for a CONSTRUCTOR key.</item>
+///             <item>
+///                 Bind it in <see cref="AlignatorSettingsSchema.DescribePart"/> with an <c>ItemFor</c> call,
+///                 at the same alphabetical position.
+///             </item>
+///             <item>
+///                 Switch on it from a rule registered in the matching provider's <c>Initialize()</c> -
+///                 e.g. <see cref="ConstructorArgumentsProvider"/> for a CONSTRUCTOR key.
+///             </item>
 ///         </list>
 ///     </para>
 /// </remarks>

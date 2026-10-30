@@ -14,11 +14,12 @@ using JetBrains.ReSharper.Psi.Tree;
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
 /// <summary>
-///     Registers the alignment rules for named arguments - the context-independent head of the
-///     ARGUMENTS family: <c>ALIGN_ARGUMENTS_NAMED</c> aligns the values of named arguments, and
-///     <c>ALIGN_ARGUMENTS_NAMED_ALL</c> pulls the unnamed arguments of a mixed list into the same
-///     value column with an indenting rule - the alignment engine cannot move a line-leading
-///     argument, so its line indent carries it into the column instead.
+///     Registers the alignment rules for named arguments - the context-independent head of the ARGUMENTS family:
+///     <c>ALIGN_ARGUMENTS_NAMED</c> aligns the values of named arguments,
+///     and <c>ALIGN_ARGUMENTS_NAMED_ALL</c> pulls the unnamed arguments of a mixed list
+///     into the same value column with an indenting rule -
+///     the alignment engine cannot move a line-leading argument,
+///     so its line indent carries it into the column instead.
 /// </summary>
 [Language(typeof(CSharpLanguage))]
 public class NamedArgumentsProvider : AlignArgumentsProviderBase
@@ -43,10 +44,10 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Aligns values of named arguments of a single argument list by padding after the
-    ///     argument name - the <c>name:</c> colon for calls and object creations, the <c>Name =</c>
-    ///     assignment for attributes, the only legal named-argument syntax there - so the values
-    ///     share one column when arguments are written on separate lines.
+    ///     Aligns values of named arguments of a single argument list by padding after the argument name -
+    ///     the <c>name:</c> colon for calls and object creations,
+    ///     the <c>Name =</c> assignment for attributes, the only legal named-argument syntax there -
+    ///     so the values share one column when arguments are written on separate lines.
     /// </summary>
     /// <example>
     ///     <code>
@@ -61,7 +62,7 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
            .Name(nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED) + "_AfterNameColon")
            .Where(
                 Left().Satisfies((node, _) => node.NodeOrNull is ITokenNode token
-                                           && (token.GetTokenType() == CSharpTokenType.COLON || token.GetText() == "=")),
+                                           && (token.GetTokenType() == CSharpTokenType.COLON || token.GetTokenType() == CSharpTokenType.EQ)),
                 Right().Satisfies((node, _) => node.NodeOrNull is ICSharpExpression),
                 Parent().Satisfies((_,   _) => true)
             )
@@ -82,9 +83,9 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
                             return null;
                         }
 
-                        // Locate the gap's name token: the 'name:' colon or the 'Name =' assignment
-                        // sign. Colons of ternary conditionals, case labels and similar nodes are
-                        // rejected by the named-argument check below.
+                        // Locate the gap's name token: the 'name:' colon or the 'Name =' assignment sign.
+                        // Colons of ternary conditionals, case labels and similar nodes
+                        // are rejected by the named-argument check below.
                         var nameToken = FindNameToken(gapParent);
                         if (nameToken is null)
                         {
@@ -101,9 +102,8 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
                         }
                         else
                         {
-                            // 'Name = value' attribute form - attributes only allow the assignment
-                            // syntax for named arguments. Reject ordinary assignments and
-                            // assignments nested in call arguments.
+                            // 'Name = value' attribute form - attributes only allow the assignment syntax for named arguments.
+                            // Reject ordinary assignments and assignments nested in call arguments.
                             if (!IsInsideAttributeArgument(gapParent))
                             {
                                 return null;
@@ -111,9 +111,9 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
                         }
 
                         // Align only arguments that start their own line or open the list:
-                        // arguments in the middle of a line have nothing to align with, and
-                        // a fully single-line call must stay untouched.
-                        if (!StartsLineOrOpensList(nameToken))
+                        // arguments in the middle of a line have nothing to align with,
+                        // and a fully single-line call must stay untouched.
+                        if (!StartsOwnLineAfterToken(nameToken, token => token.GetTokenType() == CSharpTokenType.LPARENTH))
                         {
                             return null;
                         }
@@ -124,9 +124,9 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
                             return null;
                         }
 
-                        // Walk up to the argument list (invocation / object creation) or the
-                        // attribute and use its start offset as the alignment group, so exactly
-                        // the named arguments of this one call are aligned together
+                        // Walk up to the argument list (invocation / object creation) or the attribute
+                        // and use its start offset as the alignment group,
+                        // so exactly the named arguments of this one call are aligned together
                         for (var n = nameToken; n != null; n = n.Parent)
                         {
                             if (n is not (IArgumentList or IAttribute))
@@ -148,12 +148,13 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Aligns the unnamed arguments of a mixed argument list into the value column of the named
-    ///     arguments - the <c>ALIGN_ARGUMENTS_NAMED_ALL</c> variant of the named-arguments rule. The
-    ///     alignment engine pads only gaps without line breaks, so an argument that starts its own
-    ///     line cannot be moved by an alignment rule; this indenting rule gives the argument's line
-    ///     the argument indent plus the longest named-argument name prefix instead, so the unnamed
-    ///     arguments start in the value column that the named rule builds.
+    ///     Aligns the unnamed arguments of a mixed argument list into the value column of the named arguments -
+    ///     the <c>ALIGN_ARGUMENTS_NAMED_ALL</c> variant of the named-arguments rule.
+    ///     The alignment engine pads only gaps without line breaks,
+    ///     so an argument that starts its own line cannot be moved by an alignment rule;
+    ///     this indenting rule gives the argument's line
+    ///     the argument indent plus the longest named-argument name prefix instead,
+    ///     so the unnamed arguments start in the value column that the named rule builds.
     /// </summary>
     /// <example>
     ///     <code>
@@ -170,7 +171,7 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
         DescribeWithExternalKey<AlignatorSettingsKey, IndentingRule>()
            .Name(nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED_ALL) + "_ArgumentIndent")
            .Where(Node().HasType(ElementType.C_SHARP_ARGUMENT).Satisfies((node, _) => node.NodeOrNull is ICSharpArgument {ArgumentName: null} argument
-                                       && StartsOwnLine(argument)
+                                       && StartsOwnLineAfterToken(argument)
                                        && !ContainsLineBreak(argument)))
            .CloseNodeGetter(NextSolidSibling)
            .SwitchOnExternalKey(
@@ -190,8 +191,8 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
 
                             columnOffset = offset.Value;
                         }
-                        // No node: registration probes the option tree to sort the rule into the
-                        // internal indenting bucket, so the indent type must come through here
+                        // No node: registration probes the option tree to sort the rule into the internal indenting bucket,
+                        // so the indent type must come through here
 
                         return new ConstantOptionNode(
                             new IndentOptionValue(
@@ -207,12 +208,14 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Returns the offset between the argument-line indent and the value column that the named
-    ///     rule builds for the argument's list: the longest <c>name:</c> prefix among the named
-    ///     arguments, plus the one mandatory space after the colon. The named rule pads the values
-    ///     into that column only while its column chains - consecutive lines with a named-argument
-    ///     gap each - so this indent matches it only when every named argument of the list starts
-    ///     its own line; otherwise it returns <c>null</c> and the list stays untouched.
+    ///     Returns the offset between the argument-line indent and the value column
+    ///     that the named rule builds for the argument's list:
+    ///     the longest <c>name:</c> prefix among the named arguments,
+    ///     plus the one mandatory space after the colon.
+    ///     The named rule pads the values into that column only while its column chains
+    ///     - consecutive lines with a named-argument gap each -
+    ///     so this indent matches it only when every named argument of the list starts its own line;
+    ///     otherwise it returns <c>null</c> and the list stays untouched.
     /// </summary>
     private static int? CalculateValueColumnOffset(ICSharpArgument argument)
     {
@@ -231,9 +234,9 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
             }
 
             // A named argument on the opening-parenthesis line or in the middle of a line
-            // breaks the column chain of the named rule, or shifts it - this indent cannot
-            // reproduce either, so it stands back for the whole list
-            if (!StartsOwnLine(namedArgument))
+            // breaks the column chain of the named rule, or shifts it -
+            // this indent cannot reproduce either, so it stands back for the whole list
+            if (!StartsOwnLineAfterToken(namedArgument))
             {
                 return null;
             }
@@ -267,33 +270,10 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Returns <c>true</c> when a line break precedes the node - it starts its own line. A node
-    ///     on the opening-parenthesis line or in the middle of a line returns <c>false</c>.
+    ///     Returns the first sibling behind the node that is not whitespace.
+    ///     When no solid sibling exists (the node is the last child of its parent),
+    ///     the node itself is returned instead of null, so the indenting rule still gets a close node.
     /// </summary>
-    private static bool StartsOwnLine(ITreeNode node)
-    {
-        for (var n = PreviousNode(node); n != null; n = PreviousNode(n))
-        {
-            switch (n)
-            {
-                case IWhitespaceNode whitespace:
-                    if (whitespace.GetText().IndexOf('\n') >= 0)
-                    {
-                        return true;
-                    }
-
-                    break;
-
-                default:
-                    return false;
-            }
-        }
-
-        return false;
-    }
-
-
-    /// <summary>Returns the first sibling behind the node that is not whitespace.</summary>
     private static VirtNode NextSolidSibling(VirtNode node, CodeFormattingContext _)
     {
         var next = node.NextSibling;
@@ -306,16 +286,16 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
         return next == null ? node : next;
     }
 
-
     /// <summary>
-    ///     Returns the first named-argument name token - the <c>name:</c> colon or the <c>Name =</c>
-    ///     assignment sign - among the descendants of the gap's parent node.
+    ///     Returns the first named-argument name token
+    ///     - the <c>name:</c> colon or the <c>Name =</c> assignment sign -
+    ///     among the descendants of the gap's parent node.
     /// </summary>
     private static ITreeNode FindNameToken(ITreeNode node)
     {
         for (var child = node.FirstChild; child != null; child = child.NextSibling)
         {
-            if (child is ITokenNode token && (IsColonToken(token) || token.GetText() == "="))
+            if (child is ITokenNode token && (IsColonToken(token) || token.GetTokenType() == CSharpTokenType.EQ))
             {
                 return token;
             }
@@ -335,9 +315,9 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
         => node is ITokenNode token && token.GetTokenType() == CSharpTokenType.COLON;
 
     /// <summary>
-    ///     Returns <c>true</c> when the node belongs to a named argument of an attribute - the
-    ///     <c>Name = value</c> form, the only named-argument syntax attributes allow. Ordinary
-    ///     assignments and assignments nested in call arguments are rejected by the walk-up:
+    ///     Returns <c>true</c> when the node belongs to a named argument of an attribute
+    ///     - the <c>Name = value</c> form, the only named-argument syntax attributes allow.
+    ///     Ordinary assignments and assignments nested in call arguments are rejected by the walk-up:
     ///     an argument list appears above them long before an attribute does.
     /// </summary>
     private static bool IsInsideAttributeArgument(ITreeNode node)
@@ -358,40 +338,8 @@ public class NamedArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Returns <c>true</c> when the argument of the given name token starts its own line:
-    ///     it is the first argument of the list (the walk-up reaches the opening parenthesis)
-    ///     or it is preceded by a line break. Arguments in the middle of a line return <c>false</c>
-    ///     at the separating comma.
-    /// </summary>
-    private static bool StartsLineOrOpensList(ITreeNode nameToken)
-    {
-        for (var n = PreviousNode(nameToken); n != null; n = PreviousNode(n))
-        {
-            switch (n)
-            {
-                case IWhitespaceNode whitespace:
-                    if (whitespace.GetText().IndexOf('\n') >= 0)
-                    {
-                        return true;
-                    }
-
-                    break;
-
-                case ITokenNode token when token.GetTokenType() == CSharpTokenType.LPARENTH:
-                    return true;
-
-                case ITokenNode token when token.GetTokenType() == CSharpTokenType.COMMA:
-                    return false;
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    ///     Returns <c>true</c> when the whitespace between the argument name token (colon or
-    ///     assignment sign) and the value contains a line break - i.e. the value is wrapped onto
-    ///     the next line.
+    ///     Returns <c>true</c> when the whitespace between the argument name token (colon or assignment sign)
+    ///     and the value contains a line break - i.e. the value is wrapped onto the next line.
     /// </summary>
     private static bool GapAfterNameTokenContainsLineBreak(ITreeNode nameToken)
     {
