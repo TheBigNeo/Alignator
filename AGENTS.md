@@ -27,13 +27,12 @@ Apply brevity limits to responses, not requested deliverables.
 2. [Rules](#rules)
 3. [Verification Checklist](#verification-checklist)
 4. [Project Overview](#project-overview)
-5. [Repository Structure](#repository-structure)
-6. [Implementation Details](#implementation-details)
-7. [Build and Development](#build-and-development)
-8. [Test Structure](#test-structure)
-9. [Code Style](#code-style)
-10. [Key Files](#key-files)
-11. [Extending the Plugin](#extending-the-plugin)
+5. [Implementation Details](#implementation-details)
+6. [Build and Development](#build-and-development)
+7. [Test Structure](#test-structure)
+8. [Code Style](#code-style)
+9. [Key Files](#key-files)
+10. [Extending the Plugin](#extending-the-plugin)
 
 ## Rules
 
@@ -82,65 +81,6 @@ parts line up in columns, improving readability of dense code.
 | Target Framework    | .NET Framework 4.7.2 (`net472`)         |
 | ReSharper/Rider SDK | 2025.3.0.1                              |
 | Rider Platform      | 2025.3                                  |
-
-## Repository Structure
-
-```
-├── Alignator.sln                  # .NET solution (3 projects)
-├── build.gradle.kts               # Gradle build (IntelliJ Platform Gradle Plugin 2.x)
-├── gradle.properties              # Plugin version, SDK version, build config
-├── settings.gradle.kts            # Includes :protocol subproject
-├── protocol/                      # rd-gen protocol definitions (Kotlin/C# codegen)
-├── src/
-│   ├── dotnet/
-│   │   ├── Directory.Build.props  # Shared MSBuild props (LangVersion=Latest, Wave version)
-│   │   ├── Plugin.props           # SdkVersion=2025.3.0.1, package metadata
-│   │   ├── Alignator/             # Main plugin project (ReSharper + Rider)
-│   │   │   ├── Alignator.csproj       # ReSharper plugin (RESHARPER define)
-│   │   │   ├── Alignator.Rider.csproj # Rider plugin (RIDER define)
-│   │   │   ├── IAlignatorZone.cs      # Zone definition (requires CSharp, Psi, CodeEditing)
-│   │   │   ├── ZoneMarker.cs          # Zone activator/marker
-│   │   │   ├── Helpers/
-│   │   │   │   └── NodeHelpers.cs     # GetContainingBlockOffset extension
-│   │   │   └── Psi/CodeStyle/Formatting/
-│   │   │       ├── AlignArgumentsProviderBase.cs               # Shared rule builders, tree helpers, variant record, priority
-│   │   │       ├── AlignPosition.cs                            # Comma modes: DoNotChange, SpaceBeforeComma, SpaceAfterComma
-│   │   │       ├── FirstArgumentPosition.cs                    # First-argument modes: DoNotChange, SpaceBeforeParenthese, SpaceAfterParenthese
-│   │   │       ├── AlignatorSettingsKey.cs                     # Settings keys + .editorconfig aliases
-│   │   │       ├── AlignatorSettingsSchema.cs                  # Settings UI page
-│   │   │       ├── AttributeArgumentsProvider.cs               # Attribute rules (ALIGN_ATTRIBUTE_ARGUMENTS*)
-│   │   │       ├── CollectionInitializerArgumentsProvider.cs   # Collection initializer rules (ALIGN_COLLECTION_INITIALIZER_*)
-│   │   │       ├── ConstructorArgumentsProvider.cs             # Constructor argument rules (ALIGN_CONSTRUCTOR_ARGUMENTS*)
-│   │   │       ├── FunctionArgumentsProvider.cs                # Invocation argument rules (ALIGN_FUNCTION_ARGUMENTS*)
-│   │   │       ├── NamedArgumentsProvider.cs                   # Named-argument rule (ALIGN_ARGUMENTS_NAMED)
-│   │   │       └── WithExpressionAssignmentsProvider.cs        # With-expression rule (ALIGN_WITH_EXPRESSION_ASSIGNMENTS)
-│   │   └── Alignator.Tests/       # NUnit test project
-│   │       ├── Alignator.Tests.csproj
-│   │       ├── TestEnvironment.cs         # Test zone setup
-│   │       ├── GlobalUsings.cs
-│   │       ├── CodeFormatter/CSharp/AlignArguments/
-│   │       │   ├── ConstructorArgumentsFormattingTest.cs          # Constructor tests (10)
-│   │       │   ├── FunctionArgumentsFormattingTest.cs             # Function tests (8)
-│   │       │   ├── AttributeArgumentsFormattingTest.cs           # Attribute tests (6)
-│   │       │   ├── NamedArgumentsFormattingTest.cs               # Named-argument tests (1)
-│   │       │   ├── CollectionInitializerFormattingTest.cs         # Collection initializer tests (7)
-│   │       │   ├── WithExpressionFormattingTest.cs               # With-expression tests (4)
-│   │       │   └── MixedContextsFormattingTest.cs                # Cross-context combinations (7)
-│   │       ├── Data/
-│   │       │   ├── TestAlignatorAttribute.cs
-│   │       │   └── TestData.cs
-│   │       └── test/data/CodeFormatter/CSharp/AlignArguments/
-│   │           │   │           ├── Attributes/         # Attribute data (folder named plural: 'Attribute' clashes with System.Attribute)
-│   │           ├── CollectionInitializer/
-│   │           ├── Constructor/
-│   │           ├── Function/
-│   │           ├── Mixed/              # Combinations across contexts
-│   │           ├── Named/
-│   │           └── WithExpression/     # One folder per context, .cs input + .cs.gold expected output each
-│   └── rider/
-│       └── main/resources/META-INF/plugin.xml  # Plugin descriptor
-└── tools/                         # nuget.exe, vswhere.exe (Windows build helpers)
-```
 
 ## Implementation Details
 
@@ -308,7 +248,7 @@ Tests use the ReSharper test framework (`CodeFormatterWithExplicitSettingsTestBa
 
 Each test:
 
-1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/<Context>/` (context folders: `Constructor`, `Function`, `Attributes`, `Named`, `CollectionInitializer`, `WithExpression`; `Mixed` for cross-context combinations)
+1. Has a `.cs` input file and a `.cs.gold` expected-output file under `test/data/CodeFormatter/CSharp/AlignArguments/<Context>/` (context folders: `Constructor`, `Function`, `Attributes`, `Named`, `CollectionInitializer`, `WithExpression`; `Mixed` for cross-context combinations). The attribute context folder is named `Attributes` (plural) because a folder named `Attribute` would clash with `System.Attribute`
 2. Uses `[TestSetting]` attributes to configure `AlignatorSettingsKey` values
 3. Carries `<seealso>` doc comments linking test method and test data class in both directions - clickable in the IDE
 4. Calls `DoNamedTest2()` which formats the input and compares against the gold file
@@ -350,6 +290,8 @@ The test `.editorconfig` (`src/dotnet/Alignator.Tests/.editorconfig`) sets `inde
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs`             | Settings definitions with .editorconfig aliases                                                                 |
 | `src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs`          | Settings UI page with live preview                                                                              |
 | `src/dotnet/Alignator/Helpers/NodeHelpers.cs`                                       | `GetContainingBlockOffset` — scopes alignment to a block                                                        |
+| `src/dotnet/Alignator/Alignator.csproj`, `Alignator.Rider.csproj`               | Same sources, compiled with the `RESHARPER` and `RIDER` defines respectively |
+| `protocol/`                                                                     | rd-gen protocol definitions (Kotlin/C# codegen), included as the `:protocol` subproject |
 | `src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/*FormattingTest.cs` | The 43 formatter tests + 1 settings-coverage guard — one test class per context + `MixedContextsFormattingTest` |
 | `build.gradle.kts`                                                                  | Gradle build: compiles .NET, runs tests, packages plugin                                                        |
 | `gradle.properties`                                                                 | Version numbers, SDK version, plugin IDs                                                                        |
