@@ -60,6 +60,14 @@ public class ObjectInitializerFormattingTest : CodeFormatterWithExplicitSettings
         DoNamedTest2();
     }
 
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer.DeclaredAssignments"/>
+    [Test]
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED), true)]
+    public void TestDeclaredAssignments()
+    {
+        DoNamedTest2();
+    }
+
     /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer.AlignClosingBraces"/>
     [Test]
     [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES), true)]

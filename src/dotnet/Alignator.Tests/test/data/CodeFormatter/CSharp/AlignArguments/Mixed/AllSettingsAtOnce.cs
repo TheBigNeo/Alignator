@@ -33,10 +33,10 @@ internal class AllSettingsAtOnce
     Trike  = new Triceratops("Triceratops", "Herbi", 9000, false, Diet.Herbi) { Height                                       = 3 };
     Moros  = new Moros("Moros", "Carnivore", 70, true, Diet.Carnivore, null);
 
-    Tyrannosaurus tRexLocal = new("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
-    Moros morosLocal = new("Moros", "Carnivore", 70, true, Diet.Carnivore, null);
-    Velociraptor raptorLocal = new("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2 - The Lost World") { Height = 2 };
-    Triceratops trikeLocal = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null) { Height                                  = 3 };
+    Tyrannosaurus tRexLocal   = new("T-Rex", "Carnivore", 8000, true, Diet.Carnivore, "Jurassic Park");
+    Moros         morosLocal  = new("Moros", "Carnivore", 70, true, Diet.Carnivore, null);
+    Velociraptor  raptorLocal = new("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park 2 - The Lost World") { Height = 2 };
+    Triceratops   trikeLocal  = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null) { Height                                = 3 };
     Brachiosaurus dilophLocal = new("Dilophosaurus", "Carnivore", 500, true, Diet.Carnivore, null);
 
     Velociraptor blue = new(name: "Blue",
@@ -66,9 +66,9 @@ internal class AllSettingsAtOnce
 
     Tyrannosaurus[] paddock =
     [
-      new Tyrannosaurus("T-Rex") { Height = 2 },
+      new Tyrannosaurus("T-Rex") { Height             = 2 },
       new Tyrannosaurus("Velociraptor") { Description = "Fast", Height = 1 },
-      new Tyrannosaurus("Indominus Rex") { Height = 4 },
+      new Tyrannosaurus("Indominus Rex") { Height     = 4 },
     ];
 
     DinosaurRecord indominusRex = GetDinosaurRecord(ParkSettings.Instance)

@@ -8,6 +8,7 @@ using JetBrains.ReSharper.Psi.CSharp.Parsing;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Impl.CodeStyle;
 using JetBrains.ReSharper.Psi.Tree;
+using TBN.Alignator.Helpers;
 
 namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 
@@ -17,7 +18,9 @@ namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 ///     a collection expression (<c>[ .. ]</c>) or a collection initializer (<c>new List&lt;T&gt; { .. }</c>):
 ///     opening brace alignment (<c>ALIGN_OBJECT_INITIALIZER_OPENING_BRACES</c>),
 ///     assignment alignment (<c>ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS</c>)
-///     and closing brace alignment (<c>ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES</c>).
+///     and closing brace alignment (<c>ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES</c>);
+///     and in object initializers declared by a local variable, field or property
+///     (<c>ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED</c>).
 /// </summary>
 [Language(typeof(CSharpLanguage))]
 public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
@@ -41,6 +44,7 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
         ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_SpaceAfterBrace();
         ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_BeforeEq();
         ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_AfterComma();
+        ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED_BeforeEq();
         ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES_BeforeClosingBrace();
     }
 
@@ -291,6 +295,99 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
+    ///     Aligns the member assignments of object initializers declared by a local variable, field or property
+    ///     by padding before the <c>=</c>,
+    ///     so the equals signs of the k-th member of consecutive declared initializers share one column.
+    /// </summary>
+    /// <example>
+    ///     <code>
+    ///     Tyrannosaurus tRexLocal  = new("T-Rex")  { Height = 8 };
+    ///     Velociraptor raptorLocal = new("Raptor") { Height = 2 };
+    ///     </code>
+    ///     <code>
+    ///     private Tyrannosaurus _tRex   = new("T-Rex")  { Height = 8 };
+    ///     private Velociraptor _raptor = new("Raptor") { Height = 2 };
+    ///     </code>
+    /// </example>
+    private void ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED_BeforeEq()
+    {
+        DescribeWithExternalKey<AlignatorSettingsKey, IntAlignRule>()
+           .Name(nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED) + "_BeforeEq")
+           .Where(
+                Left().Satisfies((node, _) => node.NodeOrNull is ICSharpIdentifier),
+                Right().Satisfies((node, _) => node.NodeOrNull is ITokenNode token
+                                            && token.GetTokenType() == CSharpTokenType.EQ),
+                Parent().Satisfies((node, _) => node.NodeOrNull is IMemberInitializer)
+            )
+           .SwitchOnExternalKey(
+                (AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED,
+                When(true).Calculate((formattingRangeContext, _) =>
+                    {
+                        if (formattingRangeContext is null)
+                        {
+                            return null;
+                        }
+
+                        var ctx = (FormattingRangeContext)formattingRangeContext;
+
+                        // The gap's parent node is the declared initializer's member initializer;
+                        // walking up reaches the creation that carries it
+                        if (ctx.Parent.NodeOrNull is not IMemberInitializer memberInitializer)
+                        {
+                            return null;
+                        }
+
+                        var creation = TryGetEntryCreation(memberInitializer);
+
+                        if (creation is null)
+                        {
+                            return null;
+                        }
+
+                        // Entries of a collection belong to the collection rules
+                        // of ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS and its variants;
+                        // this rule declines them, so no gap is ever padded twice
+                        if (TryGetCollectionContainer(creation) is not null)
+                        {
+                            return null;
+                        }
+
+                        // Walk up to the declaration that carries the creation:
+                        // a local variable declaration statement,
+                        // or a class-level field or property declaration (initializer)
+                        for (ITreeNode n = creation; n != null; n = n.Parent)
+                        {
+                            if (n is not (IDeclarationStatement or IFieldDeclaration or IPropertyDeclaration))
+                            {
+                                continue;
+                            }
+
+                            // One shared key per enclosing block (or type declaration) -
+                            // like the constructor rules, the engine aligns the k-th '=' gap
+                            // of consecutive declared initializers as one column group;
+                            // the key stem is disjoint from the collection rule's stem,
+                            // so both settings combine without padding any line twice
+                            var blockOffset = n.GetContainingBlockOffset();
+
+                            if (blockOffset is null)
+                            {
+                                return null;
+                            }
+
+                            return new IntAlignOptionValue(
+                                $"ObjInit$BeforeEqDecl$Block{blockOffset}",
+                                AlignatorPriority
+                            );
+                        }
+
+                        return null;
+                    }
+                )
+            )
+           .Build();
+    }
+
+    /// <summary>
     ///     Aligns the closing braces of one collection's object initializer entries by padding before them,
     ///     so the closing braces share one column.
     ///     Controlled by a separate setting,
@@ -380,13 +477,7 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
         // entries of different collections never align with each other.
         // In a collection expression the creation is wrapped in an expression element,
         // in a collection initializer in a braceless element initializer with the creation as its single argument.
-        ITreeNode container = creation.Parent switch
-        {
-            IExpressionElement { Parent: ICollectionExpression collection }   => collection,
-            ICSharpArgument { Parent: ICollectionElementInitializer { LBrace: null, Parent: ICollectionInitializer initializer } }
-                                                                              => initializer,
-            _ => null,
-        };
+        var container = TryGetCollectionContainer(creation);
 
         if (container is null)
         {
@@ -410,6 +501,21 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
 
         return container.GetDocumentStartOffset().Offset;
     }
+
+    /// <summary>
+    ///     Returns the collection that owns the creation when the creation is a direct entry of one collection -
+    ///     wrapped in an expression element of a collection expression (<c>[ .. ]</c>)
+    ///     or the single argument of a braceless element initializer
+    ///     of a collection initializer (<c>new List&lt;T&gt; { .. }</c>) - or <c>null</c> for any other creation.
+    /// </summary>
+    private static ITreeNode TryGetCollectionContainer(IObjectCreationExpression creation)
+        => creation.Parent switch
+        {
+            IExpressionElement { Parent: ICollectionExpression collection }   => collection,
+            ICSharpArgument { Parent: ICollectionElementInitializer { LBrace: null, Parent: ICollectionInitializer initializer } }
+                                                                              => initializer,
+            _ => null,
+        };
 
     /// <summary>
     ///     Returns the object creation that owns the member initializer, or <c>null</c> for any other node -

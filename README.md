@@ -151,8 +151,8 @@ csharp_alignator_align_collection_initializer_closing_braces = true             
 
 # Object initializers
 csharp_alignator_align_object_initializer_opening_braces    = space_before_brace # Align opening braces of object initializer entries in collections
-csharp_alignator_align_object_initializer_assignments      = true              # Align assignments of object initializer entries in collections
-csharp_alignator_align_object_initializer_closing_braces   = true              # Align closing braces of object initializer entries in collections
+csharp_alignator_align_object_initializer_assignments       = true               # Align assignments of object initializer entries in collections
+csharp_alignator_align_object_initializer_closing_braces    = true               # Align closing braces of object initializer entries in collections
 
 # With expressions
 csharp_alignator_align_with_expression_assignments           = true # Align assignments in with-expression initializers

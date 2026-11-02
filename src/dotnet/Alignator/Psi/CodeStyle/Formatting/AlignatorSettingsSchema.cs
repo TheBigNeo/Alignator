@@ -242,6 +242,23 @@ public class AlignatorSettingsSchema : OthersPageSchemaPart
                 """,
                 parseType: PreviewParseType.Member,
                 previewFixup: IntAlignFixup)
+            .ItemFor((AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED,
+                """
+                static void Paddock()
+                {
+                  Velociraptor raptor = new("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park") { Height = 2 };
+                  Triceratops trike = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null) { Height = 3 };
+                }
+
+                class Paddock
+                {
+                  private Velociraptor _raptor = new Velociraptor("Raptor", "Carnivore", 150) { Height = 2 };
+                  private Triceratops _trike = new Triceratops("Triceratops", "Herbi", 9000) { Height = 3 };
+                  public Tyrannosaurus TRex { get; } = new Tyrannosaurus("T-Rex", "Carnivore", 8000) { Height = 5 };
+                }
+                """,
+                parseType: PreviewParseType.Member,
+                previewFixup: IntAlignFixup)
             .ItemFor((AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES,
                 """
                 static void Paddock()
