@@ -1,8 +1,8 @@
 namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer;
 
-/// <seealso cref="AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED"/>
-/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.ObjectInitializerFormattingTest.TestDeclaredAssignments"/>
-internal class DeclaredAssignments
+/// <seealso cref="AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.ObjectInitializerFormattingTest.TestDeclaredOpeningBraces"/>
+internal class DeclaredOpeningBraces
 {
   private Velociraptor _raptor = new Velociraptor("Raptor", "Carnivore", 150) { Height = 2 };
   private Triceratops _trike = new Triceratops("Triceratops", "Herbi", 9000) { Height = 3 };
@@ -17,11 +17,11 @@ internal class DeclaredAssignments
     Spinosaurus spino = new("Spino", "Carnivore", 7000, true, Diet.Carnivore, null) { Height = 4 };
   }
 
-  static void UntouchedAssignments()
+  static void Assignments()
   {
     Velociraptor raptor = new Velociraptor("Raptor");
     Triceratops trike = new Triceratops("Triceratops");
-    raptor = new Velociraptor("Raptor", "Carnivore", 150) { Height = 2 };
+    raptor = new Velociraptor("Raptor", "Carnivore", 150, true) { Height = 2 };
     trike = new Triceratops("Triceratops", "Herbi", 9000) { Height = 3 };
   }
 

@@ -86,9 +86,9 @@ public class MixedContextsFormattingTest : CodeFormatterWithExplicitSettingsTest
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_FIRST),                FirstArgumentPosition.SpaceBeforeParenthese)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS_CLOSING_PAREN),        true)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS),          true)]
-    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED), true)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES),       true)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_OPENING_BRACES),       OpeningBracePosition.SpaceBeforeBrace)]
+    [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED), true)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_WITH_EXPRESSION_ASSIGNMENTS),             true)]
     [TestSetting(typeof(AlignatorSettingsKey),    nameof(AlignatorSettingsKey.ALIGN_ARGUMENTS_NAMED),                         true)]
     public void TestAllSettingsAtOnce()

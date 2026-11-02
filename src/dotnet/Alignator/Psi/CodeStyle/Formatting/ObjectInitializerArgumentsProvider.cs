@@ -19,8 +19,8 @@ namespace TBN.Alignator.Psi.CodeStyle.Formatting;
 ///     opening brace alignment (<c>ALIGN_OBJECT_INITIALIZER_OPENING_BRACES</c>),
 ///     assignment alignment (<c>ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS</c>)
 ///     and closing brace alignment (<c>ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES</c>);
-///     and in object initializers declared by a local variable, field or property
-///     (<c>ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED</c>).
+///     and opening brace alignment in object initializers of declarations and assignments
+///     (<c>ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED</c>).
 /// </summary>
 [Language(typeof(CSharpLanguage))]
 public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
@@ -44,7 +44,7 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
         ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_SpaceAfterBrace();
         ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_BeforeEq();
         ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_AfterComma();
-        ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED_BeforeEq();
+        ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED_SpaceBeforeBrace();
         ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES_BeforeClosingBrace();
     }
 
@@ -295,9 +295,10 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
     }
 
     /// <summary>
-    ///     Aligns the member assignments of object initializers declared by a local variable, field or property
-    ///     by padding before the <c>=</c>,
-    ///     so the equals signs of the k-th member of consecutive declared initializers share one column.
+    ///     Aligns the opening braces of object initializers of declared local variables, fields and properties
+    ///     and of object initializers assigned in an assignment statement
+    ///     by padding before the <c>{</c>,
+    ///     so the opening braces of consecutive initializers share one column.
     /// </summary>
     /// <example>
     ///     <code>
@@ -305,22 +306,28 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
     ///     Velociraptor raptorLocal = new("Raptor") { Height = 2 };
     ///     </code>
     ///     <code>
-    ///     private Tyrannosaurus _tRex   = new("T-Rex")  { Height = 8 };
-    ///     private Velociraptor _raptor = new("Raptor") { Height = 2 };
+    ///     _tRex   = new Tyrannosaurus("T-Rex")  { Height = 8 };
+    ///     _raptor = new Velociraptor("Raptor") { Height = 2 };
     ///     </code>
     /// </example>
-    private void ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED_BeforeEq()
+    private void ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED_SpaceBeforeBrace()
     {
         DescribeWithExternalKey<AlignatorSettingsKey, IntAlignRule>()
-           .Name(nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED) + "_BeforeEq")
+           .Name(nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED) + "_SpaceBeforeBrace")
            .Where(
-                Left().Satisfies((node, _) => node.NodeOrNull is ICSharpIdentifier),
-                Right().Satisfies((node, _) => node.NodeOrNull is ITokenNode token
-                                            && token.GetTokenType() == CSharpTokenType.EQ),
-                Parent().Satisfies((node, _) => node.NodeOrNull is IMemberInitializer)
+                // The gap starts at the creation's closing parenthesis -
+                // a sibling of the argument list, not a child of it -
+                // or at its type usage when the creation is written without parentheses.
+                // It ends at the object initializer, whose first child is the '{';
+                // the gap's parent node is the object creation itself.
+                Left().Satisfies((node, _) => node.NodeOrNull is ITokenNode closingParen
+                                            && closingParen.GetTokenType() == CSharpTokenType.RPARENTH
+                                          || node.NodeOrNull is ITypeUsage),
+                Right().Satisfies((node, _) => node.NodeOrNull is IObjectInitializer),
+                Parent().Satisfies((node, _) => node.NodeOrNull is IObjectCreationExpression)
             )
            .SwitchOnExternalKey(
-                (AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED,
+                (AlignatorSettingsKey x) => x.ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED,
                 When(true).Calculate((formattingRangeContext, _) =>
                     {
                         if (formattingRangeContext is null)
@@ -330,41 +337,44 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
 
                         var ctx = (FormattingRangeContext)formattingRangeContext;
 
-                        // The gap's parent node is the declared initializer's member initializer;
-                        // walking up reaches the creation that carries it
-                        if (ctx.Parent.NodeOrNull is not IMemberInitializer memberInitializer)
+                        // The gap's parent node is the declared initializer's object creation
+                        if (ctx.Parent.NodeOrNull is not IObjectCreationExpression creation)
                         {
                             return null;
                         }
 
-                        var creation = TryGetEntryCreation(memberInitializer);
-
-                        if (creation is null)
+                        // Only creations with a member initializer are aligned, like the collection rules:
+                        // 'new Type()' without initializer and 'new Type { 1, 2 }' collection creations stay untouched
+                        if (creation.Initializer is not IObjectInitializer { MemberInitializers.Count: > 0 })
                         {
                             return null;
                         }
 
                         // Entries of a collection belong to the collection rules
-                        // of ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS and its variants;
+                        // of ALIGN_OBJECT_INITIALIZER_OPENING_BRACES and its variants;
                         // this rule declines them, so no gap is ever padded twice
                         if (TryGetCollectionContainer(creation) is not null)
                         {
                             return null;
                         }
 
-                        // Walk up to the declaration that carries the creation:
+                        // Walk up to the construct that carries the creation:
                         // a local variable declaration statement,
-                        // or a class-level field or property declaration (initializer)
+                        // a class-level field or property declaration (initializer),
+                        // or an assignment statement inside a body
                         for (ITreeNode n = creation; n != null; n = n.Parent)
                         {
-                            if (n is not (IDeclarationStatement or IFieldDeclaration or IPropertyDeclaration))
+                            if (n is not (IDeclarationStatement
+                                          or IFieldDeclaration
+                                          or IPropertyDeclaration
+                                          or IExpressionStatement { Expression: IAssignmentExpression }))
                             {
                                 continue;
                             }
 
                             // One shared key per enclosing block (or type declaration) -
-                            // like the constructor rules, the engine aligns the k-th '=' gap
-                            // of consecutive declared initializers as one column group;
+                            // the engine aligns the opening braces of consecutive declared initializers
+                            // that carry the same key;
                             // the key stem is disjoint from the collection rule's stem,
                             // so both settings combine without padding any line twice
                             var blockOffset = n.GetContainingBlockOffset();
@@ -375,7 +385,7 @@ public class ObjectInitializerArgumentsProvider : AlignArgumentsProviderBase
                             }
 
                             return new IntAlignOptionValue(
-                                $"ObjInit$BeforeEqDecl$Block{blockOffset}",
+                                $"ObjInit$BeforeOpenBraceDecl$Block{blockOffset}",
                                 AlignatorPriority
                             );
                         }

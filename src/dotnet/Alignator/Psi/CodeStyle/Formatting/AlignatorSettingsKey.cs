@@ -126,10 +126,6 @@ public class AlignatorSettingsKey
     [SettingsEntry(false, "Align assignments in object initializer")]
     public bool ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS;
 
-    [EditorConfigEntryAlias("alignator_align_object_initializer_assignments_declared", EditorConfigAliasType.LanguageSpecificStandard)]
-    [SettingsEntry(false, "Align assignments in object initializers of declarations")]
-    public bool ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED;
-
     [EditorConfigEntryAlias("alignator_align_object_initializer_closing_braces", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(false, "Align closing braces in object initializer")]
     public bool ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES;
@@ -137,6 +133,10 @@ public class AlignatorSettingsKey
     [EditorConfigEntryAlias("alignator_align_object_initializer_opening_braces", EditorConfigAliasType.LanguageSpecificStandard)]
     [SettingsEntry(OpeningBracePosition.DoNotChange, "Align opening braces in object initializer")]
     public OpeningBracePosition ALIGN_OBJECT_INITIALIZER_OPENING_BRACES;
+
+    [EditorConfigEntryAlias("alignator_align_object_initializer_opening_braces_declared", EditorConfigAliasType.LanguageSpecificStandard)]
+    [SettingsEntry(false, "Align opening braces in declared object initializers")]
+    public bool ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED;
 
     #endregion
 

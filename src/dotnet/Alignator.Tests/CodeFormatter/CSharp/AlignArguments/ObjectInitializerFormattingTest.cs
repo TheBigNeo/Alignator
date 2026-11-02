@@ -10,7 +10,8 @@ namespace TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments;
 ///     Tests the alignment of object initializers inside collections
 ///     (<see cref="ObjectInitializerArgumentsProvider"/>):
 ///     opening braces, member assignments and closing braces of entries
-///     that start their own line and span a single line.
+///     that start their own line and span a single line,
+///     and the opening braces of object initializers of declarations and assignments.
 /// </summary>
 [TestAlignator]
 [Category("Formatting"), Category("CSharp")]
@@ -60,10 +61,10 @@ public class ObjectInitializerFormattingTest : CodeFormatterWithExplicitSettings
         DoNamedTest2();
     }
 
-    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer.DeclaredAssignments"/>
+    /// <seealso cref="TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer.DeclaredOpeningBraces"/>
     [Test]
-    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS_DECLARED), true)]
-    public void TestDeclaredAssignments()
+    [TestSetting(typeof(AlignatorSettingsKey), nameof(AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED), true)]
+    public void TestDeclaredOpeningBraces()
     {
         DoNamedTest2();
     }
