@@ -12,22 +12,22 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 
 #### Alignment rules
 
-- All alignment logic lives in [AlignArgumentsProviderBase.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProviderBase.cs) and its six context subclasses
+- All alignment logic lives in [AlignArgumentsProviderBase.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignArgumentsProviderBase.cs) and its seven context subclasses
   (`ConstructorArgumentsProvider`, `FunctionArgumentsProvider`, `AttributeArgumentsProvider`, `NamedArgumentsProvider`, `CollectionInitializerArgumentsProvider`,
-  `WithExpressionAssignmentsProvider`): each extends `CSharpFormatterInfoProviderPart` via the shared base; together they register 23 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
+  `ObjectInitializerArgumentsProvider`, `WithExpressionAssignmentsProvider`): each extends `CSharpFormatterInfoProviderPart` via the shared base; together they register 21 `IntAlignRule` rules with priority `100_000` (runs after standard formatting).
 - Rules require the built-in `int_align_invocations` switch (`CSharpFormatSettingsKey.INT_ALIGN_INVOCATIONS`) — no Alignator alignment without it.
   The settings page shows this switch at the top of the Alignator group.
 - Named-argument alignment takes precedence: comma and paren rules stand back for calls and attribute lists that use named arguments, so no line is padded twice.
 
 #### Alignment keys
 
-- Alignment key = align-key group (`"Params"`, `"Func"`, `"ParamsAssign"`, `"Attr"`) + comma/paren position + argument index + block offset ([NodeHelpers.cs](src/dotnet/Alignator/Helpers/NodeHelpers.cs) `GetContainingBlockOffset`) — alignment never crosses block boundaries.
+- Alignment key = align-key group (`"Params"`, `"ParamsAssign"`, `"Func"`, `"FuncClose"`, `"Attr"`, `"AttrClose"`, `"CollInit"`, `"CollInitClose"`, `"ObjInit"`, `"ArgName"`, `"WithExpr"`) + comma/paren position + argument index + block offset ([NodeHelpers.cs](src/dotnet/Alignator/Helpers/NodeHelpers.cs) `GetContainingBlockOffset`) — alignment never crosses block boundaries.
 - The first-argument rules (`FirstArgumentPosition`) align the gap before/after the opening parenthesis with one shared key per block. Their keys are disjoint from the comma-rule keys, so first-argument alignment and comma alignment are independent settings that can be enabled at the same time.
 - Per-call rules (named arguments) and per-initializer rules (dictionary entries, with expressions) group by call/initializer offset instead.
 
 #### Settings
 
-- [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 15 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
+- [AlignatorSettingsKey.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsKey.cs) — 16 entries with `[EditorConfigEntryAlias]` → `csharp_alignator_*` keys.
 - UI: [AlignatorSettingsSchema.cs](src/dotnet/Alignator/Psi/CodeStyle/Formatting/AlignatorSettingsSchema.cs) ("Alignator align arguments" page part, live previews).
 
 | Name (Setting UI)                                            | Type                    | `.editorconfig` key                                            | Enum Value                                      |
@@ -45,6 +45,7 @@ For developers and AI agents working **on** Alignator. User-facing docs: [README
 | Align key-values in collection initializer                   | `AlignPosition`         | `csharp_alignator_align_collection_initializer_key_values`     | `ALIGN_COLLECTION_INITIALIZER_KEY_VALUES`       |
 | Align closing braces in collection initializer               | `bool`                  | `csharp_alignator_align_collection_initializer_closing_braces` | `ALIGN_COLLECTION_INITIALIZER_CLOSING_BRACES`   |
 | Align opening braces in object initializer                  | `OpeningBracePosition`   | `csharp_alignator_align_object_initializer_opening_braces`    | `ALIGN_OBJECT_INITIALIZER_OPENING_BRACES`       |
+| Align opening braces in declared object initializers        | `bool`                  | `csharp_alignator_align_object_initializer_opening_braces_declared` | `ALIGN_OBJECT_INITIALIZER_OPENING_BRACES_DECLARED` |
 | Align assignments in object initializer                     | `bool`                  | `csharp_alignator_align_object_initializer_assignments`      | `ALIGN_OBJECT_INITIALIZER_ASSIGNMENTS`          |
 | Align closing braces in object initializer                  | `bool`                  | `csharp_alignator_align_object_initializer_closing_braces`   | `ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES`       |
 | Align assignments in with expression                         | `bool`                  | `csharp_alignator_align_with_expression_assignments`           | `ALIGN_WITH_EXPRESSION_ASSIGNMENTS`             |
@@ -92,16 +93,16 @@ The `csharp_alignator_align_collection_initializer_key_values` setting uses `Ali
 | .NET-only pack/publish via MSBuild            | [publishPlugin.ps1](publishPlugin.ps1), [buildPlugin.ps1](buildPlugin.ps1)                                                                       |
 | Workflow rules for implementation tasks       | [docs/PlanRules.md](docs/PlanRules.md)                                                                                                           |
 | AI agent rules (incl. dinosaur names)         | [AGENTS.md](AGENTS.md)                                                                                                                           |
-| Formatter tests                               | [Formatting tests](src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/) — one test class per context + `MixedContextsFormattingTest` |
+| Formatter tests                               | [Formatting tests](src/dotnet/Alignator.Tests/CodeFormatter/CSharp/AlignArguments/) — one test class per context + `MixedContextsFormattingTest` + `AllSettingsAtOnceCoverageTest` |
 | Test data (`.cs` / `.cs.gold` pairs)          | [test/data](src/dotnet/Alignator.Tests/test/data/CodeFormatter/CSharp/AlignArguments/)                                                           |
 
 ## Build and test
 
 ```bash
-./gradlew build          # compile + test + zip + nupkg → output/
+./gradlew build          # compile + zip + nupkg → output/ (formatter tests run via testDotNet, also as part of publishPlugin)
 ./gradlew buildPlugin    # zip only
 ./gradlew compileDotNet  # .NET only
-./gradlew testDotNet     # formatter tests
+./gradlew testDotNet --warning-mode all    # formatter tests
 ./gradlew runIde         # Rider sandbox with the plugin
 dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj
 ```

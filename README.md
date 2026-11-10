@@ -1,7 +1,9 @@
 # Alignator
 
+![alignator-1024.png](docs/branding/png/alignator-1024.png)
+
 Alignator is a plugin for **JetBrains Rider and ReSharper** that pads whitespace in C# code so that related elements line up in clean columns:
-arguments of constructor, function, and attribute calls, values of named arguments, dictionary-style entries in collection initializers, object initializers inside collections, and assignments in `with` expressions.
+arguments of constructor, function, and attribute calls, values of named arguments, dictionary-style entries in collection initializers, object initializers inside collections and in declarations or assignments, and assignments in `with` expressions.
 
 ## What can be aligned
 
@@ -95,24 +97,25 @@ In Visual Studio with ReSharper: **ReSharper | Options | Code Editing | C# | Cod
 > the top of the Alignator settings group — it is the same value as in ReSharper's own formatting
 > settings, so changing it in either place updates the single stored value.
 
-| Setting (UI)                                      | Values                                                         |
-|---------------------------------------------------|----------------------------------------------------------------|
-| Align invocation arguments in columns *(built-in, required)* | `true`, `false`                                          |
-| Align arguments in constructor                    | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
-| Align argument in function                        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
-| Align arguments in attribute                      | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
-| Align first argument in constructor               | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
-| Align first argument in function                  | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
-| Align first argument in attribute                 | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
-| Align closing parenthesis in attribute            | `true`, `false`                                                |
-| Align closing parenthesis in function             | `true`, `false`                                                |
-| Align argument names                              | `true`, `false`                                                |
-| Align key-values in collection initializer        | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
-| Align opening braces in object initializer        | `DoNotChange`, `SpaceBeforeBrace`, `SpaceAfterBrace`             |
-| Align assignments in object initializer           | `true`, `false`                                                |
-| Align closing braces in object initializer        | `true`, `false`                                                |
-| Align closing braces in collection initializer    | `true`, `false`                                                |
-| Align assignments in with expression              | `true`, `false`                                                |
+| Setting (UI)                                                 | Values                                                         |
+|--------------------------------------------------------------|----------------------------------------------------------------|
+| Align invocation arguments in columns *(built-in, required)* | `true`, `false`                                                |
+| Align arguments in constructor                               | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align argument in function                                   | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align arguments in attribute                                 | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align first argument in constructor                          | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
+| Align first argument in function                             | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
+| Align first argument in attribute                            | `DoNotChange`, `SpaceBeforeParenthese`, `SpaceAfterParenthese` |
+| Align closing parenthesis in attribute                       | `true`, `false`                                                |
+| Align closing parenthesis in function                        | `true`, `false`                                                |
+| Align argument names                                         | `true`, `false`                                                |
+| Align key-values in collection initializer                   | `DoNotChange`, `SpaceBeforeComma`, `SpaceAfterComma`           |
+| Align opening braces in object initializer                   | `DoNotChange`, `SpaceBeforeBrace`, `SpaceAfterBrace`           |
+| Align opening braces in declared object initializers         | `true`, `false`                                                |
+| Align assignments in object initializer                      | `true`, `false`                                                |
+| Align closing braces in object initializer                   | `true`, `false`                                                |
+| Align closing braces in collection initializer               | `true`, `false`                                                |
+| Align assignments in with expression                         | `true`, `false`                                                |
 
 The `.editorconfig` key for each setting is shown in the collapsed example below and in [DEVELOPERS.md](DEVELOPERS.md).
 
@@ -126,36 +129,37 @@ The same settings can be configured in `.editorconfig`:
 ```ini
 [*.cs]
 # Built-in switch: Alignator alignments only take effect when this is true
-int_align_invocations                                        = true
+int_align_invocations = true
 
 # Constructor calls
-csharp_alignator_align_constructor_arguments                 = space_after_comma       # Align arguments in constructor calls
-csharp_alignator_align_constructor_arguments_first           = space_before_parenthese # Align the first argument of constructor calls
+csharp_alignator_align_constructor_arguments = space_after_comma       # Align arguments in constructor calls
+csharp_alignator_align_constructor_arguments_first = space_before_parenthese # Align the first argument of constructor calls
 
 # Function calls
-csharp_alignator_align_function_arguments                    = space_after_comma # Align arguments in function calls
-csharp_alignator_align_function_arguments_first              = do_not_change     # Align the first argument of function calls
-csharp_alignator_align_function_arguments_closing_paren      = true              # Align closing parenthesis in functions
+csharp_alignator_align_function_arguments = space_after_comma # Align arguments in function calls
+csharp_alignator_align_function_arguments_first = do_not_change     # Align the first argument of function calls
+csharp_alignator_align_function_arguments_closing_paren = true              # Align closing parenthesis in functions
 
 # Attributes
-csharp_alignator_align_attribute_arguments                   = space_after_comma # Align arguments in attributes
-csharp_alignator_align_attribute_arguments_first             = do_not_change     # Align the first argument of attributes
-csharp_alignator_align_attribute_arguments_closing_paren     = true              # Align closing parenthesis in attributes
+csharp_alignator_align_attribute_arguments = space_after_comma # Align arguments in attributes
+csharp_alignator_align_attribute_arguments_first = do_not_change     # Align the first argument of attributes
+csharp_alignator_align_attribute_arguments_closing_paren = true              # Align closing parenthesis in attributes
 
 # Named arguments
-csharp_alignator_align_arguments_named                       = true # Align named-argument values in multi-line calls
+csharp_alignator_align_arguments_named = true # Align named-argument values in multi-line calls
 
 # Collection initializers
-csharp_alignator_align_collection_initializer_key_values     = space_after_comma # Align key-value entries in dictionary-style collection initializers
+csharp_alignator_align_collection_initializer_key_values = space_after_comma # Align key-value entries in dictionary-style collection initializers
 csharp_alignator_align_collection_initializer_closing_braces = true              # Align closing braces of dictionary-style entries
 
 # Object initializers
-csharp_alignator_align_object_initializer_opening_braces    = space_before_brace # Align opening braces of object initializer entries in collections
-csharp_alignator_align_object_initializer_assignments       = true               # Align assignments of object initializer entries in collections
-csharp_alignator_align_object_initializer_closing_braces    = true               # Align closing braces of object initializer entries in collections
+csharp_alignator_align_object_initializer_opening_braces = space_before_brace # Align opening braces of object initializer entries in collections
+csharp_alignator_align_object_initializer_opening_braces_declared = true # Align opening braces of declared object initializers (locals, fields, properties, assignments)
+csharp_alignator_align_object_initializer_assignments = true               # Align assignments of object initializer entries in collections
+csharp_alignator_align_object_initializer_closing_braces = true               # Align closing braces of object initializer entries in collections
 
 # With expressions
-csharp_alignator_align_with_expression_assignments           = true # Align assignments in with-expression initializers
+csharp_alignator_align_with_expression_assignments = true # Align assignments in with-expression initializers
 ```
 
 </details>
@@ -542,6 +546,42 @@ Tyrannosaurus[] paddock =
 
 Only entries that start their own line and span a single line are aligned;
 entries of different collections never align with each other.
+
+### Align opening braces in declared object initializers
+
+> `csharp_alignator_align_object_initializer_opening_braces_declared`
+
+Aligns the opening braces of object initializers (`new X() { .. }`) on declared locals, fields, properties,
+and assignment statements - one block (or type declaration) per alignment group.
+Entries inside collections are left to `csharp_alignator_align_object_initializer_opening_braces` above.
+
+Before
+
+```csharp
+Velociraptor raptor = new("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park") { Height = 2 };
+Triceratops trike = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null) { Height = 3 };
+Brachiosaurus diloph = new("Dilophosaurus", "Carnivore", 500, true, Diet.Carnivore, null) { Description = "Spitter" };
+Spinosaurus spino = new("Spino", "Carnivore", 7000, true, Diet.Carnivore, null) { Height = 4 };
+```
+
+After (`true`)
+
+```csharp
+Velociraptor raptor = new("Raptor", "Carnivore", 150, true, Diet.Carnivore, "Jurassic Park") { Height = 2 };
+Triceratops trike = new("Triceratops", "Herbi", 9000, false, Diet.Herbi, null)               { Height = 3 };
+Brachiosaurus diloph = new("Dilophosaurus", "Carnivore", 500, true, Diet.Carnivore, null) { Description = "Spitter" };
+Spinosaurus spino = new("Spino", "Carnivore", 7000, true, Diet.Carnivore, null)           { Height = 4 };
+```
+
+The same applies to fields, properties, and assignments:
+
+```csharp
+private Velociraptor _raptor = new Velociraptor("Raptor", "Carnivore", 150)        { Height = 2 };
+private Triceratops _trike = new Triceratops("Triceratops", "Herbi", 9000)         { Height = 3 };
+public Tyrannosaurus TRex { get; } = new Tyrannosaurus("T-Rex", "Carnivore", 8000) { Height = 5 };
+```
+
+Only creations with a member initializer are aligned; `new X()` without an initializer stays untouched.
 
 ### Align assignments in object initializer
 
