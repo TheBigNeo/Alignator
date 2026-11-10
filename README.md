@@ -1,6 +1,6 @@
 # Alignator
 
-![alignator-1024.png](docs/branding/png/alignator-1024.png)
+![alignator-192.png](docs/branding/png/alignator-192.png)
 
 Alignator is a plugin for **JetBrains Rider and ReSharper** that pads whitespace in C# code so that related elements line up in clean columns:
 arguments of constructor, function, and attribute calls, values of named arguments, dictionary-style entries in collection initializers, object initializers inside collections and in declarations or assignments, and assignments in `with` expressions.
