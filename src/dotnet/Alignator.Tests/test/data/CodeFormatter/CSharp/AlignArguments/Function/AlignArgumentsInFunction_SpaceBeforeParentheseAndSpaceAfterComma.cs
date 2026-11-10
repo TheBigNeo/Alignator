@@ -1,0 +1,13 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.Function;
+
+/// <seealso cref="AlignatorSettingsKey.ALIGN_FUNCTION_ARGUMENTS"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.FunctionArgumentsFormattingTest.TestAlignArgumentsInFunction_SpaceBeforeParentheseAndSpaceAfterComma"/>
+internal class AlignArgumentsInFunction_SpaceBeforeParentheseAndSpaceAfterComma
+{
+  static void CallFunctions()
+  {
+    Caller.FeedDinosaurs("T-Rex", "Raptor", "Moros", "Triceratops");
+    Caller.TransportDinosaursToIslaSorna("Gallimimus", "Indor", "Carno", "Spino");
+    Caller.FeedDinosaurs("Veloci", "Baryo", "Moso", "Dilophosaurus");
+  }
+}

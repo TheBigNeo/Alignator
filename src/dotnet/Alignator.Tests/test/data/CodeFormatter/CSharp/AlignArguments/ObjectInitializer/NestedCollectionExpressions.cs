@@ -1,0 +1,18 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer;
+
+/// <seealso cref="AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.ObjectInitializerFormattingTest.TestNestedCollectionExpressions"/>
+internal class NestedCollectionExpressions
+{
+  static void Paddock()
+  {
+    Tyrannosaurus[][] paddocks =
+    [
+      [new Tyrannosaurus("T-Rex") { Height = 2 }, new Tyrannosaurus("Velociraptor") { Height = 1 }],
+      [
+        new Tyrannosaurus("Blue") { Height = 1 },
+        new Tyrannosaurus("Charlie") { Height = 2 },
+      ],
+    ];
+  }
+}

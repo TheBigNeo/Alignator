@@ -22,7 +22,6 @@ public class AlignatorTestEnvironmentZone : ITestsEnvZone, IRequire<PsiFeatureTe
 
 [ZoneMarker]
 public class ZoneMarker : IRequire<ICodeEditingZone>, IRequire<ILanguageCSharpZone>, IRequire<AlignatorTestEnvironmentZone> { }
-// public class ZoneMarker : IRequire<IAlignatorZone>;
 
 [ZoneActivator]
 public class ZoneActivator : IActivate<PsiFeatureTestZone>, IActivate<IAlignatorZone> { }
@@ -35,6 +34,13 @@ public class AlignatorTestsAssembly : ExtensionTestEnvironmentAssembly<Alignator
         SetJetTestPackagesDir();
     }
 
+    /// <summary>
+    ///     Points the test framework's <c>JET_TEST_PACKAGES_DIR</c> at a writable packages directory.
+    ///     Keeps the directory the variable already names when set;
+    ///     otherwise falls back to <c>~/JetTestPackages</c>,
+    ///     or - when that does not exist - to the <c>JetTestPackages</c> folder next to the test data,
+    ///     and creates it if needed.
+    /// </summary>
     private static void SetJetTestPackagesDir()
     {
         if (Environment.GetEnvironmentVariable("JET_TEST_PACKAGES_DIR") != null)

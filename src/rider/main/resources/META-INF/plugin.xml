@@ -9,7 +9,8 @@
 
   <description>
 <![CDATA[
-<p>Sample description</p>
+    <p>Vertically aligns arguments in C# code: arguments of constructor, function and attribute calls, values of named arguments, dictionary-style entries in collection initializers, and assignments in <code>with</code> expressions.</p>
+    <p>Each alignment has its own setting, configurable under Settings &gt; Editor &gt; Code Style &gt; C# &gt; Others or via .editorconfig (<code>csharp_alignator_*</code> keys). All alignments run on ReSharper's built-in column-alignment engine and require its <code>int_align_invocations</code> switch.</p>
 ]]>
   </description>
 
