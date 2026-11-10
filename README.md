@@ -129,37 +129,37 @@ The same settings can be configured in `.editorconfig`:
 ```ini
 [*.cs]
 # Built-in switch: Alignator alignments only take effect when this is true
-int_align_invocations = true
+int_align_invocations                                             = true
 
 # Constructor calls
-csharp_alignator_align_constructor_arguments = space_after_comma       # Align arguments in constructor calls
-csharp_alignator_align_constructor_arguments_first = space_before_parenthese # Align the first argument of constructor calls
+csharp_alignator_align_constructor_arguments                      = space_after_comma # Align arguments in constructor calls
+csharp_alignator_align_constructor_arguments_first                = space_before_parenthese # Align the first argument of constructor calls
 
 # Function calls
-csharp_alignator_align_function_arguments = space_after_comma # Align arguments in function calls
-csharp_alignator_align_function_arguments_first = do_not_change     # Align the first argument of function calls
-csharp_alignator_align_function_arguments_closing_paren = true              # Align closing parenthesis in functions
+csharp_alignator_align_function_arguments                         = space_after_comma # Align arguments in function calls
+csharp_alignator_align_function_arguments_first                   = do_not_change # Align the first argument of function calls
+csharp_alignator_align_function_arguments_closing_paren           = true # Align closing parenthesis in functions
 
 # Attributes
-csharp_alignator_align_attribute_arguments = space_after_comma # Align arguments in attributes
-csharp_alignator_align_attribute_arguments_first = do_not_change     # Align the first argument of attributes
-csharp_alignator_align_attribute_arguments_closing_paren = true              # Align closing parenthesis in attributes
+csharp_alignator_align_attribute_arguments                        = space_after_comma # Align arguments in attributes
+csharp_alignator_align_attribute_arguments_first                  = do_not_change # Align the first argument of attributes
+csharp_alignator_align_attribute_arguments_closing_paren          = true # Align closing parenthesis in attributes
 
 # Named arguments
-csharp_alignator_align_arguments_named = true # Align named-argument values in multi-line calls
+csharp_alignator_align_arguments_named                            = true # Align named-argument values in multi-line calls
 
 # Collection initializers
-csharp_alignator_align_collection_initializer_key_values = space_after_comma # Align key-value entries in dictionary-style collection initializers
-csharp_alignator_align_collection_initializer_closing_braces = true              # Align closing braces of dictionary-style entries
+csharp_alignator_align_collection_initializer_key_values          = space_after_comma # Align key-value entries in dictionary-style collection initializers
+csharp_alignator_align_collection_initializer_closing_braces      = true # Align closing braces of dictionary-style entries
 
 # Object initializers
-csharp_alignator_align_object_initializer_opening_braces = space_before_brace # Align opening braces of object initializer entries in collections
+csharp_alignator_align_object_initializer_opening_braces          = space_before_brace # Align opening braces of object initializer entries in collections
 csharp_alignator_align_object_initializer_opening_braces_declared = true # Align opening braces of declared object initializers (locals, fields, properties, assignments)
-csharp_alignator_align_object_initializer_assignments = true               # Align assignments of object initializer entries in collections
-csharp_alignator_align_object_initializer_closing_braces = true               # Align closing braces of object initializer entries in collections
+csharp_alignator_align_object_initializer_assignments             = true # Align assignments of object initializer entries in collections
+csharp_alignator_align_object_initializer_closing_braces          = true # Align closing braces of object initializer entries in collections
 
 # With expressions
-csharp_alignator_align_with_expression_assignments = true # Align assignments in with-expression initializers
+csharp_alignator_align_with_expression_assignments                = true # Align assignments in with-expression initializers
 ```
 
 </details>
