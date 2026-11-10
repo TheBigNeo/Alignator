@@ -102,7 +102,7 @@ The `csharp_alignator_align_collection_initializer_key_values` setting uses `Ali
 ./gradlew build          # compile + zip + nupkg → output/ (formatter tests run via testDotNet, also as part of publishPlugin)
 ./gradlew buildPlugin    # zip only
 ./gradlew compileDotNet  # .NET only
-./gradlew testDotNet --warning-mode all    # formatter tests
+./gradlew testDotNet     # formatter tests --warning-mode all
 ./gradlew runIde         # Rider sandbox with the plugin
 dotnet test src/dotnet/Alignator.Tests/Alignator.Tests.csproj
 ```
