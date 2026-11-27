@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\docs\branding\png\alignator-1024.png">
+    <None Include="..\..\..\brand\png\alignator-1024.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
       <Link>alignator-1024.png</Link>

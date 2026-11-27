@@ -50,14 +50,14 @@ Requirements:
 Run from the repository root:
 
 ```bash
-python -m pip install -r docs/branding/tools/requirements.txt
-python docs/branding/tools/export_assets.py
+python -m pip install -r brand/tools/requirements.txt
+python brand/tools/export_assets.py
 ```
 
 On Windows, if Inkscape is not on `PATH`:
 
 ```powershell
-python assets/branding/tools/export_assets.py --inkscape "C:\Program Files\Inkscape\bin\inkscape.exe"
+python brand/tools/export_assets.py --inkscape "C:\Program Files\Inkscape\bin\inkscape.exe"
 ```
 
 The script also works from other working directories. It resolves paths relative
@@ -66,9 +66,9 @@ master. Edit the master rather than the generated PNG or ICO files.
 
 ## Use in a Rider plugin
 
-Copy `rider/META-INF/pluginIcon.svg` to
-`src/rider/main/resources/META-INF/pluginIcon.svg` so that it is packaged as
-`META-INF/pluginIcon.svg` in the plugin JAR.
+`src/rider/main/resources/META-INF/pluginIcon.svg` is packaged as
+`META-INF/pluginIcon.svg` in the plugin JAR. To update the icon, copy
+`rider/META-INF/pluginIcon.svg` over it.
 
 The standalone SVG and generic PNG exports use the master canvas. The Rider
 export adds transparent padding for its plugin-manager presentation.
