@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 600 600" role="img" aria-labelledby="title desc">
+  <title id="title">Alignator</title>
+  <desc id="desc">A friendly green alligator with a nose, a round eye and three teeth above four aligned code rows.</desc>
+  <g id="artwork" transform="translate(0 16)">
+    <g id="alligator">
+      <g id="neck-spines" fill="#7DAA2D">
+        <path d="M85 109Q97 102 94 116L84 155Q82 167 73 161L45 143Q36 137 46 131Z" />
+        <path d="M64 181Q78 173 75 187L65 229Q63 241 54 234L27 211Q17 203 29 197Z" />
+      </g>
+      <path id="head" fill="#7DAA2D" d="M76 240L104 109C116 65 155 41 202 41C240 41 272 65 288 110H494C506 95 519 89 534 89C561 89 579 109 579 136C579 165 559 190 534 190H541C538 217 521 240 494 240Z" />
+      <g id="face" fill="#111315">
+        <ellipse id="eye" cx="217" cy="119" rx="26" ry="32" />
+        <ellipse id="nostril" cx="534" cy="128" rx="15" ry="9" />
+        <path id="eyebrow" d="M177 92C184 70 207 57 229 70" fill="none" stroke="#111315" stroke-width="10" stroke-linecap="round" />
+        <path id="smile" d="M249 174C263 188 280 191 304 191H538" fill="none" stroke="#111315" stroke-width="10" stroke-linecap="round" />
+        <path id="tooth-1" d="M393 191L405 212Q411 223 417 212L429 191Z" />
+        <path id="tooth-2" d="M439 191L451 212Q457 223 463 212L475 191Z" />
+        <path id="tooth-3" d="M485 191L497 212Q503 223 509 212L521 191Z" />
+      </g>
+      <circle id="eye-highlight" cx="225" cy="105" r="8" fill="#FFFFFF" />
+    </g>
+    <g id="alignment">
+      <g id="unaligned-code" fill="#85878B">
+        <rect x="28" y="295" width="235" height="30" rx="15" />
+        <rect x="78" y="363" width="185" height="30" rx="15" />
+        <rect x="28" y="431" width="235" height="30" rx="15" />
+        <rect x="102" y="497" width="161" height="30" rx="15" />
+      </g>
+      <g id="aligned-code" fill="#7DAA2D">
+        <rect id="divider" x="281" y="260" width="26" height="267" rx="13" />
+        <rect x="324" y="295" width="246" height="30" rx="15" />
+        <rect x="324" y="363" width="246" height="30" rx="15" />
+        <rect x="324" y="431" width="246" height="30" rx="15" />
+        <rect x="324" y="497" width="246" height="30" rx="15" />
+      </g>
+    </g>
+  </g>
+</svg>

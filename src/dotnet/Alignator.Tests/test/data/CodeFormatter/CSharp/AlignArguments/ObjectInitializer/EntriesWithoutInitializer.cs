@@ -1,0 +1,17 @@
+namespace TBN.Alignator.Tests.test.data.CodeFormatter.CSharp.AlignArguments.ObjectInitializer;
+
+/// <seealso cref="AlignatorSettingsKey.ALIGN_OBJECT_INITIALIZER_CLOSING_BRACES"/>
+/// <seealso cref="TBN.Alignator.Tests.CodeFormatter.CSharp.AlignArguments.ObjectInitializerFormattingTest.TestEntriesWithoutInitializer"/>
+internal class EntriesWithoutInitializer
+{
+  static void Paddock()
+  {
+    Tyrannosaurus[] paddock =
+    [
+      new Tyrannosaurus("T-Rex"),
+      new Tyrannosaurus("Velociraptor") { Height = 1 },
+      new Tyrannosaurus("Blue") { Height = 4 },
+      new Tyrannosaurus("Indominus Rex"),
+    ];
+  }
+}
